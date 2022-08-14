@@ -37,6 +37,10 @@ void binary_result_to_decimal(s21_decimal *decimal, int mass);
 void decimal_to_binary_mass(s21_decimal decimal, int *mass);
 void multiply_scale(s21_decimal *decimal, int delta_scale);
 void set_decimal_bit(s21_decimal *decimal, int bait, int position, int value);
+void add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+
+
+
 
 // char get_int_bit(int number, int position);
 // char get_decimal_bit(s21_decimal decimal, int position);

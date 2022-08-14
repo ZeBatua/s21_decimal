@@ -69,3 +69,33 @@
 //     printf("scale = %d\n", getScale(result));
 //     return 0;
 // }
+
+    // //--------------------------------------------//
+    // int mass2[128] = {0};
+    // decimal_to_binary_mass(*decimal, mass2);
+    // printf("\nstart decimal\n");
+    // for (int i = 127; i >= 0; i--) {
+    //     if ((i + 1) % 32 == 0 && ((i + 1) != 0 && (i + 1) != 128)) {
+    //         printf(" ");
+    //     }
+    //     printf("%d", mass2[i]);
+    // }
+    // printf("\n");
+    
+    // // printf("scale = %d\n\n", getScale(*decimal));
+    
+    // //--------------------------------------------//
+    // int mass[128] = {0};
+    // decimal_to_binary_mass(x2_dec, mass);
+    // for (int i = 127; i >= 0; i--) {
+    //     if ((i + 1) % 32 == 0 && ((i + 1) != 0 && (i + 1) != 128)) {
+    //         printf(" ");
+    //     }
+    //     printf("%d", mass[i]);
+    // }
+    // printf("\n");
+    // // printf("scale = %d\n\n", getScale(x2_dec));
+    // printf("x2_dec\n");
+    // printf("AAAA %d\n",  95 % 32);
+    // exit(0);
+    // //--------------------------------------------//
