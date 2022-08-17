@@ -42,6 +42,7 @@ int s21_truncate(s21_decimal value, s21_decimal *result);
 void shift_left(s21_decimal *x2_dec, int time);
 void shift_right(s21_decimal *x2_dec, int time);
 void alt_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+void division_by_ten(s21_decimal *decimal);
 
 
 // char get_int_bit(int number, int position);

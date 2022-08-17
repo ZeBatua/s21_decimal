@@ -27,7 +27,7 @@ void alt_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             taken_bit = 1;
         } else if (first_dec_bit == 0 && second_dec_bit == 0) {
             set_decimal_bit(result, i / 32, i, 1);
-            taken_bit = 0;
+            taken_bit = 1;
         } else if (first_dec_bit == 1 && second_dec_bit == 1) {
             set_decimal_bit(result, i / 32, i, 1);
             taken_bit = 1;
