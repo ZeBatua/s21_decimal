@@ -45,6 +45,9 @@ void alt_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 void division_by_ten(s21_decimal *decimal);
 void print_binary_decimal(int mass[]);
 void smart_print_binary_decimal(s21_decimal dec);
+int get_first_non_zero_bit(s21_decimal dec);
+int s21_round(s21_decimal value, s21_decimal *result);
+int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
 // char get_int_bit(int number, int position);
