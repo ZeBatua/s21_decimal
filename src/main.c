@@ -17,84 +17,40 @@
 #include "s21_decimal.h"
 
 int main() {
-    
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 0;
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
-    dec1.bits[0] = 185150;
+    dec1.bits[0] = 32443000;
 
     s21_decimal dec2;
     init_decimal(&dec2);
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
     dec2.bits[1] = 0;
-    dec2.bits[0] = -11;
+    dec2.bits[0] = 0;
 
-    // alt_sub(dec1, dec2, &result);
-
-    // int mass3[128] = {0};
-    // decimal_to_binary_mass(dec1, mass3);
-    // for (int i = 127; i >= 0; i--) {
-    //     if ((i + 1) % 32 == 0 && ((i + 1) != 0 && (i + 1) != 128)) {
-    //         printf(" ");
-    //     }
-    //     printf("%d", mass3[i]);
-    // }
-    printf("AAAAAAAAAA\n");
-
-    int mass10[128] = {0};
-    decimal_to_binary_mass(dec2, mass10);
-    for (int i = 127; i >= 0; i--) {
-        if ((i + 1) % 32 == 0 && ((i + 1) != 0 && (i + 1) != 128)) {
-            printf(" ");
-        }
-        printf("%d", mass10[i]);
-    }
-    printf("\n");
-
-    // int mass11[128] = {0};
-    // decimal_to_binary_mass(result, mass11);
-    // for (int i = 127; i >= 0; i--) {
-    //     if ((i + 1) % 32 == 0 && ((i + 1) != 0 && (i + 1) != 128)) {
-    //         printf(" ");
-    //     }
-    //     printf("%d", mass11[i]);
-    // }
-    // printf("\n");
-
-
-    int mass3[128] = {0};
-    decimal_to_binary_mass(dec1, mass3);
-    for (int i = 127; i >= 0; i--) {
-        if ((i + 1) % 32 == 0 && ((i + 1) != 0 && (i + 1) != 128)) {
-            printf(" ");
-        }
-        printf("%d", mass3[i]);
-    }
-    printf("\n");
     s21_decimal result;
-    init_decimal(&result); // -2147483648;
-    //----
-    division_by_ten(&dec1);
-    // shift_right(&dec1, 3);
-    //----
+    init_decimal(&result);
 
-    int mass5[128] = {0};
-    decimal_to_binary_mass(dec1, mass5);
-    for (int i = 127; i >= 0; i--) {
-        if ((i + 1) % 32 == 0 && ((i + 1) != 0 && (i + 1) != 128)) {
-            printf(" ");
-        }
-        printf("%d", mass5[i]);
-    }
+
+    alt_add(dec1, dec2, &result);
+    smart_print_binary_decimal(result);
+    printf("-----------------\n");
+
+    smart_print_binary_decimal(dec1);
+    printf(" start decimal\n");
+    printf(" decimal = %d\n\n", dec1.bits[0]);
+
+    division_by_ten(&dec1);
+
     printf("\n");
     printf("0 = %d\n", dec1.bits[0]);
     printf("1 = %d\n", dec1.bits[1]);
     printf("2 = %d\n", dec1.bits[2]);
     printf("3 = %d\n", dec1.bits[3]);
-    printf("scale = %d\n", getScale(result));
+    printf("scale = %d\n", getScale(dec1));
     
     return 0;
 }
