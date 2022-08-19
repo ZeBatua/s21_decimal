@@ -1,6 +1,8 @@
 #include "../s21_decimal.h"
 
 int s21_is_less(s21_decimal value_1, s21_decimal value_2) {
+    int bit_v1 = 0;
+    int bit_v2 = 0;
     int result = 0;
     equate_scale(&value_1, &value_2);
     for (int i = 96; i > 0; i--) {

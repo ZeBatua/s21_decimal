@@ -4,7 +4,7 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) { // умножение, 
     int position = 0;
     int error = 0;
     s21_decimal result;
-    init_decimal(result);
+    init_decimal(&result);
     if (dst) {
         s21_truncate(src, &result);
         src.bits[0] = *dst;

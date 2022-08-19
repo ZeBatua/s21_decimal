@@ -37,7 +37,7 @@ void decimal_to_binary_mass(s21_decimal decimal, int *mass);
 void multiply_by_ten(s21_decimal *decimal);
 void set_decimal_bit(s21_decimal *decimal, int bait, int position, int value);
 void alt_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-void equate_scale(s21_decimal *first_value, s21_decimal *second_value);
+int equate_scale(s21_decimal *first_value, s21_decimal *second_value);
 int s21_truncate(s21_decimal value, s21_decimal *result);
 void shift_left(s21_decimal *x2_dec, int time);
 void shift_right(s21_decimal *x2_dec, int time);
@@ -49,7 +49,7 @@ int get_first_non_zero_bit(s21_decimal dec);
 int s21_round(s21_decimal value, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_is_less(s21_decimal value_1, s21_decimal value_2);
-void subtraction_no_sign(s21_decimal value_1, s21_decimal value_2, s21_decimal &result);
+void subtraction_no_sign(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
 int s21_is_equal(s21_decimal value_1, s21_decimal value_2);
