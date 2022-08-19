@@ -1,6 +1,7 @@
 #include "../s21_decimal.h"
 
-void equate_scale(s21_decimal *first_value, s21_decimal *second_value) {
+int equate_scale(s21_decimal *first_value, s21_decimal *second_value) {
+    int error = 0;
     int first_scale = getScale(*first_value);
     int second_scale = getScale(*second_value);
     int difference = abs(first_scale - second_scale);
@@ -27,5 +28,6 @@ void equate_scale(s21_decimal *first_value, s21_decimal *second_value) {
                 division_by_ten(second_value);
             }
         }
-    } else {}
+    }
+    return error;
 }

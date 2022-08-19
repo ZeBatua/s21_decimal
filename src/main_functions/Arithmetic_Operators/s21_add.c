@@ -2,11 +2,11 @@
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     init_decimal(result);
-    int erorr = 0;
+    int error = 0;
     int first_dec_bit = 0, second_dec_bit = 0;
     int dec1_sign = getSign(value_1), dec2_sign = getSign(value_2);
     int over_bit = 0;
-    error = equate_scale(value_1, value_2);
+    error = equate_scale(&value_1, &value_2);
     
     if (dec1_sign == dec2_sign) {
         for (int i = 0; i < 96; i++) {
@@ -37,7 +37,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
                 }
             }
         }
-        setSign(result, getSign(value_1));
+        setSign(*result, getSign(value_1));
     } else if (is_equal_no_sign(value_1, value_2)) { // иф для а - а = 0
         init_decimal(result); // если 10 + (-10) то что со скейлом и знаком?
     } else {
