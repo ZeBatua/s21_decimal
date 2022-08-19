@@ -5,7 +5,23 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result); {
     int first_dec_bit = 0, second_dec_bit = 0;
     int dec1_sign = getSign(value_1), dec2_sign = getSign(value_2);
     int taken_bit = 0;
-    if () // сравнение
+    if (!dec1_sign && !dec2_sign) { // положительные
+        subtraction_no_sign(value_1, value_2, result);
+        if (s21_is_less(value_1, value_2)) {
+            setSign(&result, 1);
+        }
+    } else if (dec1_sign && dec2_sign) { // оба отрицательные 
+        subtraction_no_sign(value_1, value_2, result);
+        if (s21_is_less(value_1, value_2)) {
+            setSign(&result, 1);
+        } else {
+            setSign(&result, 0);
+        }
+    }
+}
+
+void subtraction_no_sign(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    int first_dec_bit = 0, second_dec_bit = 0;
     for (int i = 0; i < 96; i++) {
         first_dec_bit = get_decimal_bit(value_1, i);
         second_dec_bit =  get_decimal_bit(value_2, i);
@@ -35,5 +51,3 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result); {
         }
     }
 }
-
-// не забыть поменять знаки если надо

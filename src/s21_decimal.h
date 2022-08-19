@@ -17,13 +17,13 @@ typedef struct {
     value_type_t value_type;
 } s21_decimal;
 
-
 int getBit(int decimal, int position);
 void setBit(int value_bit, int *decimal, int position);
 void inversBit(int *decimal, int position);
 int getScale(s21_decimal value);
 void setScale(int scale, s21_decimal *value);
 int getSign(s21_decimal value);
+void setSign(s21_decimal value, int sign);
 
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
 void init_decimal(s21_decimal *decimal);
@@ -48,14 +48,14 @@ void smart_print_binary_decimal(s21_decimal dec);
 int get_first_non_zero_bit(s21_decimal dec);
 int s21_round(s21_decimal value, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int s21_is_less(s21_decimal value_1, s21_decimal value_2);
+void subtraction_no_sign(s21_decimal value_1, s21_decimal value_2, s21_decimal &result);
 
 
-// char get_int_bit(int number, int position);
-// char get_decimal_bit(s21_decimal decimal, int position);
-// void equate_decimal(s21_decimal basic, s21_decimal *decimal);
-// void set_int_bit(int *number, int position, int bit_value);
-// char add_int(int value_1, int value_2, int *result, int transfer);
-
-// int change_bit(int number, int index);
+int s21_is_equal(s21_decimal value_1, s21_decimal value_2);
+int s21_is_greater(s21_decimal value_1, s21_decimal value_2);
+int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2);
+int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2);
+int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2);
 
 #endif  // SRC_S21_DECIMAL_H_

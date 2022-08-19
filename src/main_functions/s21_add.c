@@ -35,8 +35,23 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
                 }
             }
         }
-    } else {
+        setSign(result, getSign(value_1));
+    } else if (is_equal_no_sign(value_1, value_2)) {
+        init_decimal(result); // если 10 + (-10) то что со скейлом и знаком?
+    } else if (getSign(value_1) && !is_less_no_sign(value_1, value_2)) {
         s21_sub(value_1, value_2, &result);
+        setSign(result, 1);
+    } else if (getSign(value_2) && !is_less_no_sign(value_1, value_2)) {
+        s21_sub(value_2, value_1, &result);
+        setSign(result, 1);
+    } else if (getSign(value_1) && is_less_no_sign(value_1, value_2)) {
+        s21_sub(value_2, value_1, &result);
+        setSign(result, 0);
+    } else if (getSign(value_2) && is_less_no_sign(value_1, value_2)) {
+        s21_sub(value_1, value_2, &result);
+        setSign(result, 0);
+    } else {
+        printf("ti popal tuda kuda popast nelzia :(\ncheck s21_add\n");
     }
     return error;
 }
