@@ -1,6 +1,8 @@
 #include "../s21_decimal.h"
 
 void division_by_ten(s21_decimal *decimal) {
+    int save_scale = getScale(*decimal);
+    int save_sign = getSign(*decimal);
     //-----1-----//
     s21_decimal dec_buf1, dec_buf2, qwe;
     init_decimal(&dec_buf1);
@@ -61,7 +63,9 @@ void division_by_ten(s21_decimal *decimal) {
     } else {
         equate_decimal(qwe, decimal);
     }
-    if (getScale(*decimal) != 0) {
+    setScale(save_scale, decimal);
+    setSign(decimal, save_sign);
+    if (getScale(*decimal) > 0) {
         setScale(getScale(*decimal) - 1, decimal);
     }
 }

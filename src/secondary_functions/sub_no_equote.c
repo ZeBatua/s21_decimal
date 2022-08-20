@@ -1,8 +1,7 @@
-#include "../../s21_decimal.h"
+#include "../s21_decimal.h"
 
-int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+int sub_no_equote(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int error = 0;
-    error = equate_scale(&value_1, &value_2);
     init_decimal(result);
     int dec1_sign = getSign(value_1), dec2_sign = getSign(value_2);
     if (!dec1_sign && !dec2_sign) { // оба положительные
@@ -19,7 +18,7 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         }
     } else if (dec1_sign == 0 && dec2_sign == 1) { // v1 = +, v2 = -
         setSign(&value_2, 0);
-        s21_add(value_1, value_2, result);
+        add_no_equote(value_1, value_2, result);
     } else if (dec1_sign == 1 && dec2_sign == 0) { // v1 = -, v2 = +
         if (is_less_no_sign(value_1, value_2)) {
             subtraction_no_sign(value_1, value_2, result);

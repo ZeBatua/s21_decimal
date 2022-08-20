@@ -1,7 +1,7 @@
 #include "../../s21_decimal.h"
 
 int s21_is_equal(s21_decimal value_1, s21_decimal value_2) {
-    int result = 0;
+    int result = 1;
     int first_sign = getSign(value_1);
     int second_sign = getSign(value_2);
     int bit_v1 = 0;
@@ -17,12 +17,11 @@ int s21_is_equal(s21_decimal value_1, s21_decimal value_2) {
             bit_v2 = get_decimal_bit(value_2, i);
             if (bit_v1 > bit_v2) {
                 result = 0;
+                break;
             } else if (bit_v2 > bit_v1) {
                 result = 0;
-            } else {
-                result = 1;
                 break;
-            }
+            } 
         }
     }
     return result;

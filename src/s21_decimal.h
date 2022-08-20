@@ -23,7 +23,7 @@ void inversBit(int *decimal, int position);
 int getScale(s21_decimal value);
 void setScale(int scale, s21_decimal *value);
 int getSign(s21_decimal value);
-void setSign(s21_decimal value, int sign);
+void setSign(s21_decimal *value, int sign);
 
 int s21_from_int_to_decimal(int src, s21_decimal *dst);
 void init_decimal(s21_decimal *decimal);
@@ -48,14 +48,22 @@ void smart_print_binary_decimal(s21_decimal dec);
 int get_first_non_zero_bit(s21_decimal dec);
 int s21_round(s21_decimal value, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-int s21_is_less(s21_decimal value_1, s21_decimal value_2);
+int is_less_no_sign(s21_decimal value_1, s21_decimal value_2);
 void subtraction_no_sign(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-
+int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+void create_mask(s21_decimal value_1, s21_decimal value_2, s21_decimal *first_dec_mask,
+                 s21_decimal *second_dec_mask ,int *shift_counter, int bit);
+int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int is_equal_no_sign(s21_decimal value_1, s21_decimal value_2);
 
 int s21_is_equal(s21_decimal value_1, s21_decimal value_2);
 int s21_is_greater(s21_decimal value_1, s21_decimal value_2);
 int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2);
 int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2);
 int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2);
+int s21_floor(s21_decimal value, s21_decimal *result);
+
+int add_no_equote(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int sub_no_equote(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 #endif  // SRC_S21_DECIMAL_H_
