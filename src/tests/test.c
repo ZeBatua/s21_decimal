@@ -61,7 +61,7 @@ START_TEST(test_is_equal3) {
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
     dec1.bits[0] = 12594141;
-
+    setScale(1, &dec1);
     setSign(&dec1, 1);
 
     s21_decimal dec2;
@@ -70,11 +70,11 @@ START_TEST(test_is_equal3) {
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
     dec1.bits[0] = 12594141;
-
+    setScale(1, &dec2);
     setSign(&dec2, 1);
 
     ck_assert_int_eq(s21_is_equal(dec1, dec2),
-                     0);
+                     1);
 } END_TEST
 
 START_TEST(test_is_equal4) {
@@ -84,6 +84,7 @@ START_TEST(test_is_equal4) {
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
     dec1.bits[0] = 12594141;
+    setScale(1, &dec1);
 
     setSign(&dec1, 1);
 
@@ -93,6 +94,7 @@ START_TEST(test_is_equal4) {
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
     dec1.bits[0] = 12594141;
+    setScale(1, &dec2);
 
     setSign(&dec2, 0);
 
@@ -120,7 +122,7 @@ START_TEST(test_is_equal5) {
     setSign(&dec2, 1);
 
     ck_assert_int_eq(s21_is_equal(dec1, dec2),
-                     1);
+                     0);
 } END_TEST
 
 // START_TEST() {

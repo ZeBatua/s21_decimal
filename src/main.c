@@ -7,16 +7,18 @@ int main() {
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
     dec1.bits[0] = 55;
-    setScale(1, &dec1);
+    
+    // setScale(1, &dec1);
+    // setSign(&dec1, 0);
     
     s21_decimal result;
     init_decimal(&result);
-
+    
     smart_print_binary_decimal(dec1);
     printf("\n");
     // s21_round(dec1, &result);
 
-    setSign(&dec1, 1);
+    // setSign(&dec1, 0);
 
     // smart_print_binary_decimal(result);
 
@@ -26,16 +28,19 @@ int main() {
     dec2.bits[2] = 0;
     dec2.bits[1] = 0;
     dec2.bits[0] = 55;
-    setScale(1, &dec2);
+    
+    // setScale(1, &dec2);
+    // setSign(&dec2, 0);
 
-    // s21_decimal result1;
-    // init_decimal(&result1);
+    s21_decimal result1;
+    init_decimal(&result1);
+    
 
-    smart_print_binary_decimal(dec2);
+    // smart_print_binary_decimal(dec2);
     printf("\n");
     // s21_round(dec2, &result1);
 
-    // smart_print_binary_decimal(result1);
+    smart_print_binary_decimal(dec2);
 
     printf("this is equality - %d\n", s21_is_equal(dec1, dec2));
 
