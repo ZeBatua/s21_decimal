@@ -19,7 +19,7 @@ int s21_is_greater(s21_decimal value_1, s21_decimal value_2) {
                 result = 1;
                 break;
             } else if (bit_v2 > bit_v1) {
-                result = 0;
+                result = 1;
                 break;
             }
         }
