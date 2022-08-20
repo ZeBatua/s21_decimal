@@ -1,7 +1,9 @@
 #include "../s21_decimal.h"
 
-void setSign(s21_decimal value, int sign) { 
+void setSign(s21_decimal *value, int sign) { 
     int mask = 1;
-    mask = mask << 31;
-    value.bits[3] |= mask;
+    if (get_decimal_bit(*value, 95) != sign) {
+        mask = mask << 31;
+        value->bits[3] ^= mask;    
+    }
 }
