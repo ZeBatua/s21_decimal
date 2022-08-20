@@ -6,9 +6,7 @@ int s21_is_equal(s21_decimal value_1, s21_decimal value_2) {
     int second_sign = getSign(value_2);
     int bit_v1 = 0;
     int bit_v2 = 0;
-    if (first_sign > second_sign) {
-        result = 0;
-    } else if (first_sign < second_sign) {
+    if (first_sign != second_sign) {
         result = 0;
     } else {
         equate_scale(&value_1, &value_2);
