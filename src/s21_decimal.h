@@ -17,7 +17,7 @@ typedef struct {
     value_type_t value_type;
 } s21_decimal;
 
-int getBit(int decimal, int position);
+int getBit(int value, int position);
 void setBit(int value_bit, int *decimal, int position);
 void inversBit(int *decimal, int position);
 int getScale(s21_decimal value);
@@ -65,5 +65,7 @@ int s21_floor(s21_decimal value, s21_decimal *result);
 
 int add_no_equote(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int sub_no_equote(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+
+int getBinaryExp(float value);
 
 #endif  // SRC_S21_DECIMAL_H_
