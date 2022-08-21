@@ -1,9 +1,9 @@
 #include "../s21_decimal.h"
 
-int getBit(int decimal, int position) {
+int getBit(int value, int position) {
     int result = 0;
-    decimal = decimal >> position;
-    if (decimal & 1) {
+    value = value >> position;
+    if (value & 1) {
         result = 1;
     } 
     return result;

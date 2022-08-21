@@ -17,7 +17,7 @@ typedef struct {
     value_type_t value_type;
 } s21_decimal;
 
-int getBit(int decimal, int position);
+int getBit(int value, int position);
 void setBit(int value_bit, int *decimal, int position);
 void inversBit(int *decimal, int position);
 int getScale(s21_decimal value);
