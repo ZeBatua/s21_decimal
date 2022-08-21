@@ -20,6 +20,8 @@ int s21_round(s21_decimal value, s21_decimal *result) {
         s21_sub(value, buf, &remainder);
         setScale(save_scale_2, &remainder);
         setSign(&remainder, save_sign_2);
+        setScale(save_scale_2, &five);
+        setSign(&five, save_sign_2);
         if (s21_is_greater_or_equal(remainder, five)) {
             division_by_ten(&buf);
             int save_scale = getScale(buf);

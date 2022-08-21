@@ -3,13 +3,11 @@
 int main() {
     s21_decimal dec1;
     init_decimal(&dec1);
-    dec1.bits[3] = 0; // pow or setSign or number
-    dec1.bits[2] = 0;
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 6771;
     dec1.bits[1] = 0;
-    dec1.bits[0] = 55;
-    
-    // setScale(1, &dec1);
-    // setSign(&dec1, 0);
+    dec1.bits[0] = 12599;
+    setScale(0, &dec1);
     
     s21_decimal result;
     init_decimal(&result);
