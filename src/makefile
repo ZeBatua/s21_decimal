@@ -30,8 +30,8 @@ test: s21_decimal
 	./test
 
 clean:
-	rm -rf *.o *.out
-	rm -rf s21_decimal s21_dec
+	rm -rf *.o *.out *.gc*
+	rm -rf s21_decimal s21_dec 
 
 check:
 	cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h

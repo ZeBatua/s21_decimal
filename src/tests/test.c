@@ -207,23 +207,164 @@ START_TEST(test_is_greater_or_equal4) {
                      1);
 } END_TEST
 
-// START_TEST(acos_9) {
-//     ck_assert_ldouble_eq_tol(s21_acos(1.0), acos(1.0), S21_EPS);
-//     ck_assert_ldouble_eq_tol(s21_acos(-1.0), acos(-1.0), S21_EPS);
-// } END_TEST
+START_TEST(test_is_greater1) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 12594199;
 
-// START_TEST(acos_10) {
-//     ck_assert_ldouble_eq_tol(s21_acos(0.0), acos(0.0), S21_EPS);
-//     ck_assert_ldouble_eq_tol(s21_acos(-0.0), acos(-0.0), S21_EPS);
-// } END_TEST
+    setSign(&dec1, 1);
 
-// START_TEST(acos_11) {
-//     ck_assert_ldouble_eq_tol(s21_acos(-1), acos(-1), S21_EPS);
-// } END_TEST
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 12594199;
 
-// START_TEST(acos_12) {
-//     ck_assert_ldouble_eq_tol(s21_acos(1), acos(1), S21_EPS);
-// } END_TEST
+    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+                     1);
+} END_TEST
+
+START_TEST(test_is_greater2) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 12594198;
+
+    setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 12594199;
+
+    setSign(&dec2, 1);
+
+    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+                     0);
+} END_TEST
+
+START_TEST(test_is_greater3) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 12594198;
+
+    setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 12594199;
+
+    setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+                     1);
+} END_TEST
+
+START_TEST(test_is_greater4) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 2147483646;
+    dec1.bits[0] = 2147483646;
+
+    // setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 2147483647;
+
+    // setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+                     0);
+} END_TEST
+
+START_TEST(test_is_greater5) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 2147483646;
+    dec1.bits[0] = 2147483646;
+
+    // setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483646;
+    dec1.bits[1] = 2147483646;
+    dec1.bits[0] = 2147483647;
+
+    // setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+                     1);
+} END_TEST
+
+START_TEST(test_is_greater6) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 1234;
+
+    // setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 1234;
+
+    // setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+                     1);
+} END_TEST
+
+START_TEST(test_is_greater7) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0;
+
+    // setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0;
+
+    // setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+                     1);
+} END_TEST
 
 
 
@@ -246,6 +387,13 @@ int main() {
     tcase_add_test(tc1_1, test_is_greater_or_equal2);
     tcase_add_test(tc1_1, test_is_greater_or_equal3);
     tcase_add_test(tc1_1, test_is_greater_or_equal4);
+    tcase_add_test(tc1_1, test_is_greater1);
+    tcase_add_test(tc1_1, test_is_greater2);
+    tcase_add_test(tc1_1, test_is_greater3);
+    tcase_add_test(tc1_1, test_is_greater4);
+    tcase_add_test(tc1_1, test_is_greater5);
+    tcase_add_test(tc1_1, test_is_greater6);
+    tcase_add_test(tc1_1, test_is_greater7);
 
     srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);
