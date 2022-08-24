@@ -25,10 +25,10 @@ START_TEST(test_is_equal1) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594141;
 
     ck_assert_int_eq(s21_is_equal(dec1, dec2),
                      1);
@@ -47,10 +47,10 @@ START_TEST(test_is_equal2) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 1;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 1;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 1;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 1;
 
     setSign(&dec2, 0);
 
@@ -70,10 +70,10 @@ START_TEST(test_is_equal3) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594141;
     setScale(1, &dec2);
     // setSign(&dec2, 1);
 
@@ -94,16 +94,15 @@ START_TEST(test_is_equal4) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594141;
     setScale(1, &dec2);
 
     setSign(&dec2, 0);
 
-    ck_assert_int_eq(s21_is_equal(dec1, dec2),
-                     0);
+    ck_assert_int_eq(s21_is_equal(dec1, dec2), 0);
 } END_TEST
 
 START_TEST(test_is_equal5) {
@@ -118,10 +117,10 @@ START_TEST(test_is_equal5) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594141;
 
     setSign(&dec2, 1);
 
@@ -139,13 +138,13 @@ START_TEST(test_is_greater_or_equal1) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 1;
-    dec1.bits[1] = 1;
-    dec1.bits[0] = 1;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 1;
+    dec2.bits[1] = 1;
+    dec2.bits[0] = 1;
 
     ck_assert_int_eq(s21_is_greater_or_equal(dec1, dec2),
-                     0);
+                     1);
 } END_TEST
 
 START_TEST(test_is_greater_or_equal2) {
@@ -158,13 +157,13 @@ START_TEST(test_is_greater_or_equal2) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594141;
 
     ck_assert_int_eq(s21_is_greater_or_equal(dec1, dec2),
-                     0);
+                     1);
 } END_TEST
 
 START_TEST(test_is_greater_or_equal3) {
@@ -177,13 +176,13 @@ START_TEST(test_is_greater_or_equal3) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594141;
 
     ck_assert_int_eq(s21_is_greater_or_equal(dec1, dec2),
-                     0);
+                     1);
 } END_TEST
 
 START_TEST(test_is_greater_or_equal4) {
@@ -198,10 +197,10 @@ START_TEST(test_is_greater_or_equal4) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594141;
 
     ck_assert_int_eq(s21_is_greater_or_equal(dec1, dec2),
                      1);
@@ -219,10 +218,10 @@ START_TEST(test_is_greater1) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594199;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594199;
 
     ck_assert_int_eq(s21_is_greater(dec1, dec2),
                      1);
@@ -240,10 +239,10 @@ START_TEST(test_is_greater2) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594199;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594199;
 
     setSign(&dec2, 1);
 
@@ -263,10 +262,10 @@ START_TEST(test_is_greater3) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594199;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 12594199;
 
     setSign(&dec2, 0);
 
@@ -286,15 +285,15 @@ START_TEST(test_is_greater4) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 2147483647;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 2147483647;
 
     // setSign(&dec2, 0);
 
     ck_assert_int_eq(s21_is_greater(dec1, dec2),
-                     0);
+                     1);
 } END_TEST
 
 START_TEST(test_is_greater5) {
@@ -309,15 +308,15 @@ START_TEST(test_is_greater5) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 2147483646;
-    dec1.bits[1] = 2147483646;
-    dec1.bits[0] = 2147483647;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 2147483646;
+    dec2.bits[1] = 2147483646;
+    dec2.bits[0] = 2147483647;
 
     // setSign(&dec2, 0);
 
     ck_assert_int_eq(s21_is_greater(dec1, dec2),
-                     1);
+                     0);
 } END_TEST
 
 START_TEST(test_is_greater6) {
@@ -332,15 +331,15 @@ START_TEST(test_is_greater6) {
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 1234;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 1234;
 
     // setSign(&dec2, 0);
 
     ck_assert_int_eq(s21_is_greater(dec1, dec2),
-                     1);
+                     0);
 } END_TEST
 
 START_TEST(test_is_greater7) {
@@ -351,16 +350,16 @@ START_TEST(test_is_greater7) {
     dec1.bits[1] = 0;
     dec1.bits[0] = 0;
 
-    // setSign(&dec1, 1);
+    setSign(&dec1, 1);
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 0;
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0;
 
-    // setSign(&dec2, 0);
+    setSign(&dec2, 0);
 
     ck_assert_int_eq(s21_is_greater(dec1, dec2),
                      1);
