@@ -133,9 +133,9 @@ START_TEST(test_is_equal6) {
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 0;
-    dec1.bits[2] = 12594141;
+    dec1.bits[2] = 0;
     dec1.bits[1] = 0;
-    dec1.bits[0] = 0;
+    dec1.bits[0] = 12594141;
 
     // setSign(&dec1, 0);
 
@@ -144,7 +144,7 @@ START_TEST(test_is_equal6) {
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
     dec2.bits[1] = 0;
-    dec2.bits[0] = 12594141;
+    dec2.bits[0] = 125941423;
 
     // setSign(&dec2, 1);
 
@@ -406,7 +406,7 @@ START_TEST(test_is_less_or_equal1) {
     dec2.bits[1] = 0;
     dec2.bits[0] = 0;
 
-    setSign(&dec2, 0);
+    // setSign(&dec2, 0);
 
     ck_assert_int_eq(s21_is_less_or_equal(dec1, dec2),
                      1);
@@ -504,9 +504,268 @@ START_TEST(test_is_less_or_equal5) {
                      0);
 } END_TEST
 
+START_TEST(test_is_less1) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483647;
+    dec1.bits[1] = 2147483647;
+    dec1.bits[0] = 2147483647;
+
+    setSign(&dec1, 0);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_less(dec1, dec2),
+                     0);
+} END_TEST
+
+START_TEST(test_is_less2) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483647;
+    dec1.bits[1] = 2147483647;
+    dec1.bits[0] = 2147483647;
+
+    setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 2147483647;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_less(dec1, dec2),
+                     0);
+} END_TEST
+
+START_TEST(test_is_less3) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 1;
+
+    setSign(&dec1, 0);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 2147483647;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 1);
+
+    ck_assert_int_eq(s21_is_less(dec1, dec2),
+                     1);
+} END_TEST
+
+START_TEST(test_is_less4) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483647;
+    dec1.bits[1] = 2147483647;
+    dec1.bits[0] = 2147483647;
+
+    setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0;
+
+    setSign(&dec2, 1);
+
+    ck_assert_int_eq(s21_is_less(dec1, dec2),
+                     0);
+} END_TEST
+
+START_TEST(test_is_less5) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483647;
+    dec1.bits[1] = 2147483647;
+    dec1.bits[0] = 2147483647;
+
+    setSign(&dec1, 0);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 2147483647;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_less(dec1, dec2),
+                     0);
+} END_TEST
+
+START_TEST(test_is_less6) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0;
+
+    setSign(&dec1, 0);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 2147483647;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_less(dec1, dec2),
+                     1);
+} END_TEST
+
+// *******************************
+
+START_TEST(test_is_not_equal1) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483647;
+    dec1.bits[1] = 2147483647;
+    dec1.bits[0] = 2147483647;
+
+    setSign(&dec1, 0);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 2147483647;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 1);
+
+    ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
+                     1);
+} END_TEST
+
+START_TEST(test_is_not_equal2) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483647;
+    dec1.bits[1] = 2147483647;
+    dec1.bits[0] = 2147483647;
+
+    setSign(&dec1, 0);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 2147483647;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
+                     0);
+} END_TEST
+
+START_TEST(test_is_not_equal3) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483647;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0;
+
+    setSign(&dec1, 0);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
+                     1);
+} END_TEST
+
+START_TEST(test_is_not_equal4) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 2147483647;
+
+    setSign(&dec1, 1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 0;
+
+    setSign(&dec2, 0);
+
+    ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
+                     1);
+} END_TEST
+
+// with scale
+
+START_TEST(test_is_not_equal5) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 2147483647;
+    dec1.bits[1] = 2147483647;
+    dec1.bits[0] = 2147483647;
+
+    setSign(&dec1, 0);
+    setScale(5, &dec1);
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 2147483647;
+    dec2.bits[1] = 2147483647;
+    dec2.bits[0] = 2147483647;
+
+    setSign(&dec2, 0);
+    setScale(10, &dec2);
+
+    ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
+                     1);
+} END_TEST
 
 
 
+// THIS MAIN FUNCTION
 
 
 int main() {
@@ -516,6 +775,9 @@ int main() {
     int nf;
 
     suite_add_tcase(s1, tc1_1);
+
+    // without scale
+
     tcase_add_test(tc1_1, test_is_equal1);
     tcase_add_test(tc1_1, test_is_equal2);
     tcase_add_test(tc1_1, test_is_equal3);
@@ -523,12 +785,14 @@ int main() {
     tcase_add_test(tc1_1, test_is_equal5);
     tcase_add_test(tc1_1, test_is_equal6);
 
+    // without scale
 
     tcase_add_test(tc1_1, test_is_greater_or_equal1);
     tcase_add_test(tc1_1, test_is_greater_or_equal2);
     tcase_add_test(tc1_1, test_is_greater_or_equal3);
     tcase_add_test(tc1_1, test_is_greater_or_equal4);
 
+    // without scale
 
     tcase_add_test(tc1_1, test_is_greater1);
     tcase_add_test(tc1_1, test_is_greater2);
@@ -538,11 +802,30 @@ int main() {
     tcase_add_test(tc1_1, test_is_greater6);
     tcase_add_test(tc1_1, test_is_greater7);
 
+    // without scale
+
     tcase_add_test(tc1_1, test_is_less_or_equal1);
     tcase_add_test(tc1_1, test_is_less_or_equal2);
     tcase_add_test(tc1_1, test_is_less_or_equal3);
     tcase_add_test(tc1_1, test_is_less_or_equal4);
     tcase_add_test(tc1_1, test_is_less_or_equal5);
+
+    // without scale
+
+    tcase_add_test(tc1_1, test_is_less1);
+    tcase_add_test(tc1_1, test_is_less2);
+    tcase_add_test(tc1_1, test_is_less3);
+    tcase_add_test(tc1_1, test_is_less4);
+    tcase_add_test(tc1_1, test_is_less5);
+    tcase_add_test(tc1_1, test_is_less6);
+
+    // with scale
+
+    tcase_add_test(tc1_1, test_is_not_equal1);
+    tcase_add_test(tc1_1, test_is_not_equal2);
+    tcase_add_test(tc1_1, test_is_not_equal3);
+    tcase_add_test(tc1_1, test_is_not_equal4);
+    tcase_add_test(tc1_1, test_is_not_equal5);
 
     srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);
