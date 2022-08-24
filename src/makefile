@@ -14,7 +14,7 @@ GCOVFLAGSLIN = -lcheck -lgcov -coverage -L -lrt -lpthread -lm #-lsubunit
 
 all: clean s21_decimal test check
 
-s21_decimal:
+s21_decimal.a:
 	gcc $(FLAGS) $(SOURCES) -c
 	ar rc s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
