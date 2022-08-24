@@ -24,4 +24,3 @@ int main() {
     printf("scale = %d\n", getScale(result));
     
     return 0;
-}
