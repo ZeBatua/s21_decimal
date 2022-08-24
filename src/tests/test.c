@@ -6,9 +6,10 @@
 #include <float.h>
 
 
-// Возвращаемое значение - код ошибки:
-//  - 0 - OK
-//  - 1 - ошибка конвертации
+// Возвращаемое значение:
+
+// 0 - FALSE
+// 1 - TRUE
 
 #define S21_EPS 1e-9
 
@@ -132,8 +133,8 @@ START_TEST(test_is_equal6) {
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 12594141;
+    dec1.bits[2] = 12594141;
+    dec1.bits[1] = 0;
     dec1.bits[0] = 0;
 
     // setSign(&dec1, 0);
@@ -407,7 +408,7 @@ START_TEST(test_is_less_or_equal1) {
 
     setSign(&dec2, 0);
 
-    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+    ck_assert_int_eq(s21_is_less_or_equal(dec1, dec2),
                      1);
 } END_TEST
 
@@ -430,7 +431,7 @@ START_TEST(test_is_less_or_equal2) {
 
     setSign(&dec2, 0);
 
-    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+    ck_assert_int_eq(s21_is_less_or_equal(dec1, dec2),
                      1);
 } END_TEST
 
@@ -438,22 +439,22 @@ START_TEST(test_is_less_or_equal3) {
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 0;
+    dec1.bits[2] = 2147483646;
+    dec1.bits[1] = 2147483646;
+    dec1.bits[0] = 2147483646;
 
-    setSign(&dec1, 0);
+    setSign(&dec1, 1);
 
     s21_decimal dec2;
     init_decimal(&dec2);
     dec2.bits[3] = 0;
-    dec2.bits[2] = 2147483647;
-    dec2.bits[1] = 2147483647;
-    dec2.bits[0] = 2147483647;
+    dec2.bits[2] = 2147483646;
+    dec2.bits[1] = 2147483646;
+    dec2.bits[0] = 2147483646;
 
     setSign(&dec2, 0);
 
-    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+    ck_assert_int_eq(s21_is_less_or_equal(dec1, dec2),
                      1);
 } END_TEST
 
@@ -476,7 +477,7 @@ START_TEST(test_is_less_or_equal4) {
 
     setSign(&dec2, 0);
 
-    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+    ck_assert_int_eq(s21_is_less_or_equal(dec1, dec2),
                      1);
 } END_TEST
 
@@ -499,7 +500,7 @@ START_TEST(test_is_less_or_equal5) {
 
     setSign(&dec2, 1);
 
-    ck_assert_int_eq(s21_is_greater(dec1, dec2),
+    ck_assert_int_eq(s21_is_less_or_equal(dec1, dec2),
                      0);
 } END_TEST
 
