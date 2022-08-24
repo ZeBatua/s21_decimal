@@ -2,9 +2,9 @@
 
 int equate_scale(s21_decimal *first_value, s21_decimal *second_value) {
     int error = 0;
-    int first_scale = getScale(*first_value);
-    int second_scale = getScale(*second_value);
-    int difference = abs(first_scale - second_scale);
+    int first_scale = getScale(*first_value); // 10
+    int second_scale = getScale(*second_value); // 11
+    int difference = abs(first_scale - second_scale); // 1
     int first_non_zero_bit_dec1 = get_first_non_zero_bit(*first_value);
     int first_non_zero_bit_dec2 = get_first_non_zero_bit(*second_value);
 
