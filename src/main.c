@@ -3,31 +3,19 @@
 int main() {
     s21_decimal dec1;
     init_decimal(&dec1);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 1;
-    dec1.bits[1] = 1;
-    dec1.bits[0] = 1;
+    // dec1.bits[3] = 0;
+    // dec1.bits[2] = 0;
+    // dec1.bits[1] = 0;
+    // dec1.bits[0] = 123456;
+    // setScale(2, &dec1);
+    // setSign(&dec1, 1);
 
-    s21_decimal dec2;
-    init_decimal(&dec2);
-    dec2.bits[3] = 0;
-    dec2.bits[2] = 1;
-    dec2.bits[1] = 1;
-    dec2.bits[0] = 1;
+    float test_float = 1.5;
+    int test = 0;
 
-    printf("%d\n", s21_is_greater_or_equal(dec1, dec2));
-    
-    // smart_print_binary_decimal(dec2);
-
-    // printf("this is equality - %d\n", s21_is_equal(dec1, dec2));
-
-
-
-    // printf("0 = %d\n", result.bits[0]);
-    // printf("1 = %d\n", result.bits[1]);
-    // printf("2 = %d\n", result.bits[2]);
-    // printf("3 = %d\n", result.bits[3]);
-    // printf("scale = %d\n", getScale(result));
-    
+    printf("%d\n", s21_from_float_to_decimal(test_float, &dec1));
+    smart_print_binary_decimal(dec1);
+    s21_from_decimal_to_int(dec1, &test);
+    printf("int = %d\n", test);
     return 0;
 }

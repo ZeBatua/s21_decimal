@@ -21,9 +21,9 @@ s21_decimal.a:
 	mkdir o_files
 	mv *.o o_files
 	
-s21_dec:
-	gcc $(FLAGS) $(SOURCES_WITH_MAIN) -o s21_dec
-	./s21_dec
+s21_dec: clean
+	gcc $(FLAGS) $(SOURCES_WITH_MAIN) -g -o s21_dec
+# ./s21_dec
 	
 
 test: s21_decimal.a
