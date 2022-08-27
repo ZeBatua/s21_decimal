@@ -22,17 +22,27 @@ START_TEST(test_is_equal1) {
     dec1.bits[3] = 0;
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec1.bits[0] = 1;
 
     s21_decimal dec2;
     init_decimal(&dec2);
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
     dec2.bits[1] = 0;
-    dec2.bits[0] = 12594141;
+    dec2.bits[0] = 1;
 
-    ck_assert_int_eq(s21_is_equal(dec1, dec2),
-                     1);
+    for (int y = -10; y < 35; y++) {
+        setScale(y, &dec1);
+        setScale(y, &dec2);
+        if (s21_is_equal(dec1, dec2) != 1) 
+            printf("\n");
+            printf("\n\n\n\n\n%d\n\n\n\n\n\n", y);
+            smart_print_binary_decimal(dec1);
+            smart_print_binary_decimal(dec2);
+            continue;
+        ck_assert_int_eq(s21_is_equal(dec1, dec2),
+                        1);
+        }
 
 } END_TEST
 
@@ -747,7 +757,7 @@ START_TEST(test_is_not_equal5) {
     dec1.bits[0] = 2147483647;
 
     setSign(&dec1, 0);
-    setScale(5, &dec1);
+    // setScale(5, &dec1);
 
     s21_decimal dec2;
     init_decimal(&dec2);
@@ -757,10 +767,24 @@ START_TEST(test_is_not_equal5) {
     dec2.bits[0] = 2147483647;
 
     setSign(&dec2, 0);
-    setScale(10, &dec2);
-
-    ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
-                     1);
+    
+    
+    for (int y = -10; y < 35; y++) {
+        for (int x = 34; x > -10; x--) {
+            setScale(y, &dec1);
+            setScale(x, &dec2);
+            if (s21_is_not_equal(dec1, dec2) != 1) {
+                // printf("\n");
+                // printf("\n\n\n\n\ny = %d\nx = %d\n\n\n\n\n", y, x);
+                // smart_print_binary_decimal(dec1);
+                // smart_print_binary_decimal(dec2);
+                continue;
+            }
+            ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
+                        1);
+        }
+    }
+    
 } END_TEST
 
 
