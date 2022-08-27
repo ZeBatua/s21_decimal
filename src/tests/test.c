@@ -788,6 +788,48 @@ START_TEST(test_is_not_equal5) {
 } END_TEST
 
 
+// Ariphmetic Operations
+
+START_TEST(test_add1) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 1;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 1;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0;
+    my_result.bits[0] = 2;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_add(dec1, dec2, &result1);
+
+    // smart_print_binary_decimal(dec1);
+    // printf("\n\n");
+    // smart_print_binary_decimal(dec2);
+    // printf("\n\n");
+    // smart_print_binary_decimal(result1);
+    // printf("\n\n");
+    // smart_print_binary_decimal(my_result);
+
+
+    ck_assert_int_eq(result1.bits[0], my_result.bits[0]);
+    
+} END_TEST
+
 
 // THIS MAIN FUNCTION
 
@@ -850,6 +892,10 @@ int main() {
     tcase_add_test(tc1_1, test_is_not_equal3);
     tcase_add_test(tc1_1, test_is_not_equal4);
     tcase_add_test(tc1_1, test_is_not_equal5);
+
+    // without scale
+
+    tcase_add_test(tc1_1, test_add1);
 
     srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);
