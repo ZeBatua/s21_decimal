@@ -10,7 +10,7 @@ SOURCES_WITH_MAIN = main.c ./secondary_functions/*.c \
 	./main_functions/Comparison_Operators/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 OBJECTS = *.o
-GCOVFLAGSLIN = -lcheck -lgcov -coverage -L -lrt -lpthread -lm #-lsubunit
+GCOVFLAGSLIN = -lcheck -lgcov -g -coverage -L -lrt -lpthread -lm #-lsubunit
 
 all: clean s21_decimal test check
 
