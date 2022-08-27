@@ -10,7 +10,7 @@ SOURCES_WITH_MAIN = main.c ./secondary_functions/*.c \
 	./main_functions/Comparison_Operators/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 OBJECTS = *.o
-GCOVFLAGSLIN = -lcheck #-lgcov -coverage -L -lrt -lpthread -lm #-lsubunit
+GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm #-lsubunit -coverage
 
 all: clean s21_decimal.a test check
 
@@ -18,9 +18,9 @@ s21_decimal.a:
 	gcc $(FLAGS) $(SOURCES) $(GCOVFLAGSLIN) -c
 	ar rc s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
-	# mkdir o_files
-	# mv *.o o_files
-	# mv *.gcno o_files
+	mkdir o_files
+	mv *.o o_files
+
 
 	
 s21_dec: clean

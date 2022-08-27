@@ -39,7 +39,7 @@ void compare_scale (s21_decimal *first, s21_decimal *secod);
 void decimal_to_binary_mass(s21_decimal decimal, int *mass);
 void multiply_by_ten(s21_decimal *decimal);
 void set_decimal_bit(s21_decimal *decimal, int bait, int position, int value);
-void alt_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int alt_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int equate_scale(s21_decimal *first_value, s21_decimal *second_value);
 int s21_truncate(s21_decimal value, s21_decimal *result);
 void shift_left(s21_decimal *x2_dec, int time);

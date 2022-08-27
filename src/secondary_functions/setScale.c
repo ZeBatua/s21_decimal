@@ -1,7 +1,7 @@
 #include "../s21_decimal.h"
 
 void setScale(int scale, s21_decimal *value) {
-    if (0 <= scale && scale <= 28) {
+    if (scale >= 0 && scale <= 28) {
         for (int i = 16; i <= 23; i++) {
             int mask = pow(2, i - 16);
             if (scale & mask) {
@@ -10,5 +10,7 @@ void setScale(int scale, s21_decimal *value) {
                 setBit(0, &value->bits[3], i);
             }
         }
+    } else {
+        printf("trying input invalid scale: %d\n", scale);
     }
 }

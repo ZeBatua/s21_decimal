@@ -37,7 +37,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 }
             }
         }
-        setSign(result, dec1_sign);
+        setSign(result, (dec1_sign > 0));
     } else if (is_equal_no_sign(value_1, value_2)) { // иф для а - а = 0
         init_decimal(result); // если 10 + (-10) то что со скейлом и знаком?
     } else {

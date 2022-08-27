@@ -15,17 +15,17 @@ int equate_scale(s21_decimal *first_value, s21_decimal *second_value) {
             }
         } else {
             for (int i = 0; i < difference; i++) {
-                division_by_ten(first_value);
+                division_by_ten(first_value); // округление?
             }
         }
     } else if (first_scale < second_scale) {
         if (first_non_zero_bit_dec1 > difference) {
             for (int i = 0; i < difference; i++) {
-                multiply_by_ten(second_value);
+                multiply_by_ten(first_value);
             }
         } else {
             for (int i = 0; i < difference; i++) {
-                division_by_ten(second_value);
+                division_by_ten(second_value); // зачем если тут скейлы равны
             }
         }
     }

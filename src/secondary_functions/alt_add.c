@@ -1,6 +1,6 @@
 #include "../s21_decimal.h"
 
-void alt_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+int alt_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     init_decimal(result);
     int first_dec_bit = 0, second_dec_bit = 0;
     int dec1_sign = getSign(value_1), dec2_sign = getSign(value_2);
@@ -29,7 +29,7 @@ void alt_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             set_decimal_bit(result, i / 32, i, 1);
             over_bit = 1;
             if (i == 95) {
-                fprintf(stderr, "ti perepolnilsia\n");
+                return 1;
             }
         }
     }
