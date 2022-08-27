@@ -4,6 +4,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <check.h>
+#include <string.h>
+
 
 typedef enum {
     success,
@@ -73,6 +76,11 @@ int getBinaryExp(float value);
 int get_float_bit(float float_value, unsigned int *mask);
 
 int s21_from_decimal_to_float(s21_decimal src, float *dst);
+
+
+
+void decimal_to_string(s21_decimal decimal, char *str);
+void string_to_decimal(const char *str, s21_decimal *decimal);
 
 
 #endif  // SRC_S21_DECIMAL_H_

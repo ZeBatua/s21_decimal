@@ -33,7 +33,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 set_decimal_bit(result, i / 32, i, 1);
                 over_bit = 1;
                 if (i == 95) {
-                    fprintf(stderr, "ti perepolnilsia\n");
+                    error = 1;
                 }
             }
         }
