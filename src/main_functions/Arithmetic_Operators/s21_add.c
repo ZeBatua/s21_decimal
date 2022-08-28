@@ -21,11 +21,17 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 } else if (first_dec_bit == 1 && second_dec_bit == 1) {
                     set_decimal_bit(result, i / 32, i, 0);
                     over_bit = 1;
+                    if (i == 95) {
+                        error = 1;
+                    }
                 }
             } else if (first_dec_bit == 1 && second_dec_bit == 0 ||
                 first_dec_bit == 0 && second_dec_bit == 1) {
                 set_decimal_bit(result, i / 32, i, 0);
                 over_bit = 1;
+                if (i == 95) {
+                    error = 1;
+                }
             } else if (first_dec_bit == 0 && second_dec_bit == 0) {
                 set_decimal_bit(result, i / 32, i, 1);
                 over_bit = 0;
@@ -37,6 +43,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 }
             }
         }
+        if (error == 1 && dec1_sign == 1) error = 2;
         setSign(result, (dec1_sign > 0));
     } else if (is_equal_no_sign(value_1, value_2)) { // иф для а - а = 0
         init_decimal(result); // если 10 + (-10) то что со скейлом и знаком?
