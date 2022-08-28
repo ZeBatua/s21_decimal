@@ -3,11 +3,13 @@ SOURCES = ./secondary_functions/*.c \
 	./main_functions/Another_functions/*.c \
 	./main_functions/Arithmetic_Operators/*.c \
 	./main_functions/Comparison_Operators/*.c \
+	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 SOURCES_WITH_MAIN = main.c ./secondary_functions/*.c \
 	./main_functions/Another_functions/*.c \
 	./main_functions/Arithmetic_Operators/*.c \
 	./main_functions/Comparison_Operators/*.c \
+	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 OBJECTS = *.o
 GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm #-lsubunit -coverage

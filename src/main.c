@@ -22,6 +22,10 @@ int main() {
     division_by_ten(&check);
     smart_print_binary_decimal(check);
 
+    
+
+
+
 
 
 
