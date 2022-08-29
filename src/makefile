@@ -3,16 +3,18 @@ SOURCES = ./secondary_functions/*.c \
 	./main_functions/Another_functions/*.c \
 	./main_functions/Arithmetic_Operators/*.c \
 	./main_functions/Comparison_Operators/*.c \
+	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 SOURCES_WITH_MAIN = main.c ./secondary_functions/*.c \
 	./main_functions/Another_functions/*.c \
 	./main_functions/Arithmetic_Operators/*.c \
 	./main_functions/Comparison_Operators/*.c \
+	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 OBJECTS = *.o
-GCOVFLAGSLIN = -lcheck -lgcov -g -coverage -L -lrt -lpthread -lm #-lsubunit
+GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm #-lsubunit -coverage
 
-all: clean s21_decimal test check
+all: clean s21_decimal.a test check
 
 s21_decimal.a:
 	gcc $(FLAGS) $(SOURCES) $(GCOVFLAGSLIN) -c
@@ -20,16 +22,23 @@ s21_decimal.a:
 	ranlib s21_decimal.a
 	mkdir o_files
 	mv *.o o_files
+
+
 	
 s21_dec: clean
 	gcc $(FLAGS) $(SOURCES_WITH_MAIN) -g -o s21_dec
-# ./s21_dec
+	./s21_dec
 	
 
-test: s21_decimal.a
+test: clean s21_decimal.a
 	gcc $(GCOVFLAGSLIN) -g -c ./tests/test.c
 	gcc $(GCOVFLAGSLIN) test.o s21_decimal.a -o ./test
 	./test
+
+test2: clean s21_decimal.a
+	gcc $(GCOVFLAGSLIN) s21_test.c s21_decimal.a -o ./test2
+	./test2
+
 
 gcov_report: s21_decimal.a test
 	gcovr .
@@ -38,7 +47,7 @@ gcov_report: s21_decimal.a test
 
 clean:
 	rm -rf *.o *.out *.gc*
-	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test
+	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test test2
 
 check:
 	cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h

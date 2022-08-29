@@ -5,11 +5,13 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
     *dst = 0.0;
     for (int i = 0; i < 96; i++) {
         if (get_decimal_bit(src, i)) {
-            *dst += pow(i, 2);
+            *dst += pow(2, i);
         }
     }
     if (getSign(src)) *dst *= -1;
     int scale = getScale(src);
-    for (; scale > 0; *dst /= 10, scale--) {}
+    double tmp_dst = *dst;
+    for (; scale > 0; tmp_dst /= 10, scale--) {}
+    *dst = (float)tmp_dst;
     return 0;  // когда ошибки? 
 }
