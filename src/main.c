@@ -4,9 +4,9 @@ int main() {
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 12594141;
+    dec1.bits[2] = -1;
+    dec1.bits[1] = -1;
+    dec1.bits[0] = -1;
 
 
     s21_decimal dec2;
@@ -14,14 +14,14 @@ int main() {
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
     dec2.bits[1] = 0;
-    dec2.bits[0] = 125941423;
+    dec2.bits[0] = 2;
+    setScale(2, &dec2);
 
+    s21_decimal result;
+    init_decimal(&result);
 
-    int a = s21_is_equal(dec1, dec2); // 0
-    printf("%d\n", a);
-
-
-
+    s21_add(dec1, dec2, &result);
+    smart_print_binary_decimal(result);
 
 
 

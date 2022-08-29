@@ -11,11 +11,11 @@ int equate_ext_scale(s21_extended_decimal *first_value, s21_extended_decimal *se
     if (first_scale > second_scale) {
         if (first_non_zero_bit_dec2 > difference) {
             for (int i = 0; i < difference; i++) {
-                multiply_extdec_by_ten(second_value); // если уможаешь то должен проверять есть ли возможность >> 3
+                multiply_extdec_by_ten(first_value); // если уможаешь то должен проверять есть ли возможность >> 3
             }
         } else {
             for (int i = 0; i < difference; i++) {
-                division_by_ten(first_value); // округление?
+                division_by_ten(second_value); // округление?
             }
         }
     } else if (first_scale < second_scale) {
