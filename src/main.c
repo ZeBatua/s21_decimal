@@ -1,28 +1,24 @@
 #include "s21_decimal.h"
 
 int main() {
-    s21_decimal d1 = {0}, d2 = {0}, d3 = {0};
-    int a = 0;
-    string_to_decimal(
-        "00000000000000000000000000000000 11111111111111111111111111111111 "
-        "11111111111111111111111111111111 11111111111111111111111111111111",
-        &d1);
-    string_to_decimal(
-        "00000000000000010000000000000000 00000000000000000000000000000000 "
-        "00000000000000000000000000000000 00000000000000000000000000000101",
-        &d2);
-    
-    printf("scale = %d\n", getScale(d2));
-    a = s21_add(d1, d2, &d3);
-    printf("%d\n--------------\n", a);
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 12594141;
 
-    s21_decimal check;
-    init_decimal(&check);
-    check.bits[0] = 5;
-    division_by_ten(&check);
-    smart_print_binary_decimal(check);
 
-    
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 125941423;
+
+
+    int a = s21_is_equal(dec1, dec2); // 0
+    printf("%d\n", a);
 
 
 
