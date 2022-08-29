@@ -1043,7 +1043,7 @@ START_TEST(test_add6) {
 
 
 START_TEST(test_add7) {
-
+    int eq_add = 0;
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 2147483648;
@@ -1071,7 +1071,7 @@ START_TEST(test_add7) {
 
     s21_add(dec1, dec2, &result1);
 
-    int eq_add = s21_is_equal(result1, my_result);
+    eq_add = s21_is_equal(result1, my_result);
 
     printf("\n\n\n\n\n\n");
     smart_print_binary_decimal(dec1);
@@ -1084,7 +1084,40 @@ START_TEST(test_add7) {
 
 
     ck_assert_int_eq(eq_add, 1);
+
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 54555;  
+    dec1.bits[1] = 8559;  
+    dec1.bits[0] = 7875;
+
+// 000000000000000011010101000110110000000000000000001000010110111100000000000000000001111011000011
+
+    init_decimal(&dec2);
+    dec2.bits[3] = 2147483648;
+    dec2.bits[2] = 7848488;
+    dec2.bits[1] = 5455165;
+    dec2.bits[0] = 111588;
+
+// 000000000111011111000010001010000000000001010011001111010011110100000000000000011011001111100100
+
+    init_decimal(&my_result);
+    my_result.bits[3] = 2147483648;
+    my_result.bits[2] = 7793933;
+    my_result.bits[1] = 5446606;
+    my_result.bits[0] = 103713;
+
+// 000000000111011011101101000011010000000001010011000110111100111000000000000000011001010100100001
+
+    init_decimal(&result1);
+
+    s21_add(dec1, dec2, &result1);
+    eq_add = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq_add, 1);
+
+
     
+
 } END_TEST
 
 // Добавить скейл в сложение
