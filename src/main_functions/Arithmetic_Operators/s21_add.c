@@ -21,7 +21,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
             if (over_bit == 0) {
                 if (first_extdec_bit == 1 && second_extdec_bit == 0 ||
                     first_extdec_bit == 0 && second_extdec_bit == 1) {
-                    set_extdec_bit(&ext_result, i / 32, i, 1);
+                    set_extdec_bit(&ext_result, i / 32, i, 1); 
                 } else if (first_extdec_bit == 0 && second_extdec_bit == 0) {
                     set_extdec_bit(&ext_result, i / 32, i, 0);
                 } else if (first_extdec_bit == 1 && second_extdec_bit == 1) {
