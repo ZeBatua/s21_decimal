@@ -90,7 +90,7 @@ void string_to_decimal(const char *str, s21_decimal *decimal);
 //--------------------extended_decimal_functions--------------------//
 
 void init_extended_decimal(s21_extended_decimal *decimal);
-void equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal);
+int  equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal);
 void equate_dec_to_extdec(s21_decimal basic, s21_extended_decimal *E_decimal);
 int get_extdec_bit(s21_extended_decimal E_decimal, int position);
 void set_extdec_bit(s21_extended_decimal *E_decimal, int bait, int position, int value);

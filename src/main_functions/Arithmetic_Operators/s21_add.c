@@ -10,9 +10,9 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
     init_decimal(result);
     int error = 0;
     int first_extdec_bit = 0, second_extdec_bit = 0;
-    int dec1_sign = getSign(value_1), dec2_sign = getSign(value_2);
+    int dec1_sign = getExtSign(ext_value_1), dec2_sign = getExtSign(ext_value_2);
     int over_bit = 0;
-    error = equate_scale(&value_1, &value_2); // ?
+    error = equate_ext_scale(&ext_value_1, &ext_value_2);
     
     if (dec1_sign == dec2_sign) {
         for (int i = 0; i < 288; i++) {
