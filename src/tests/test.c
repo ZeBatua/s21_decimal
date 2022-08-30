@@ -1022,7 +1022,7 @@ START_TEST(test_add6) {
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
-    smart_print_binary_decimal(result1);
+    // smart_print_binary_decimal(result1);
 
     int eq_add = s21_is_equal(result1, my_result);
 

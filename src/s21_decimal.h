@@ -101,6 +101,9 @@ int equate_ext_scale(s21_extended_decimal *first_value, s21_extended_decimal *se
 void equate_extdec(s21_extended_decimal basic, s21_extended_decimal *E_decimal);
 void multiply_extdec_by_ten(s21_extended_decimal *E_decimal);
 int ext_is_less(s21_extended_decimal value_1, s21_extended_decimal value_2);
+void smart_print_exdec(s21_extended_decimal dec);
+void extdec_to_binary_mass(s21_extended_decimal decimal, int *mass);
+void print_binary_extdec(int mass[]);
 
 
 

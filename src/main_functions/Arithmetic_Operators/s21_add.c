@@ -12,7 +12,15 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
     int first_extdec_bit = 0, second_extdec_bit = 0;
     int dec1_sign = getExtSign(ext_value_1), dec2_sign = getExtSign(ext_value_2);
     int over_bit = 0;
+        printf("extv1\n");
+    smart_print_exdec(ext_value_1);
     error = equate_ext_scale(&ext_value_1, &ext_value_2);
+    printf("extv1\n");
+    smart_print_exdec(ext_value_1);
+    printf("extv2\n");
+    smart_print_exdec(ext_value_2);
+    printf("\n\n");
+
     
     if (dec1_sign == dec2_sign) {
         for (int i = 0; i < 288; i++) {
@@ -51,6 +59,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
         }
         if (error == 1 && dec1_sign == 1) error = 2;
         setExtSign(&ext_result, (dec1_sign > 0));
+        setExtScale(getExtScale(ext_value_1), &ext_result);
     } else if (is_equal_no_sign(ext_value_1, ext_value_2)) { // иф для а - а = 0 // перепроверит equal
         init_decimal(result); // если 10 + (-10) то что со скейлом и знаком?
     } else {

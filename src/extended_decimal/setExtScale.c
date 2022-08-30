@@ -11,6 +11,6 @@ void setExtScale(int scale, s21_extended_decimal *value) {
             }
         }
     } else {
-        printf("trying input invalid scale: %d\n", scale);
+        // printf("trying input invalid scale: %d\n", scale);
     }
 }

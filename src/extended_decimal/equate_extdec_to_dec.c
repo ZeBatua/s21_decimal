@@ -10,15 +10,17 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
     Таким образом мы получим целую максимум целой части и максимально вммещающийся остаток.
     */
 
+    smart_print_exdec(E_decimal);
+    printf("\n");
     int first_bit = get_first_non_zero_extBit(E_decimal);
     int remainder = 0;
-    while (first_bit >= 256) { // Надо тестить !!!!!!
-        first_bit--;
-        shift_right(&E_decimal, 1);
+    while (E_decimal.extBits[8] != 0) { // Надо тестить !!!!!!
+        division_by_ten(&E_decimal); // не шифт а деление на 10 !!!!!!
         remainder++;
     }
+    smart_print_exdec(E_decimal);
 
-    /*
+    /* ОШИБКА
     Сдвигая децимал вправо может потеряться точность (дробная часть).
     Для этого проверяется 4 бит. Почему 4-ый:
     [9] - буффер для сдвига влево
@@ -29,17 +31,20 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
     Значит необходимо получить десятичную версию 4 бита и окргулить децимал.    
     */
 
-    int mass[32] = {0};
+    int mass[32] = {0}; ////!!!G@DG@87gd237gf327gf7fg327gfb NBTNNFJWEBFWUFGWIU !!!!!!!!!!!!!!!!!!!!!!!!!!
     int length_value = remainder;
-    for (int i = 128; remainder > 0; remainder--, i++) {
+    for (int i = 160; remainder > 0; remainder--, i++) {
         set_extdec_bit(&E_decimal, i / 32, i % 32, get_extdec_bit(E_decimal, i));
     }
     
     float dec_remainder = E_decimal.extBits[4];
+    printf("!!!!remainder = %d\n", dec_remainder);
     dec_remainder = dec_remainder / (10 * (length_value - 1)); // приводим число к виду 1,2345
+    printf("remainder = %d\n", dec_remainder);
     dec_remainder = round(dec_remainder);  // вот тут притэф бы чтобы убедить что окргуление работает нормально
+    printf("remainder = %d\n", dec_remainder);
     
-    decimal->bits[3] = E_decimal.extBits[8];
+    decimal->bits[3] = E_decimal.extBits[9];
     decimal->bits[2] = E_decimal.extBits[7];
     decimal->bits[1] = E_decimal.extBits[6];
     decimal->bits[0] = E_decimal.extBits[5];
