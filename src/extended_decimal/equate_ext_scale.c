@@ -12,6 +12,6 @@ int equate_ext_scale(s21_extended_decimal *first_value, s21_extended_decimal *se
             multiply_extdec_by_ten(second_value);
         }
     }
-    
+
     return error;
 }
