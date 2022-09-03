@@ -8,6 +8,5 @@ int get_first_non_zero_extBit(s21_extended_decimal dec) {
             bit = 1;
         }
     }
-    counter = 288 - counter;
     return counter;
 }
