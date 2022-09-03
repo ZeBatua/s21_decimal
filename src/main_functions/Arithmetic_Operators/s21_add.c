@@ -11,7 +11,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
     if (dec1_sign == dec2_sign) {
         for (int i = 0; i < 96; i++) {
             first_dec_bit = get_decimal_bit(value_1, i);
-            second_dec_bit =  get_decimal_bit(value_2, i);
+            second_dec_bit = get_decimal_bit(value_2, i);
             if (over_bit == 0) {
                 if (first_dec_bit == 1 && second_dec_bit == 0 ||
                     first_dec_bit == 0 && second_dec_bit == 1) {
