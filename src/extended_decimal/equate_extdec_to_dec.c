@@ -10,15 +10,15 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
     Таким образом мы получим целую максимум целой части и максимально вммещающийся остаток.
     */
 
-    smart_print_exdec(E_decimal);
-    printf("\n");
+    // smart_print_exdec(E_decimal);
+    // printf("\n");
     int first_bit = get_first_non_zero_extBit(E_decimal);
     int remainder = 0;
     while (E_decimal.extBits[8] != 0) { // Надо тестить !!!!!!
         division_by_ten(&E_decimal); // не шифт а деление на 10 !!!!!!
         remainder++;
     }
-    smart_print_exdec(E_decimal);
+    // smart_print_exdec(E_decimal);
 
     /* ОШИБКА
     Сдвигая децимал вправо может потеряться точность (дробная часть).
@@ -38,11 +38,11 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
     }
     
     float dec_remainder = E_decimal.extBits[4];
-    printf("!!!!remainder = %d\n", dec_remainder);
+    // printf("!!!!remainder = %d\n", dec_remainder);
     dec_remainder = dec_remainder / (10 * (length_value - 1)); // приводим число к виду 1,2345
-    printf("remainder = %d\n", dec_remainder);
+    // printf("remainder = %d\n", dec_remainder);
     dec_remainder = round(dec_remainder);  // вот тут притэф бы чтобы убедить что окргуление работает нормально
-    printf("remainder = %d\n", dec_remainder);
+    // printf("remainder = %d\n", dec_remainder);
     
     decimal->bits[3] = E_decimal.extBits[9];
     decimal->bits[2] = E_decimal.extBits[7];
