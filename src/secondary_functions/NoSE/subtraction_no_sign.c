@@ -2,8 +2,6 @@
 
 void subtraction_no_sign(s21_extended_decimal value_1, s21_extended_decimal value_2, s21_extended_decimal *result) {
     int first_dec_bit = 0, second_dec_bit = 0, taken_bit = 0;
-    smart_print_exdec(value_1);
-    smart_print_exdec(value_2);
     for (int i = 0; i < 289; i++) {
         first_dec_bit = get_extdec_bit(value_1, i);
         second_dec_bit =  get_extdec_bit(value_2, i);
@@ -32,6 +30,5 @@ void subtraction_no_sign(s21_extended_decimal value_1, s21_extended_decimal valu
             taken_bit = 1;
         }
     }
-    printf("result\n");
-    smart_print_exdec(*result);
+    setExtScale(getExtScale(value_1), result);
 }
