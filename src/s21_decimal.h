@@ -7,7 +7,6 @@
 #include <check.h>
 #include <string.h>
 
-
 typedef enum {
     success,
     overflow,
@@ -24,6 +23,7 @@ typedef struct {
     int extBits[10];
     value_type_t value_type;
 } s21_extended_decimal;
+
 
 int getBit(int value, int position);
 void setBit(int value_bit, int *decimal, int position);
