@@ -1425,9 +1425,323 @@ START_TEST(test_sub8) {
 
 } END_TEST
 
-// 55446661121258888994341414141
-// 
-// 79228162514264337593543950335
+// START_TEST(test_sub8) {
+//     int eq_add = 0;
+//     s21_decimal dec1;
+//     init_decimal(&dec1);
+//     dec1.bits[3] = 0b10000000000000000000000000000000;
+//     dec1.bits[2] = 0b10110011001010000110011100110010;
+//     dec1.bits[1] = 0b00111100101000000110000000010001;
+//     dec1.bits[0] = 0b01110111010111100110010011111101;
+
+    
+//     s21_decimal dec2;
+//     init_decimal(&dec2);
+//     dec2.bits[3] = 0b10000000000000000000000000000000;
+//     dec2.bits[2] = 0;
+//     dec2.bits[1] = 0;
+//     dec2.bits[0] = 0b00100001000111101001110101010101;
+
+
+//     s21_decimal my_result;
+//     init_decimal(&my_result);
+//     my_result.bits[3] = 0b10000000000000000000000000000000;
+//     my_result.bits[2] = 0b10110011001010000110011100110010;
+//     my_result.bits[1] = 0b00111100101000000110000000010001;
+//     my_result.bits[0] = 0b10011000011111010000001001010010;
+
+
+//     s21_decimal result1;
+//     init_decimal(&result1);
+
+//     s21_sub(dec1, dec2, &result1);
+//     printf("minus minus decimal\n\n");
+//     smart_print_binary_decimal(result1);
+//     printf("\n\n");
+//     smart_print_binary_decimal(my_result);
+//     eq_add = s21_is_equal(result1, my_result);
+//     ck_assert_int_eq(eq_add, 1);
+
+// } END_TEST
+
+START_TEST(test_sub9) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0b10110011001010000110011100110010;
+    dec1.bits[1] = 0b00111100101000000110000000010001;
+    dec1.bits[0] = 0b01110111010111100110010011111101;
+
+    
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0b10110011001010000110011100110010;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00100001000111101001110101010101;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    
+    ck_assert_int_eq(s21_sub(dec1, dec2, &result1), 2);
+
+} END_TEST
+
+START_TEST(test_sub10) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0b10110011001010000110011100110010;
+    dec1.bits[1] = 0b00111100101000000110000000010001;
+    dec1.bits[0] = 0b01110111010111100110010011111101;
+
+    
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0b10110011001010000110011100110010;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00100001000111101001110101010101;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    
+    ck_assert_int_eq(s21_sub(dec1, dec2, &result1), 2);
+
+} END_TEST
+
+START_TEST(test_sub11) {
+    int eq_add = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0b00111100101000000110000000010001;
+    dec1.bits[0] = 0b01110111010111100110010011111101;
+
+    
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0b10110011001010000110011100110010;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00100001000111101001110101010101;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0b10000000000000000000000000000000;
+    my_result.bits[2] = 0b10110011001010000110011100110001;
+    my_result.bits[1] = 0b11000011010111111001111111101110;
+    my_result.bits[0] = 0b11001010110111101101010110101101;
+
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("minus minus decimal\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq_add = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq_add, 1);
+    
+    ck_assert_int_eq(s21_sub(dec1, dec2, &result1), 1);
+
+} END_TEST
+
+START_TEST(test_mul1) {
+    int eq = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0;
+    my_result.bits[0] = 0b00000000000000000000000000000100;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("mul test\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq, 1);
+
+} END_TEST
+
+START_TEST(test_mul2) {
+    int eq = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0b10000000000000000000000000000000;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0;
+    my_result.bits[0] = 0b00000000000000000000000000000100;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("mul test\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq, 1);
+
+} END_TEST
+
+START_TEST(test_mul3) {
+    int eq = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0b10000000000000000000000000000000;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0b10000000000000000000000000000000;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0;
+    my_result.bits[0] = 0b00000000000000000000000000000100;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("mul test\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq, 1);
+
+} END_TEST
+
+START_TEST(test_mul4) {
+    int eq = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0b10000000000000000000000000000000;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0;
+    my_result.bits[0] = 0b00000000000000000000000000000100;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("mul test\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq, 1);
+
+} END_TEST
+
+START_TEST(test_mul5) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0b10000000000000000000000000000000;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0b10000000000000000000000000000000;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    
+    ck_assert_int_eq(s21_sub(dec1, dec2, &result1), 2);
+
+} END_TEST
+
+START_TEST(test_mul6) {
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0b10000000000000000000000000000000;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0b10000000000000000000000000000000;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    
+    ck_assert_int_eq(s21_sub(dec1, dec2, &result1), 1);
+
+} END_TEST
+
 
 // THIS MAIN FUNCTION
 
@@ -1514,6 +1828,18 @@ int main() {
     tcase_add_test(tc1_1, test_sub6);
     tcase_add_test(tc1_1, test_sub7);
     tcase_add_test(tc1_1, test_sub8);
+    tcase_add_test(tc1_1, test_sub9);
+    tcase_add_test(tc1_1, test_sub10);
+    tcase_add_test(tc1_1, test_sub11);
+
+    // test for mul
+
+    tcase_add_test(tc1_1, test_mul1);
+    tcase_add_test(tc1_1, test_mul2);
+    tcase_add_test(tc1_1, test_mul3);
+    tcase_add_test(tc1_1, test_mul4);
+    tcase_add_test(tc1_1, test_mul5);
+    tcase_add_test(tc1_1, test_mul6);
 
     srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);
