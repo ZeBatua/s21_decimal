@@ -33,7 +33,8 @@ SOURCES_WITH_MAIN = \
 
 
 OBJECTS = *.o
-GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm #-lsubunit -coverage
+GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm $(var) #-lsubunit -coverage
+var = $(shell pkg-config --cflags --libs check)
 
 all: clean s21_decimal.a test check
 
@@ -50,13 +51,13 @@ s21_dec: clean
 	
 
 test: clean s21_decimal.a
-	@gcc $(GCOVFLAGSLIN) -g -c tests/test.c
-	@gcc $(GCOVFLAGSLIN) test.o s21_decimal.a -o ./test
+	@gcc $(GCOVFLAGSLIN) $(var) -g -c tests/test.c
+	@gcc $(GCOVFLAGSLIN) $(var) test.o s21_decimal.a -o ./test
 	./test
 
-test2: clean s21_decimal.a
-	@gcc $(GCOVFLAGSLIN) s21_test.c s21_decimal.a -o ./test2
-	./test2
+# test2: clean s21_decimal.a
+# 	@gcc $(GCOVFLAGSLIN) s21_test.c s21_decimal.a -o ./test2
+# 	./test2
 
 
 gcov_report: s21_decimal.a test

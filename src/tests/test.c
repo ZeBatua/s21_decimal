@@ -1304,6 +1304,130 @@ START_TEST(test_sub5) {
 
 } END_TEST
 
+START_TEST(test_sub6) {
+    int eq_add = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0b11111111111111111111111111111111;
+    dec1.bits[1] = 0b11111111111111111111111111111111;
+    dec1.bits[0] = 0b11111111111111111111111111111111;
+
+    setScale(22, &dec1);
+
+    
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0b00011111111111111111111111111111;
+    dec2.bits[1] = 0b11111111111111111111111111111111;
+    dec2.bits[0] = 0b11111111111111111111111111111111;
+
+    setScale(22, &dec2); 
+
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0;
+    my_result.bits[2] = 0b11100000000000000000000000000000;
+    my_result.bits[1] = 0b00000000000000000000000000000000;
+    my_result.bits[0] = 0b00000000000000000000000000000000;
+
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("full decimal\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq_add = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq_add, 1);
+
+} END_TEST
+
+START_TEST(test_sub7) {
+    int eq_add = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0b10000000000000000000000000000000;
+    dec1.bits[1] = 0b10000000000000000000000000000000;
+    dec1.bits[0] = 0b10000000000000000000000000000000;
+
+    
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0b10000000000000000000000000000000;
+    dec2.bits[2] = 0b00011111111111111111111111111111;
+    dec2.bits[1] = 0b11111111111111111111111111111111;
+    dec2.bits[0] = 0b11111111111111111111111111111111;
+
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0;
+    my_result.bits[2] = 0b10100000000000000000000000000000;
+    my_result.bits[1] = 0b10000000000000000000000000000000;
+    my_result.bits[0] = 0b00000000000000000000000000000000;
+
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("minus minus decimal\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq_add = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq_add, 1);
+
+} END_TEST
+
+START_TEST(test_sub8) {
+    int eq_add = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0b10110011001010000110011100110010;
+    dec1.bits[1] = 0b00111100101000000110000000010001;
+    dec1.bits[0] = 0b01110111010111100110010011111101;
+
+    
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0b10000000000000000000000000000000;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00100001000111101001110101010101;
+
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0b10000000000000000000000000000000;
+    my_result.bits[2] = 0b10110011001010000110011100110010;
+    my_result.bits[1] = 0b00111100101000000110000000010001;
+    my_result.bits[0] = 0b10011000011111010000001001010010;
+
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("minus minus decimal\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq_add = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq_add, 1);
+
+} END_TEST
+
+// 55446661121258888994341414141
+// 
+// 79228162514264337593543950335
 
 // THIS MAIN FUNCTION
 
@@ -1382,12 +1506,14 @@ int main() {
 
     // test for sub
 
-    tcase_add_test(tc1_1, test_sub1);
-    tcase_add_test(tc1_1, test_sub2);
-    tcase_add_test(tc1_1, test_sub3);
+    // tcase_add_test(tc1_1, test_sub1);
+    // tcase_add_test(tc1_1, test_sub2);
+    // tcase_add_test(tc1_1, test_sub3);
     tcase_add_test(tc1_1, test_sub4);
     tcase_add_test(tc1_1, test_sub5);
-
+    tcase_add_test(tc1_1, test_sub6);
+    tcase_add_test(tc1_1, test_sub7);
+    tcase_add_test(tc1_1, test_sub8);
 
     srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);
