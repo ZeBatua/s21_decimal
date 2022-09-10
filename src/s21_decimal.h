@@ -50,7 +50,7 @@ int s21_truncate(s21_decimal value, s21_decimal *result);
 void shift_left(s21_extended_decimal *x2_dec, int time);
 void shift_right(s21_extended_decimal *decimal, int time);
 void alt_sub(s21_extended_decimal value_1, s21_extended_decimal value_2, s21_extended_decimal *result);
-void division_by_ten(s21_extended_decimal *decimal);
+int division_by_ten(s21_extended_decimal *decimal);
 void print_binary_decimal(int mass[]);
 void smart_print_binary_decimal(s21_decimal dec);
 int s21_round(s21_decimal value, s21_decimal *result);
