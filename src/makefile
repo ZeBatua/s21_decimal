@@ -1,10 +1,12 @@
 #FLAGS = -Wall -Werror -Wextra -std=c11
+var = $(shell pkg-config --cflags --libs check)
+
 SOURCES = \
 	./secondary_functions/Bit_operations/*.c \
 	./secondary_functions/convert_dec/*.c \
 	./secondary_functions/dec_to_back_string/*.c \
 	./secondary_functions/float_functions/*.c \
-	./secondary_functions/Get:Set_Sign:Scale/*.c \
+	./secondary_functions/GetSet_SignScale/*.c \
 	./secondary_functions/NoSE/*.c \
 	./secondary_functions/Print/*.c \
 	./secondary_functions/shifts/*.c \
@@ -20,7 +22,7 @@ SOURCES_WITH_MAIN = \
 	./secondary_functions/convert_dec/*.c \
 	./secondary_functions/dec_to_back_string/*.c \
 	./secondary_functions/float_functions/*.c \
-	./secondary_functions/Get:Set_Sign:Scale/*.c \
+	./secondary_functions/GetSet_SignScale/*.c \
 	./secondary_functions/NoSE/*.c \
 	./secondary_functions/Print/*.c \
 	./secondary_functions/shifts/*.c \
@@ -34,7 +36,10 @@ SOURCES_WITH_MAIN = \
 
 OBJECTS = *.o
 GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm $(var) #-lsubunit -coverage
+<<<<<<< HEAD
 var = $(shell pkg-config --cflags --libs check)
+=======
+>>>>>>> c0b08ab258e4698ba2c1750ed47bf75dacff9c13
 
 all: clean s21_decimal.a test check
 
@@ -46,18 +51,18 @@ s21_decimal.a:
 	@mv *.o o_files
 	
 s21_dec: clean
-	@gcc $(FLAGS) $(SOURCES_WITH_MAIN) -g -lcheck -o s21_dec
+	@gcc $(FLAGS) $(SOURCES_WITH_MAIN) -g $(var) -lcheck -o s21_dec
 	./s21_dec
 	
 
 test: clean s21_decimal.a
-	@gcc $(GCOVFLAGSLIN) $(var) -g -c tests/test.c
-	@gcc $(GCOVFLAGSLIN) $(var) test.o s21_decimal.a -o ./test
+	@gcc $(GCOVFLAGSLIN) -g $(var) -c tests/test.c
+	@gcc $(GCOVFLAGSLIN) test.o s21_decimal.a $(var) -o ./test
 	./test
 
-# test2: clean s21_decimal.a
-# 	@gcc $(GCOVFLAGSLIN) s21_test.c s21_decimal.a -o ./test2
-# 	./test2
+test2: clean s21_decimal.a
+	@gcc $(GCOVFLAGSLIN) s21_test.c s21_decimal.a $(var) -o ./test2
+	./test2
 
 
 gcov_report: s21_decimal.a test
