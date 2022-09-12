@@ -11,7 +11,11 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     printf("scale 1 = %d\n", getExtScale(ext_value_1));
     printf("scale 2 = %d\n", getExtScale(ext_value_2));
 
+    printf("\nprint extdec value 1\n");
     smart_print_exdec(ext_value_1);
+
+    printf("\nprint extdec value 2\n");
+    smart_print_exdec(ext_value_2);
 
     int dec1_sign = getExtSign(ext_value_1), dec2_sign = getExtSign(ext_value_2);
     if (!dec1_sign && !dec2_sign) { // оба положительные
@@ -19,8 +23,11 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         subtraction_no_sign(ext_value_1, ext_value_2, &ext_result);
         printf("tutachke\n");
         smart_print_exdec(ext_result);
-        if (ext_is_less(ext_value_1, ext_value_2)) {
-            setExtSign(&ext_result, 1);
+        
+        if (is_less_no_sign(ext_value_1, ext_value_2)) {  // a < b, a - b
+            
+            subtraction_no_sign(ext_value_2, ext_value_1, &ext_result);
+            setSign(result, 1);
         }
     } else if (dec1_sign && dec2_sign) { // оба отрицательные 
         if (ext_is_less(ext_value_1, ext_value_2)) {

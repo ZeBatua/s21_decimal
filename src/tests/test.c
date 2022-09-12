@@ -768,10 +768,6 @@ START_TEST(test_is_not_equal5) {
             setScale(y, &dec1);
             setScale(x, &dec2);
             if (s21_is_not_equal(dec1, dec2) != 1) {
-                // printf("\n");
-                // printf("\n\n\n\n\ny = %d\nx = %d\n\n\n\n\n", y, x);
-                // smart_print_binary_decimal(dec1);
-                // smart_print_binary_decimal(dec2);
                 continue;
             }
             ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
@@ -810,16 +806,6 @@ START_TEST(test_add1) {
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
-
-    // smart_print_binary_decimal(dec1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
-
-
     ck_assert_int_eq(result1.bits[0], my_result.bits[0]);
     
 } END_TEST
@@ -1007,18 +993,7 @@ START_TEST(test_add5) {
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
-
     int eq_add = s21_is_equal(result1, my_result);
-
-    // smart_print_binary_decimal(dec1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
-
-
     ck_assert_int_eq(eq_add, 1);
     
 } END_TEST
@@ -1051,21 +1026,7 @@ START_TEST(test_add6) {
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
-    // smart_print_binary_decimal(result1);
-
     int eq_add = s21_is_equal(result1, my_result);
-
-
-    // printf("\n\n\n\n\n\n");
-    // smart_print_binary_decimal(dec1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
-
-
     ck_assert_int_eq(eq_add, 1);
     
 } END_TEST
@@ -1280,8 +1241,8 @@ START_TEST(test_add13) {
     init_decimal(&dec1);
     dec1.bits[3] = 0b10000000000000000000000000000000;
     dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 0b10000000000000000000000000000000;
+    dec1.bits[1] = 0b00000000000000000000000000000001;
+    dec1.bits[0] = 0b11111111111111111111111111111111;
 
     setScale(1, &dec1);
 
@@ -1289,14 +1250,14 @@ START_TEST(test_add13) {
     init_decimal(&dec2);
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
-    dec2.bits[1] = 0b00000000000000000000000000000001;
-    dec2.bits[0] = 0b10000000000000000000000000000000;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b11111111111111111111111111111111;
 
     setScale(1, &dec2);
 
     s21_decimal my_result;
     init_decimal(&my_result);
-    my_result.bits[3] = 0;
+    my_result.bits[3] = 0b10000000000000000000000000000000;
     my_result.bits[2] = 0;
     my_result.bits[1] = 0b00000000000000000000000000000001;
     my_result.bits[0] = 0;
@@ -1316,21 +1277,21 @@ START_TEST(test_add14) {
     int eq_add = 0;
     s21_decimal dec1;
     init_decimal(&dec1);
-    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[3] = 0;
     dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
+    dec1.bits[1] = 0b00000000000000000000000000000001;
     dec1.bits[0] = 0b10000000000000000000000000000000;
 
     setScale(2, &dec1);
 
     s21_decimal dec2;
     init_decimal(&dec2);
-    dec2.bits[3] = 0;
+    dec2.bits[3] = 0b10000000000000000000000000000000;
     dec2.bits[2] = 0;
-    dec2.bits[1] = 0b00000000000000000000000000000001;
+    dec2.bits[1] = 0;
     dec2.bits[0] = 0b10000000000000000000000000000000;
 
-    setScale(1, &dec2);
+    setScale(2, &dec2);
 
     s21_decimal my_result;
     init_decimal(&my_result);
@@ -1349,6 +1310,44 @@ START_TEST(test_add14) {
     ck_assert_int_eq(eq_add, 1);
 
 } END_TEST
+
+// START_TEST(test_add15) {
+//     int eq_add = 0;
+//     s21_decimal dec1;
+//     init_decimal(&dec1);
+//     dec1.bits[3] = 0b10000000000000000000000000000000;
+//     dec1.bits[2] = 0;
+//     dec1.bits[1] = 0;
+//     dec1.bits[0] = 0b00000000000000000000000000000011;
+
+//     setScale(28, &dec1);
+
+//     s21_decimal dec2;
+//     init_decimal(&dec2);
+//     dec2.bits[3] = 0;
+//     dec2.bits[2] = 0;
+//     dec2.bits[1] = 0b00000000000000000000000000000001;
+//     dec2.bits[0] = 0b10000000000000000000000000000000;
+
+//     setScale(28, &dec2);
+
+//     s21_decimal my_result;
+//     init_decimal(&my_result);
+//     my_result.bits[3] = 0;
+//     my_result.bits[2] = 0;
+//     my_result.bits[1] = 0b00000000000000000000000000000001;
+//     my_result.bits[0] = 0;
+
+//     setScale(2, &my_result);
+
+//     s21_decimal result1;
+//     init_decimal(&result1);
+
+//     s21_add(dec1, dec2, &result1);
+//     eq_add = s21_is_equal(result1, my_result);
+//     ck_assert_int_eq(eq_add, 1);
+
+// } END_TEST
 
 START_TEST(test_sub4) {
     int eq_add = 0;
@@ -1621,19 +1620,76 @@ START_TEST(test_sub11) {
     my_result.bits[1] = 0b11000011010111111001111111101110;
     my_result.bits[0] = 0b11001010110111101101010110101101;
 
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    eq_add = s21_is_equal(result1, my_result);    
+    ck_assert_int_eq(eq_add, 1);
+
+} END_TEST
+
+START_TEST(test_sub12) {
+    int eq_add = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b01110111010111100110010011111101;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0b00000000000000000000000000000001;
+    dec2.bits[0] = 0b01110111010111100110010011111101;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0b10000000000000000000000000000000;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0b00000000000000000000000000000001;
+    my_result.bits[0] = 0;
 
     s21_decimal result1;
     init_decimal(&result1);
 
     s21_sub(dec1, dec2, &result1);
-    printf("minus minus decimal\n\n");
-    smart_print_binary_decimal(result1);
-    printf("\n\n");
-    smart_print_binary_decimal(my_result);
-    eq_add = s21_is_equal(result1, my_result);
+    eq_add = s21_is_equal(result1, my_result);    
     ck_assert_int_eq(eq_add, 1);
-    
-    ck_assert_int_eq(s21_sub(dec1, dec2, &result1), 1);
+
+} END_TEST
+
+START_TEST(test_sub13) {
+    int eq_add = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b11111111111111111111111111111111;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0b10000000000000000000000000000000;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000001;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0b10000000000000000000000000000000;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0b00000000000000000000000000000001;
+    my_result.bits[0] = 0;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    eq_add = s21_is_equal(result1, my_result);    
+    ck_assert_int_eq(eq_add, 1);
 
 } END_TEST
 
@@ -2112,12 +2168,10 @@ int main() {
     tcase_add_test(tc1_1, test_add12);
     tcase_add_test(tc1_1, test_add13);
     tcase_add_test(tc1_1, test_add14);
+    // tcase_add_test(tc1_1, test_add15);
 
     // test for sub
 
-    // tcase_add_test(tc1_1, test_sub1);
-    // tcase_add_test(tc1_1, test_sub2);
-    // tcase_add_test(tc1_1, test_sub3);
     tcase_add_test(tc1_1, test_sub4);
     tcase_add_test(tc1_1, test_sub5);
     tcase_add_test(tc1_1, test_sub6);
@@ -2126,6 +2180,9 @@ int main() {
     tcase_add_test(tc1_1, test_sub9);
     tcase_add_test(tc1_1, test_sub10);
     tcase_add_test(tc1_1, test_sub11);
+    tcase_add_test(tc1_1, test_sub12);
+    tcase_add_test(tc1_1, test_sub13);
+
 
     // test for mul
 
