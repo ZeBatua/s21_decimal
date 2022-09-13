@@ -19,29 +19,40 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
     int dec1_sign = getExtSign(ext_value_1), dec2_sign = getExtSign(ext_value_2);
     if (!dec1_sign && !dec2_sign) { // оба положительные
-        printf("tutachke\n");
-        subtraction_no_sign(ext_value_1, ext_value_2, &ext_result);
-        printf("tutachke\n");
-        smart_print_exdec(ext_result);
-        
         if (is_less_no_sign(ext_value_1, ext_value_2)) {  // a < b, a - b
-            
             subtraction_no_sign(ext_value_2, ext_value_1, &ext_result);
-            setSign(result, 1);
-        }
-    } else if (dec1_sign && dec2_sign) { // оба отрицательные 
-        if (ext_is_less(ext_value_1, ext_value_2)) {
             setExtSign(&ext_result, 1);
+            printf("result left number less right num\n");
+            smart_print_exdec(ext_result);
         } else {
+            printf("result if two numbers greater 0\n");
+            subtraction_no_sign(ext_value_1, ext_value_2, &ext_result);
+            printf("result if two numbers greater 0\n");
+            smart_print_exdec(ext_result);}
+    } else if (dec1_sign && dec2_sign) { // оба отрицательные
+        if (is_less_no_sign(ext_value_1, ext_value_2)) {
+            subtraction_no_sign(ext_value_2, ext_value_1, &ext_result);
             setExtSign(&ext_result, 0);
+            printf("result if two numbers less 0\n");
+            smart_print_exdec(ext_result);
+        } else {
+            subtraction_no_sign(ext_value_1, ext_value_2, &ext_result);
+            setExtSign(&ext_result, 1);
         }
     } else if (dec1_sign == 0 && dec2_sign == 1) { // v1 = +, v2 = -
+        setExtSign(&ext_value_1, 0);
         setExtSign(&ext_value_2, 0);
-        s21_add(value_1, value_2, result);
+        add_no_equote(ext_value_1, ext_value_2, &ext_result);
+        setExtSign(&ext_result, 0);
+        printf("result if var1+ and var2-\n");
+        smart_print_exdec(ext_result);
+        
     } else if (dec1_sign == 1 && dec2_sign == 0) { // v1 = -, v2 = +
         setScale(0, &value_1);
         setScale(0, &value_2);
-        s21_add(value_1, value_2, result);
+        setExtSign(&ext_value_1, 0);
+        setExtSign(&ext_value_2, 0);
+        add_no_equote(ext_value_1, ext_value_2, &ext_result);
         setSign(result, 1);
     }
     printf("tutachke2\n");

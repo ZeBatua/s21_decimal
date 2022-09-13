@@ -1358,7 +1358,7 @@ START_TEST(test_sub4) {
     dec1.bits[1] = 0;  
     dec1.bits[0] = 20;
 
-    setScale(22, &dec1);
+    setScale(0, &dec1);
 
     
     s21_decimal dec2;
@@ -1368,7 +1368,7 @@ START_TEST(test_sub4) {
     dec2.bits[1] = 0;
     dec2.bits[0] = 25;
 
-    setScale(22, &dec2); 
+    setScale(0, &dec2); 
 
 
     s21_decimal my_result;
@@ -1436,7 +1436,7 @@ START_TEST(test_sub6) {
     dec1.bits[1] = 0b11111111111111111111111111111111;
     dec1.bits[0] = 0b11111111111111111111111111111111;
 
-    setScale(22, &dec1);
+    setScale(0, &dec1);
 
     
     s21_decimal dec2;
@@ -1446,7 +1446,7 @@ START_TEST(test_sub6) {
     dec2.bits[1] = 0b11111111111111111111111111111111;
     dec2.bits[0] = 0b11111111111111111111111111111111;
 
-    setScale(22, &dec2); 
+    setScale(0, &dec2); 
 
 
     s21_decimal my_result;
@@ -1493,8 +1493,7 @@ START_TEST(test_sub7) {
     my_result.bits[3] = 0;
     my_result.bits[2] = 0b10100000000000000000000000000000;
     my_result.bits[1] = 0b10000000000000000000000000000000;
-    my_result.bits[0] = 0b00000000000000000000000000000000;
-
+    my_result.bits[0] = 0b01111111111111111111111111111111;
 
     s21_decimal result1;
     init_decimal(&result1);
@@ -1532,7 +1531,7 @@ START_TEST(test_sub8) {
     my_result.bits[3] = 0b10000000000000000000000000000000;
     my_result.bits[2] = 0b10110011001010000110011100110010;
     my_result.bits[1] = 0b00111100101000000110000000010001;
-    my_result.bits[0] = 0b10011000011111010000001001010010;
+    my_result.bits[0] = 0b01010110001111111100011110101000;
 
 
     s21_decimal result1;
@@ -1618,7 +1617,9 @@ START_TEST(test_sub11) {
     my_result.bits[3] = 0b10000000000000000000000000000000;
     my_result.bits[2] = 0b10110011001010000110011100110001;
     my_result.bits[1] = 0b11000011010111111001111111101110;
-    my_result.bits[0] = 0b11001010110111101101010110101101;
+    my_result.bits[0] = 0b10101001110000000011100001011000;
+
+    
 
     s21_decimal result1;
     init_decimal(&result1);
@@ -1681,8 +1682,8 @@ START_TEST(test_sub13) {
     init_decimal(&my_result);
     my_result.bits[3] = 0b10000000000000000000000000000000;
     my_result.bits[2] = 0;
-    my_result.bits[1] = 0b00000000000000000000000000000001;
-    my_result.bits[0] = 0;
+    my_result.bits[1] = 0;
+    my_result.bits[0] = 0b11111111111111111111111111111110;
 
     s21_decimal result1;
     init_decimal(&result1);
