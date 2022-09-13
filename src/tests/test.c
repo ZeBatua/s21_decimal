@@ -1694,6 +1694,76 @@ START_TEST(test_sub13) {
 
 } END_TEST
 
+START_TEST(test_sub14) {
+    int eq_add = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000001;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0b10000000000000000000000000000000;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b11111111111111111111111111111111;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0;
+    my_result.bits[0] = 0b11111111111111111111111111111110;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    eq_add = s21_is_equal(result1, my_result);    
+    ck_assert_int_eq(eq_add, 1);
+
+} END_TEST
+
+START_TEST(test_sub15) {
+    int eq_add = 0;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000001;
+
+    
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000010;
+
+    s21_decimal my_result;
+    init_decimal(&my_result);
+    my_result.bits[3] = 0b10000000000000000000000000000000;
+    my_result.bits[2] = 0;
+    my_result.bits[1] = 0;
+    my_result.bits[0] = 0b00000000000000000000000000000011;
+
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_sub(dec1, dec2, &result1);
+    printf("minus minus decimal\n\n");
+    smart_print_binary_decimal(result1);
+    printf("\n\n");
+    smart_print_binary_decimal(my_result);
+    eq_add = s21_is_equal(result1, my_result);
+    ck_assert_int_eq(eq_add, 1);
+
+} END_TEST
+
 START_TEST(test_mul1) {
     int eq = 0;
     s21_decimal dec1;
@@ -2183,6 +2253,7 @@ int main() {
     tcase_add_test(tc1_1, test_sub11);
     tcase_add_test(tc1_1, test_sub12);
     tcase_add_test(tc1_1, test_sub13);
+    tcase_add_test(tc1_1, test_sub14);
 
 
     // test for mul
