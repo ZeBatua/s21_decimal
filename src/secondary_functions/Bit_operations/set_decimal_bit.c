@@ -12,6 +12,7 @@ void set_decimal_bit(s21_decimal *decimal, int bait, int position, int value) { 
             int mask = 1;
             mask = mask << position;
             mask = ~mask;
+            printf("mask = %d\n", mask);
             decimal->bits[bait] &= mask;
         }
     }

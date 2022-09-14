@@ -80,6 +80,7 @@ int division_by_ten(s21_extended_decimal *decimal) {
         res.extBits[8] > 0) {
         init_extended_decimal(&res);
         res.extBits[0] = 1;
+        setExtSign(&res, getExtSign(qwe));
         add_no_equote(res, qwe, &qwe);
         equate_extdec(qwe, decimal);
     } else {

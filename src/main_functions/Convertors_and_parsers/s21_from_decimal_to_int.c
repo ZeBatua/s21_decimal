@@ -7,7 +7,7 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) { // умножение, 
     // init_decimal(&result);
     if (dst) {
         s21_truncate(src, &src);
-        src.bits[0] = *dst;
+        *dst = src.bits[0];
         if (getBit(src.bits[3], 31)) {
             *dst *= -1; 
         }

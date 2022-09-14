@@ -40,26 +40,18 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 } else if (first_extdec_bit == 1 && second_extdec_bit == 1) {
                     set_extdec_bit(&ext_result, i / 32, i, 0);
                     over_bit = 1;
-                    // if (i == 287) {
-                    //     error = 1;
-                    // }
                 }
             } else if (first_extdec_bit == 1 && second_extdec_bit == 0 ||
                 first_extdec_bit == 0 && second_extdec_bit == 1) {
                 set_extdec_bit(&ext_result, i / 32, i, 0);
                 over_bit = 1;
-                // if (i == 287) {
-                //     error = 1;
-                // }
+
             } else if (first_extdec_bit == 0 && second_extdec_bit == 0) {
                 set_extdec_bit(&ext_result, i / 32, i, 1);
                 over_bit = 0;
             } else if (first_extdec_bit == 1 && second_extdec_bit == 1) {
                 set_extdec_bit(&ext_result, i / 32, i, 1);
                 over_bit = 1;
-                // if (i == 287) {
-                //     error = 1;
-                // }
             }
         }
         if (error == 1 && dec1_sign == 1) error = 2;
@@ -69,7 +61,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
         init_decimal(result); // если 10 + (-10) то что со скейлом и знаком?
     } else {
         // printf("aboba\n");
-        if (is_less_no_sign(ext_value_1, ext_value_2) && getExtSign(ext_value_2)) {
+        if (is_less_no_sign(ext_value_1, ext_value_2) && getExtSign(ext_value_2) == 1) {
             // printf("aboba1\n");
             setSign(&value_2, 0);
             s21_sub(value_2, value_1, result);

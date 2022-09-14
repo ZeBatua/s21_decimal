@@ -2,6 +2,8 @@
 
 int s21_is_less(s21_decimal value_1, s21_decimal value_2) {
     s21_extended_decimal ext_value_1, ext_value_2;
+    init_extended_decimal(&ext_value_1);
+    init_extended_decimal(&ext_value_2);
     equate_dec_to_extdec(value_1, &ext_value_1);
     equate_dec_to_extdec(value_2, &ext_value_2);
     int result = 3;
