@@ -768,10 +768,6 @@ START_TEST(test_is_not_equal5) {
             setScale(y, &dec1);
             setScale(x, &dec2);
             if (s21_is_not_equal(dec1, dec2) != 1) {
-                // printf("\n");
-                // printf("\n\n\n\n\ny = %d\nx = %d\n\n\n\n\n", y, x);
-                // smart_print_binary_decimal(dec1);
-                // smart_print_binary_decimal(dec2);
                 continue;
             }
             ck_assert_int_eq(s21_is_not_equal(dec1, dec2),
@@ -818,16 +814,16 @@ START_TEST(test_add2) {
 
     s21_decimal dec1;
     init_decimal(&dec1);
-    dec1.bits[3] = 0;
+    dec1.bits[3] = 2147483648;
     dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
+    dec1.bits[1] = 22554;
     dec1.bits[0] = 1;
 
     s21_decimal dec2;
     init_decimal(&dec2);
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
-    dec2.bits[1] = 0;
+    dec2.bits[1] = 22554;
     dec2.bits[0] = 1;
 
     s21_decimal my_result;
@@ -835,7 +831,7 @@ START_TEST(test_add2) {
     my_result.bits[3] = 0;
     my_result.bits[2] = 0;
     my_result.bits[1] = 0;
-    my_result.bits[0] = 2;
+    my_result.bits[0] = 0;
 
     s21_decimal result1;
     init_decimal(&result1);
@@ -853,23 +849,29 @@ START_TEST(test_add3) {
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 0;
-    dec1.bits[2] = 777;
-    dec1.bits[1] = 0;
+    dec1.bits[2] = 88454546;
+    dec1.bits[1] = 1;
     dec1.bits[0] = 0;
+
+    // 000001010100010110110101100100100000000000000000000000000000000100000000000000000000000000000000
 
     s21_decimal dec2;
     init_decimal(&dec2);  // реализация в умножении !!!
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
-    dec2.bits[1] = 0;
+    dec2.bits[1] = 4294967295;
     dec2.bits[0] = 2;
+
+    // 000000000000000000000000000000001111111111111111111111111111111100000000000000000000000000000010
 
     s21_decimal my_result;
     init_decimal(&my_result);
     my_result.bits[3] = 0;
-    my_result.bits[2] = 777;
+    my_result.bits[2] = 88454547;
     my_result.bits[1] = 0;
     my_result.bits[0] = 2;
+
+    // 000001010100010110110101100100110000000000000000000000000000000000000000000000000000000000000010
 
     s21_decimal result1;
     init_decimal(&result1);
@@ -877,17 +879,6 @@ START_TEST(test_add3) {
     s21_add(dec1, dec2, &result1);
 
     int eq_add = s21_is_equal(result1, my_result);
-
-    // smart_print_binary_decimal(dec1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
-
 
     ck_assert_int_eq(eq_add, 1);
     
@@ -900,43 +891,77 @@ START_TEST(test_add4) {
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 0;
-    dec1.bits[2] = 4294967295;
-    dec1.bits[1] = 4294967295;
-    dec1.bits[0] = 4294967295;
+    dec1.bits[2] = 0b11111111111111111111111111111111;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0;
 
     s21_decimal dec2;
-    init_decimal(&dec2);  // реализация в умножении !!!
+    init_decimal(&dec2);
     dec2.bits[3] = 0;
-    dec2.bits[2] = 4294967295;
-    dec2.bits[1] = 4294967295;
-    dec2.bits[0] = 4294967295;
-
-    s21_decimal my_result;
-    init_decimal(&my_result);
-    my_result.bits[3] = 0;
-    my_result.bits[2] = 777;
-    my_result.bits[1] = 0;
-    my_result.bits[0] = 2;
+    dec2.bits[2] = 0b11111111111111111111111111111111;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0;
 
     s21_decimal result1;
     init_decimal(&result1);
 
+    ck_assert_int_eq(s21_add(dec1, dec2, &result1), 1);
+    
+} END_TEST
+
+START_TEST(test_add44) {
+
+    int eq = 9;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0b11111111111111111111111111111111;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0;
+
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0b10000000000000000000000000000000;
+    dec2.bits[2] = 0b11111111111111111111111111111111;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0;
+
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    s21_decimal stock_result;
+    init_decimal(&stock_result);
+    stock_result.bits[3] = 0;
+    stock_result.bits[2] = 0;
+    stock_result.bits[1] = 0;
+    stock_result.bits[0] = 0;
+
     s21_add(dec1, dec2, &result1);
+    eq = s21_is_equal(result1, stock_result);
+    ck_assert_int_eq(eq, 1);
+    
+} END_TEST
 
-    int eq_add = s21_is_equal(result1, my_result);
+START_TEST(test_add441) {
 
-    // smart_print_binary_decimal(dec1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 0b11111111111111111111111111111111;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0;
 
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0b10000000000000000000000000000000;
+    dec2.bits[2] = 0b11111111111111111111111111111111;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0;
 
-    ck_assert_int_eq(eq_add, 1);
+    s21_decimal result1;
+    init_decimal(&result1);
+
+    ck_assert_int_eq(s21_add(dec1, dec2, &result1), 2);
     
 } END_TEST
 
@@ -968,18 +993,7 @@ START_TEST(test_add5) {
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
-
     int eq_add = s21_is_equal(result1, my_result);
-
-    // smart_print_binary_decimal(dec1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
-
-
     ck_assert_int_eq(eq_add, 1);
     
 } END_TEST
@@ -1012,21 +1026,7 @@ START_TEST(test_add6) {
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
-    // smart_print_binary_decimal(result1);
-
     int eq_add = s21_is_equal(result1, my_result);
-
-
-    // printf("\n\n\n\n\n\n");
-    // smart_print_binary_decimal(dec1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
-
-
     ck_assert_int_eq(eq_add, 1);
     
 } END_TEST
@@ -1036,8 +1036,8 @@ START_TEST(test_add7) {
     int eq_add = 0;
     s21_decimal dec1;
     init_decimal(&dec1);
-    dec1.bits[3] = 2147483648;
-    dec1.bits[2] = 4294967295;
+    dec1.bits[3] = 0b10000000000000000000000000000000;
+    dec1.bits[2] = 4294967294;
     dec1.bits[1] = 0;
     dec1.bits[0] = 0;
 
@@ -1045,30 +1045,19 @@ START_TEST(test_add7) {
     init_decimal(&dec2);
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
-    dec2.bits[1] = 4294967295;
+    dec2.bits[1] = 2147483648;
     dec2.bits[0] = 0;
 
     s21_decimal my_result;
     init_decimal(&my_result);
-    my_result.bits[3] = 2147483648;
-    my_result.bits[2] = 4294967294;
-    my_result.bits[1] = 1;
+    my_result.bits[3] = 0b10000000000000000000000000000000;
+    my_result.bits[2] = 4294967295;
+    my_result.bits[1] = 0;
     my_result.bits[0] = 0;
 
     s21_decimal result1;
-    // 11111111111111111111111111111110 00000000000000000000000000000001 00000000000000000000000000000000
     s21_add(dec1, dec2, &result1);
     eq_add = s21_is_equal(result1, my_result);
-
-    // printf("\n\n\n\n\n\n");
-    // smart_print_binary_decimal(dec1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(dec2);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
-
     ck_assert_int_eq(eq_add, 1);
 
 } END_TEST
@@ -1083,16 +1072,12 @@ START_TEST(test_add8) {
     dec1.bits[1] = 8559;  
     dec1.bits[0] = 7875;
 
-// 000000000000000011010101000110110000000000000000001000010110111100000000000000000001111011000011
-    
     s21_decimal dec2;
     init_decimal(&dec2);
     dec2.bits[3] = 2147483648;
     dec2.bits[2] = 7848488;
     dec2.bits[1] = 5455165;
     dec2.bits[0] = 111588;
-
-// 000000000111011111000010001010000000000001010011001111010011110100000000000000011011001111100100
 
     s21_decimal my_result;
     init_decimal(&my_result);
@@ -1101,16 +1086,10 @@ START_TEST(test_add8) {
     my_result.bits[1] = 5446606;
     my_result.bits[0] = 103713;
 
-// 000000000111011011101101000011010000000001010011000110111100111000000000000000011001010100100001
-
     s21_decimal result1;
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(result1);
-    // printf("\n\n");
-    // smart_print_binary_decimal(my_result);
     eq_add = s21_is_equal(result1, my_result);
     ck_assert_int_eq(eq_add, 1);
 
@@ -2248,8 +2227,8 @@ int main() {
     tcase_add_test(tc1_1, test_add2);
     tcase_add_test(tc1_1, test_add3);
     tcase_add_test(tc1_1, test_add4);
-    // tcase_add_test(tc1_1, test_add44);
-    // tcase_add_test(tc1_1, test_add441);
+    tcase_add_test(tc1_1, test_add44);
+    tcase_add_test(tc1_1, test_add441);
     tcase_add_test(tc1_1, test_add5);
     tcase_add_test(tc1_1, test_add6);
     tcase_add_test(tc1_1, test_add7);

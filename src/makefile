@@ -41,19 +41,21 @@ var = $(shell pkg-config --cflags --libs check)
 
 all: clean s21_decimal.a test check
 
-s21_decimal.a:
-	@gcc $(FLAGS) $(SOURCES) $(GCOVFLAGSLIN) -c
+s21_decimal.a: clean
+	@gcc $(FLAGS) $(SOURCES) -c
 	@ar rc s21_decimal.a $(OBJECTS)
 	@ranlib s21_decimal.a
 	@mkdir o_files
 	@mv *.o o_files
+	# @mv *.gcda o_files
+	# @mv *.gcno o_files
 	
 s21_dec: clean
 	@gcc $(GCOVFLAGSLIN) $(SOURCES_WITH_MAIN) -g -o s21_dec
 	./s21_dec
 	
 
-test: s21_decimal.a
+test: clean s21_decimal.a
 	@gcc $(GCOVFLAGSLIN) -g -c tests/test.c
 	@gcc $(GCOVFLAGSLIN) test.o s21_decimal.a -o ./test
 	./test
