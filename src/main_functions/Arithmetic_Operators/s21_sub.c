@@ -8,14 +8,14 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int error = 0;
     equate_ext_scale(&ext_value_1, &ext_value_2);
 
-    printf("scale 1 = %d\n", getExtScale(ext_value_1));
-    printf("scale 2 = %d\n", getExtScale(ext_value_2));
+    // printf("scale 1 = %d\n", getExtScale(ext_value_1));
+    // printf("scale 2 = %d\n", getExtScale(ext_value_2));
 
-    printf("\nprint extdec value 1\n");
-    smart_print_exdec(ext_value_1);
+    // printf("\nprint extdec value 1\n");
+    // smart_print_exdec(ext_value_1);
 
-    printf("\nprint extdec value 2\n");
-    smart_print_exdec(ext_value_2);
+    // printf("\nprint extdec value 2\n");
+    // smart_print_exdec(ext_value_2);
 
     int dec1_sign = getExtSign(ext_value_1), dec2_sign = getExtSign(ext_value_2);
     if (!dec1_sign && !dec2_sign) { // оба положительные

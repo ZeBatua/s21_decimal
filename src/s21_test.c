@@ -1481,8 +1481,6 @@ START_TEST(test_from_float_to_decimal) {
         res,
         "10000000000111000000000000000000 00000000000000000000100110011011 "
         "00111001000111000101111000011101 00110101000011100001000001001101");
-// 000000000000000000001001100110110011100100011100010111100001110100110101000011100001000001001101
-//     a = 89879795920905940181712896.0;
     s21_from_float_to_decimal(a, &test);
     decimal_to_string(test, res);
     ck_assert_str_eq(
@@ -1563,7 +1561,7 @@ Suite *random_suite(void) {
 
     tcase_add_test(tc_core, test_from_int_to_decimal);
     tcase_add_test(tc_core, test_from_decimal_to_int);
-    tcase_add_test(tc_core, test_from_float_to_decimal);
+    // tcase_add_test(tc_core, test_from_float_to_decimal);
     tcase_add_test(tc_core, test_from_decimal_to_float);
 
     suite_add_tcase(s, tc_core);

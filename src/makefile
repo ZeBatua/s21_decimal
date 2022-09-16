@@ -35,7 +35,7 @@ SOURCES_WITH_MAIN = \
 
 
 OBJECTS = *.o
-GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm -coverage #$(var)
+GCOVFLAGSLIN = -lcheck -lgcov -lm -L -lrt -lpthread  -coverage #$(var)
 
 var = $(shell pkg-config --cflags --libs check)
 
@@ -47,8 +47,8 @@ s21_decimal.a: clean
 	@ranlib s21_decimal.a
 	@mkdir o_files
 	@mv *.o o_files
-	# @mv *.gcda o_files
-	# @mv *.gcno o_files
+	@# @mv *.gcda o_files
+	@# @mv *.gcno o_files
 	
 s21_dec: clean
 	@gcc $(GCOVFLAGSLIN) $(SOURCES_WITH_MAIN) -g -o s21_dec
