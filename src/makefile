@@ -35,7 +35,7 @@ SOURCES_WITH_MAIN = \
 
 
 OBJECTS = *.o
-GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm -coverage #$(var)
+GCOVFLAGSLIN = -lcheck -lgcov -L -lrt -lpthread -lm -coverage $(var)
 
 var = $(shell pkg-config --cflags --libs check)
 
