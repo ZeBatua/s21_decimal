@@ -85,6 +85,8 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst);
 void decimal_to_string(s21_decimal decimal, char *str);
 void string_to_decimal(const char *str, s21_decimal *decimal);
 
+int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+
 //--------------------extended_decimal_functions--------------------//
 
 void init_extended_decimal(s21_extended_decimal *decimal);

@@ -1,21 +1,40 @@
 #include "s21_decimal.h"
 
 int main() {
-    // вщгиду value = 123;
-    // value = value % 5.5;
+    int eq = 9;
+    s21_decimal dec1;
+    init_decimal(&dec1);
+    dec1.bits[3] = 0;
+    dec1.bits[2] = 0;
+    dec1.bits[1] = 0;
+    dec1.bits[0] = 0b00000000000000000000000000000100;
 
+    s21_decimal dec2;
+    init_decimal(&dec2);
+    dec2.bits[3] = 0;
+    dec2.bits[2] = 0;
+    dec2.bits[1] = 0;
+    dec2.bits[0] = 0b00000000000000000000000000000100;
 
-    // s21_decimal dec1 = {0}, dec2 = {0};
-    // float value = 10000000000000;
-    // unsigned int fbits = *((unsigned int *)&value);
-    // int a = s21_from_float_to_decimal(value, &dec1);
+    s21_decimal result1;
+    init_decimal(&result1);
 
-    // printf("\nd3\n-----------------------------------------------------------------------------------------------------------------------------------\n");
-    // smart_print_binary_decimal(dec1);
-    // printf("-----------------------------------------------------------------------------------------------------------------------------------\n");
+    s21_decimal stock_result;
+    stock_result.bits[3] = 0;
+    stock_result.bits[2] = 0;
+    stock_result.bits[1] = 0;
+    stock_result.bits[0] = 0b00000000000000000000000000000001;
+
+    s21_div(dec1, dec2, &result1);
+    eq = s21_is_equal(stock_result, result1);
+    // ck_assert_int_eq(eq, 1);
+
+    printf("\nresult1\n-----------------------------------------------------------------------------------------------------------------------------------\n");
+    smart_print_binary_decimal(result1);
+    printf("-----------------------------------------------------------------------------------------------------------------------------------\n");
     // printf("bits[0] = %d\n", dec1.bits[0]);
     // printf("scale = %d\n", getScale(dec1));
-    // printf("a = %d\n", a);
+    printf("eq = %d\n", eq);
 
     return 0;
 }
