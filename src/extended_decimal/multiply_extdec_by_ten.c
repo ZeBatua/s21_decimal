@@ -15,7 +15,7 @@ void multiply_extdec_by_ten(s21_extended_decimal *E_decimal) {
 
     s21_extended_decimal result;
     init_extended_decimal(&result);
-    alt_add(x2_dec, x8_dec, &result); // тут мб именно альт нужен но это не точно
+    add_no_equote(x2_dec, x8_dec, &result); // тут мб именно альт нужен но это не точно
     // s21_add(x2_dec, x8_dec, &result);
     equate_extdec(result, E_decimal);
     setExtScale(save_scale, E_decimal);

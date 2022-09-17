@@ -4,7 +4,7 @@ int s21_is_less(s21_decimal value_1, s21_decimal value_2) {
     s21_extended_decimal ext_value_1, ext_value_2;
     equate_dec_to_extdec(value_1, &ext_value_1);
     equate_dec_to_extdec(value_2, &ext_value_2);
-    int result = 0;
+    int result = 3;
     int first_sign = getExtSign(ext_value_1);
     int second_sign = getExtSign(ext_value_2);
     int bit_v1 = 0;
@@ -25,10 +25,13 @@ int s21_is_less(s21_decimal value_1, s21_decimal value_2) {
                 result = 1;
                 break;
             }
-            if (first_sign && result) {
-                result = 0;
-            }
         }
+        if (first_sign && result == 0) {
+            result = 1;
+        } else if (first_sign && result) {
+            result = 0;
+        }
+        if (result == 3) result = 0;
     }
     return result;
 }
