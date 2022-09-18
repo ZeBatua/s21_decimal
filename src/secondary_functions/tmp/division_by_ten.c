@@ -1,15 +1,8 @@
 #include "../../s21_decimal.h"
 
 int division_by_ten(s21_extended_decimal *decimal) {
-
-    // printf("-----------start----------\n");
-    // smart_print_exdec(*decimal);
-
-
     s21_extended_decimal dec_for_get_remainder;
     equate_extdec(*decimal, &dec_for_get_remainder);
-
-
 
     int save_scale = getExtScale(*decimal);
     int save_sign = getExtSign(*decimal);
@@ -92,41 +85,20 @@ int division_by_ten(s21_extended_decimal *decimal) {
         setExtScale(getExtScale(*decimal) - 1, decimal);
     }
 
-    // decimal->extBits[0] = 0;
-    // decimal->extBits[1] = 0;
-    // decimal->extBits[2] = 0;
 
     //------------------------------------get_remainder-------------------------------------------//
-    // printf("check position\n");
-    // smart_print_exdec(*decimal);
 
     s21_extended_decimal remainder, x10_decimal;
     init_extended_decimal(&remainder);
     init_extended_decimal(&x10_decimal);
     equate_extdec(*decimal, &x10_decimal);
-    // x10_decimal.extBits[0] = 0;
-    // x10_decimal.extBits[1] = 0;
-    // x10_decimal.extBits[2] = 0;
+
     multiply_extdec_by_ten(&x10_decimal);
 
-    // printf("after_div_by_ten\n");
-    // smart_print_exdec(*decimal); //после деления на 10
+    sub_no_equote(dec_for_get_remainder, x10_decimal, &remainder); // result это число от 0 до 9
 
-    // printf("after_multiply_by_ten\n");
-    // smart_print_exdec(x10_decimal); // 120 (после умножения на 10)
-    // printf("-----------A----------\n");
-    // printf("см 2 бит!!!!!!ТШЩАРУАШЙЦЩШАЙАУЩШАРЙ\n");
-    sub_no_equote(dec_for_get_remainder, x10_decimal, &remainder); // result это число от 0 до 9 // result почему то отрицательный*
-
-    // printf("remainderopwejgfwefjewofjw\n");
-    // smart_print_exdec(remainder);
-    // printf("remainder.Extbits[3] = %d\n", remainder.extBits[3]);
-
-    // printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d\n", remainder.extBits[3]);
-    
     int int_remainder = 0;
     int_remainder = remainder.extBits[0];
-    // printf("orig_remainder =  %d\n", int_remainder);
 
     return int_remainder;
  

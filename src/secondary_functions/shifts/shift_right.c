@@ -20,5 +20,4 @@ void shift_right(s21_extended_decimal *decimal, int time) {
         }
     }
     equate_extdec(x2_dec, decimal);
-    // setScale(getScale(*decimal) + 1, decimal);
 }
