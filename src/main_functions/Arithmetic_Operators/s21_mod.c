@@ -2,6 +2,7 @@
 
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     s21_extended_decimal ext_value_1, ext_value_2, ext_result;
+    s21_extended_decimal temp = {0};
     int error = 0;
     int dec1_non_zero_extended_bit = 0;
     int dec2_non_zero_extended_bit = 0;
