@@ -27,6 +27,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     
     // dec1_non_zero_extended_bit = get_first_non_zero_extBit(ext_value_1);
     // dec2_non_zero_extended_bit = get_first_non_zero_extBit(ext_value_2);
+    
     while (1) { // сравнение ширины делимого и делителя
         // printf("%d - width dec1\n", width_dec1);
         // printf("%d - width dec2\n", width_dec2);
@@ -59,8 +60,10 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         smart_print_exdec(tmp_val_2);
         // printf("%d - width dec1\n", width_dec1);
         // printf("%d - width dec2\n", width_dec2);
-        while (!is_less_no_sign(tmp, tmp_val_2)) { // придумать условие
+        while (is_less_no_sign(tmp_val_2, tmp) || width_dec2 <= width_dec1) { // придумать условие
             if (!is_less_no_sign(tmp, ext_value_2) || is_equal_no_sign(tmp, ext_value_2)) { // если делимое больше делителя при первом проходе
+                width_dec2 = get_first_non_zero_extBit(tmp) - 95;
+                width_dec1 = get_first_non_zero_extBit(tmp_val_2) - 95;
                 step_to_shift = get_first_non_zero_extBit(ext_value_1) - get_first_non_zero_extBit(ext_value_2);
                 // printf("step_to_shift %d\n", step_to_shift);
                 shift_left(&ext_value_2, step_to_shift);
@@ -78,7 +81,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             if (is_less_no_sign(tmp, ext_value_2) ) { // если делимое меньше делителя
                 step_to_shift = get_first_non_zero_extBit(ext_value_2) - get_first_non_zero_extBit(tmp);
                 shift_right(&ext_value_2, step_to_shift);
-                subtraction_no_sign(tmp, ext_value_2, &tmp);
+                subtraction_no_sign(tmp, ext_value_2, &tmp); // структура забивается мусором, нужна функция для временного хранения(?)
                 printf("after sub delimoe/delitel\n");
                 smart_print_exdec(tmp);
                 printf("\nzdes'\n");
@@ -87,8 +90,6 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             printf("%d - width dec2\n", width_dec2);
             smart_print_exdec(ext_value_2);
             smart_print_exdec(tmp);
-            width_dec2 = get_first_non_zero_extBit(ext_value_2) - 95;
-            width_dec1 = get_first_non_zero_extBit(tmp) - 95;
         }
         error = equate_extdec_to_dec(tmp, result);
         break;
