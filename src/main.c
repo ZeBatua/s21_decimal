@@ -1,43 +1,24 @@
 #include "s21_decimal.h"
 
 int main() {
-    int eq = 0;
-    s21_decimal dec1;
-    init_decimal(&dec1);
-    dec1.bits[3] = 0;
-    dec1.bits[2] = 0;
-    dec1.bits[1] = 0;
-    dec1.bits[0] = 1000;
-    // dec1.bits[0] = 0b00000000000000000000000000010000;
-
-    s21_decimal dec2;
-    init_decimal(&dec2);
-    dec2.bits[3] = 0;
-    dec2.bits[2] = 0;
-    dec2.bits[1] = 0;
-    dec2.bits[0] = 4;
-
-    // dec2.bits[0] = 0b00000000000000000000000000000100;
-
-    s21_decimal result1;
-    init_decimal(&result1);
-
-    s21_decimal stock_result;
-    stock_result.bits[3] = 0;
-    stock_result.bits[2] = 0;
-    stock_result.bits[1] = 0;
-    stock_result.bits[0] = 0b00000000000000000000000000000100;
-
-    s21_div(dec1, dec2, &result1);
-    eq = s21_is_equal(stock_result, result1);
-    // ck_assert_int_eq(eq, 0);
+    s21_decimal d1 = {0}, d2 = {0}, d3 = {0};
+    string_to_decimal(
+        "00000000000000000000000000000000 00000000000000000000000000000000 "
+        "10000000000000000000000000000000 00000000000000000000000000000000",
+        &d1);
+    string_to_decimal(
+        "00000000000000000000000000000000 00000000000000000000000000000000 "
+        "00000000000000000000000000000000 00000000000000000000000000000010",
+        &d2);
+    s21_div(d1, d2, &d3);
+    // ck_assert_int_eq(a, 2);
 
     printf("\nd3\n-----------------------------------------------------------------------------------------------------------------------------------\n");
-    smart_print_binary_decimal(result1);
+    smart_print_binary_decimal(d3);
     printf("-----------------------------------------------------------------------------------------------------------------------------------\n");
-    // printf("bits[0] = %d\n", dec1.bits[0]);
-    // printf("scale = %d\n", getScale(dec1));
-    printf("eq = %d\n", eq);
+    // printf("result1[0] = %d\n", result1.bits[0]);
+    // printf("scale = %d\n", getScale(result1));
+    // printf("a = %d\n", a);
 
     return 0;
 }
@@ -55,3 +36,5 @@ int main() {
 9 - [288; 319] | decimal.bits[4]
 
 */
+
+// немного поиграть с <<. Узанть почему 1 бит вылезает
