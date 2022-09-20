@@ -2126,7 +2126,7 @@ START_TEST(test_div6) {
     init_decimal(&result1);
 
     eq = s21_div(dec1, dec2, &result1);
-    ck_assert_int_eq(eq, 1);
+    ck_assert_int_eq(eq, 1); // почему?
 
 } END_TEST
 
@@ -2154,7 +2154,7 @@ START_TEST(test_div7) {
     init_decimal(&result1);
 
     eq = s21_div(dec1, dec2, &result1);
-    ck_assert_int_eq(eq, 2);
+    ck_assert_int_eq(eq, 2); // pochemu
 
 } END_TEST
 

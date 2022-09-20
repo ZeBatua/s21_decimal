@@ -1545,6 +1545,7 @@ Suite *random_suite(void) {
     tcase_add_test(tc_core, test_sub);
     tcase_add_test(tc_core, test_mul);
     tcase_add_test(tc_core, test_div);
+    tcase_set_timeout(tc_core,  10);
     // tcase_add_test(tc_core, test_mod);
 
     // tcase_add_test(tc_core, test_is_equal);
@@ -1563,7 +1564,6 @@ Suite *random_suite(void) {
     tcase_add_test(tc_core, test_from_decimal_to_int);
     // tcase_add_test(tc_core, test_from_float_to_decimal);
     tcase_add_test(tc_core, test_from_decimal_to_float);
-
     suite_add_tcase(s, tc_core);
 
     return s;
@@ -1573,7 +1573,6 @@ int main(void) {
     int no_failed = 0;
     Suite *s;
     SRunner *runner;
-
     s = random_suite();
     runner = srunner_create(s);
 
