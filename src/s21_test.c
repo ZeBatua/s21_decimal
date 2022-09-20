@@ -1545,7 +1545,7 @@ Suite *random_suite(void) {
     tcase_add_test(tc_core, test_sub);
     tcase_add_test(tc_core, test_mul);
     tcase_add_test(tc_core, test_div);
-    tcase_set_timeout(tc_core,  10);
+    tcase_set_timeout(tc_core,  15);
     // tcase_add_test(tc_core, test_mod);
 
     // tcase_add_test(tc_core, test_is_equal);

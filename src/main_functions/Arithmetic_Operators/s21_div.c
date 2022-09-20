@@ -23,11 +23,13 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
     equate_dec_to_extdec(value_1, &buf_value_1);
     equate_dec_to_extdec(*result, &ext_result);
     compare_scale_for_div(&ext_value_1, &ext_value_2);
+    printf("f sclae = %d\n", getExtScale(ext_value_1));
+    printf("s sclae = %d\n", getExtScale(ext_value_2));
+    // 899,19485838
 
     int f_sign = getExtSign(ext_value_1), s_sign = getExtSign(ext_value_2);
 
-
-    int f_width = 0, s_width = 0, difference_width = 0, scale_length = 0, scale_in_dividend = 0;
+    int f_width = 0, s_width = 0, difference_width = 0, scale_length = 0, scale_in_dividend = 0, scale_length2 = 1;
     f_width = get_width(ext_value_1);
     s_width = get_width(ext_value_2);
     difference_width = f_width - s_width;
@@ -35,6 +37,8 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
     
     int divinded_length = get_width(ext_value_1);
     int dividend_scale = getExtScale(ext_value_1);
+    int ti_menia_besish = getScale(value_1);
+
     int decrease_divinded_length = 0;
 
     int bug_stop = 0;
@@ -51,11 +55,13 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 setExtScale(getExtScale(ext_value_2) - 1, &ext_value_2);
                 setExtScale(getExtScale(ext_value_1) - 1, &ext_value_1);
             }
-        }
-        get_needed_value_from_devinded(&ext_value_1, ext_value_2,  difference_width); // div by ten ext_value_1
+        }//8.9919485838
+        scale_in_dividend = getExtScale(ext_value_1);
+        get_needed_value_from_devinded(&ext_value_1, ext_value_2,  difference_width);
+        dividend_scale = getExtScale(ext_value_1); // div by ten ext_value_1
         f_width =  get_width(ext_value_1);
         setExtScale(0, &ext_value_2);
-        divinded_length -= f_width - 1;
+        divinded_length -= f_width - 1;   //899,19485838
 
         while (bug_stop < 100) { // 131072
             subtraction_for_div(&ext_value_1, ext_value_2, &subtraction_times); // try to substract
@@ -80,14 +86,14 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 set_next_digit(&ext_value_1, buf_value_1, divinded_length); //  next_digit_counter -> divinded_length
             }
             //--- scale from dividend (34,5645 / 2) ---//
-            if (scale_in_dividend > 0) setExtScale(scale_in_dividend, &subtraction_times), scale_in_dividend++;
-            if (divinded_length + 1 == dividend_scale) setExtScale(scale_in_dividend, &subtraction_times), scale_in_dividend++;
+            if (scale_length2 > 1) setExtScale(scale_length2, &subtraction_times), scale_length2++;
+            if (divinded_length + 1 == scale_in_dividend) setExtScale(scale_length2, &subtraction_times), scale_length2++;
 
             //--- scale from divivdend remainder  (42 / 490) ---//
             if (divinded_length == 0 && is_equal_no_sign(ext_value_1, zero)) break;
-            if (divinded_length < 0 && scale_in_dividend == 0) scale_length++, setExtScale(scale_length, &subtraction_times);
+            if (divinded_length < 0 && scale_length2 == 0) scale_length++, setExtScale(scale_length, &subtraction_times);
             if (divinded_length < 0 && is_equal_no_sign(ext_value_1, zero)) break;
-            if (scale_length == 33) break;
+            if (scale_length == 33 || scale_length2 == 33) break;
             bug_stop++;
 
             // printf("main_while\n");
@@ -137,18 +143,19 @@ int get_width(s21_extended_decimal decimal) {
 
 void get_needed_value_from_devinded(s21_extended_decimal *divinded, s21_extended_decimal divider, int width) { // не робит если 1< 2
     // printf("START_get_needed_value_from_devinded\n");
-    if (width > 0) width -= 1;
+    s21_extended_decimal buf;
+    equate_extdec(*divinded, &buf);
     while (width > 0) {
         division_by_ten(divinded);
         width--;
     }
-    multiply_extdec_by_ten(&divider);
-    setExtScale(getExtScale(divider) - 1, &divider);
     if (is_less_no_sign(*divinded, divider)) {
-    } else {
-        division_by_ten(divinded);
+        equate_extdec(buf, divinded);
+        while (width - 1 > 0) {
+            division_by_ten(divinded);
+            width--;
+        }
     }
-    division_by_ten(&divider);
 }
 
 int subtraction_for_div(s21_extended_decimal *minuend, s21_extended_decimal subtrahend, s21_extended_decimal *result) {
@@ -195,4 +202,4 @@ void set_next_digit(s21_extended_decimal *decimal, s21_extended_decimal START_de
         add_no_equote(*decimal, START_decimal, decimal);
     }
 }
-// 40862548488990303206999699535
+// 40862548488990303206999699535 2854586852

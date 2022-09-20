@@ -2309,6 +2309,7 @@ int main() {
     tcase_add_test(tc1_1, test_div7);
 
     tcase_add_test(tc1_1, ext_test_div1);
+    tcase_set_timeout(tc1_1,  15);
 
     srunner_run_all(sr, CK_NORMAL);
     nf = srunner_ntests_failed(sr);
