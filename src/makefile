@@ -58,15 +58,14 @@ test: s21_decimal.a s21_test.o
 	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
 	./test
 
-gcov_report: s21_decimal.a test	
-	$(CC) $(SOURCES) $(ASAN) $(GFLAGS) $(CCOV) -g  s21_test.c s21_decimal.a -L s21_decimal.a $(TFLAGS) -o ./s21_test/out
+gcov_report: s21_decimal.a 
+	$(CC) $(var) $(SOURCES) $(ASAN) $(GFLAGS) $(CCOV) -g  s21_test.c s21_decimal.a -L s21_decimal.a -o ./s21_test.out
 	./s21_test.out 
-#	gcovr -b 
-#	gcovr 
-#	gcovr --html-details -o report.html
+	gcovr -b 
+	gcovr 
+	gcovr --html-details -o report.html
 
-	lcov -t "s21_test" -o test.info -c -d 
-	genhtml -o report test.info
+#	lcov -t "s21_test" -o test.info -c -d	genhtml -o report test.info
 
 s21_dec: clean
 	$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN) $(TFLAGS) -g -o s21_dec
