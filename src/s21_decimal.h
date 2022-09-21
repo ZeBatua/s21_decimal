@@ -4,7 +4,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-// #include <check.h>
 #include <string.h>
 
 typedef enum {
@@ -76,6 +75,8 @@ int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2);
 int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2);
 int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2);
 int s21_floor(s21_decimal value, s21_decimal *result);
+int is_less_signed(s21_extended_decimal ext_value_1,
+                   s21_extended_decimal ext_value_2);
 
 int add_no_equote(s21_extended_decimal value_1, s21_extended_decimal value_2,
                   s21_extended_decimal *result);
@@ -93,6 +94,9 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst);
 void decimal_to_string(s21_decimal decimal, char *str);
 void string_to_decimal(const char *str, s21_decimal *decimal);
 
+int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+
 //--------------------extended_decimal_functions--------------------//
 
 void init_extended_decimal(s21_extended_decimal *decimal);
@@ -104,7 +108,7 @@ void set_extdec_bit(s21_extended_decimal *E_decimal, int bait, int position,
 int getExtSign(s21_extended_decimal value);
 void setExtSign(s21_extended_decimal *value, int sign);
 int getExtScale(s21_extended_decimal value);
-void setExtScale(int scale, s21_extended_decimal *value);
+int setExtScale(int scale, s21_extended_decimal *value);
 int get_first_non_zero_extBit(s21_extended_decimal dec);
 int equate_ext_scale(s21_extended_decimal *first_value,
                      s21_extended_decimal *second_value);
