@@ -3,10 +3,11 @@ CC = gcc
 CCOV = -fprofile-arcs -ftest-coverage
 GFLAGS = --coverage
 LDFLAGS = -lgcov
-TFLAGS = -lcheck -lm -pthread -L -lrt -lsubunit
+TFLAGS = -lcheck -lm -pthread -L -lrt 
+UFLAG = -lsubunit
 OBJECTS = *.o
 #ASAN = -g -fsanitize=adress
-#var = $(shell pkg-config --cflags --libs check)
+var = $(shell pkg-config --cflags --libs check)
 
 SOURCES = \
 	./secondary_functions/Bit_operations/*.c \
@@ -51,10 +52,10 @@ s21_decimal.a:
 #	mv *.o o_files
 
 s21_test.o: s21_test.c
-	$(CC) $(ASAN) $(CFLAGS)	-c s21_test.c
+	$(CC) $(ASAN) $(CFLAGS) $(var) -c s21_test.c
 
 test: s21_decimal.a s21_test.o
-	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) s21_test.o s21_decimal.a -o test $(TFLAGS)
+	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
 	./test
 
 gcov_report: s21_decimal.a test	
