@@ -450,7 +450,7 @@ START_TEST(test_div) {
         res,
         "00000000000000000000000000000000 00000000000000000000000000000000 "
         "00000000000000000000000000000000 00001011101101100010000011111111");
-
+                                              
     string_to_decimal(
         "00000000000010100000000000000000 00000000000000000000000000000000 "
         "00000000000000000000000000010100 11101111100111100111011110001110",
@@ -1545,7 +1545,7 @@ Suite *random_suite(void) {
     tcase_add_test(tc_core, test_sub);
     tcase_add_test(tc_core, test_mul);
     tcase_add_test(tc_core, test_div);
-    tcase_set_timeout(tc_core,  15);
+    tcase_set_timeout(tc_core,  30);
     // tcase_add_test(tc_core, test_mod);
 
     // tcase_add_test(tc_core, test_is_equal);
