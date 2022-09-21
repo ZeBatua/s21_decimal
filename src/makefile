@@ -17,7 +17,7 @@ SOURCES = \
 	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 SOURCES_WITH_MAIN = \
-	main.c \
+	my_main.c \
 	./secondary_functions/Bit_operations/*.c \
 	./secondary_functions/convert_dec/*.c \
 	./secondary_functions/dec_to_back_string/*.c \
