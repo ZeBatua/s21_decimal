@@ -17,7 +17,7 @@ SOURCES = \
 	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 SOURCES_WITH_MAIN = \
-	my_main.c \
+	main.c \
 	./secondary_functions/Bit_operations/*.c \
 	./secondary_functions/convert_dec/*.c \
 	./secondary_functions/dec_to_back_string/*.c \
@@ -41,29 +41,31 @@ var = $(shell pkg-config --cflags --libs check)
 
 all: clean s21_decimal.a test check
 
-s21_decimal.a:
-	@gcc $(FLAGS) $(SOURCES) $(GCOVFLAGSLIN) -c
+s21_decimal.a: clean
+	@gcc $(FLAGS) $(var) $(SOURCES) -c
 	@ar rc s21_decimal.a $(OBJECTS)
 	@ranlib s21_decimal.a
 	@mkdir o_files
 	@mv *.o o_files
+	@# @mv *.gcda o_files
+	@# @mv *.gcno o_files
 	
 s21_dec: clean
-	@gcc $(GCOVFLAGSLIN) $(SOURCES_WITH_MAIN) -g -o s21_dec
+	@gcc $(SOURCES_WITH_MAIN) $(var) -g -o s21_dec
 	./s21_dec
 	
 
-test: s21_decimal.a
-	@gcc $(GCOVFLAGSLIN) -g -c tests/test.c
-	@gcc $(GCOVFLAGSLIN) test.o s21_decimal.a -o ./test
+test: clean s21_decimal.a
+	@gcc  -g -c $(var) tests/test.c
+	@gcc  test.o $(var) s21_decimal.a -o ./test
 	./test
 
 test2: clean s21_decimal.a
-	@gcc $(GCOVFLAGSLIN) s21_test.c s21_decimal.a -o ./test2
+	@gcc  s21_test.c $(var) s21_decimal.a -o ./test2
 	./test2
 
 test3: clean s21_decimal.a
-	@gcc $(GCOVFLAGSLIN) -g -c tests/test3.c
+	@gcc $(GCOVFLAGSLIN) $(var) -g -c tests/test3.c
 	@gcc $(GCOVFLAGSLIN) test3.o s21_decimal.a -o ./test3
 	./test3
 

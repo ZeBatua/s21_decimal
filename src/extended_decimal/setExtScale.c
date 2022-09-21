@@ -1,7 +1,10 @@
 #include "../s21_decimal.h"
 
-void setExtScale(int scale, s21_extended_decimal *value) {
-    if (scale >= 0 && scale <= 28) {
+int setExtScale(int scale, s21_extended_decimal *value) {
+    int error = 0;
+    if (scale == -1) {
+        error = 1;
+    } else {
         for (int i = 16; i <= 23; i++) {
             int mask = pow(2, i - 16);
             if (scale & mask) {
@@ -10,7 +13,6 @@ void setExtScale(int scale, s21_extended_decimal *value) {
                 setBit(0, &value->extBits[9], i);
             }
         }
-    } else {
-        // printf("trying input invalid scale: %d\n", scale);
     }
+    return error;
 }

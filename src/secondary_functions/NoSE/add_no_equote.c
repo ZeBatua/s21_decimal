@@ -1,6 +1,6 @@
 #include "../../s21_decimal.h"
 
-int add_no_equote(s21_extended_decimal ext_value_1, s21_extended_decimal ext_value_2, s21_extended_decimal *ext_result) {
+int add_no_equote(s21_extended_decimal ext_value_1, s21_extended_decimal ext_value_2, s21_extended_decimal *ext_result) { // бесполезный ерор
     int error = 0;
     init_extended_decimal(ext_result);
     int first_extdec_bit = 0, second_extdec_bit = 0;
@@ -39,24 +39,24 @@ int add_no_equote(s21_extended_decimal ext_value_1, s21_extended_decimal ext_val
     } else if (is_equal_no_sign(ext_value_1, ext_value_2)) { // иф для а - а = 0 // перепроверит equal // на это вообще мб забить
         init_extended_decimal(ext_result); // если 10 + (-10) то что со скейлом и знаком?
     } else {
-        printf("aboba\n");
+        // printf("aboba\n");
         if (is_less_no_sign(ext_value_1, ext_value_2) && getExtSign(ext_value_2)) {
-            printf("aboba1\n");
+            // printf("aboba1\n");
             setExtSign(&ext_value_2, 0);
             sub_no_equote(ext_value_2, ext_value_1, ext_result);
             setExtSign(ext_result, 1);
         } else if (is_less_no_sign(ext_value_1, ext_value_2) && !getExtSign(ext_value_2)) {
-            printf("aboba2\n");
+            // printf("aboba2\n");
             setExtSign(&ext_value_1, 0);
             sub_no_equote(ext_value_2, ext_value_1, ext_result);
             setExtSign(ext_result, 0);      
         } else if (!is_less_no_sign(ext_value_1, ext_value_2) && getExtSign(ext_value_1)) {
-            printf("aboba3\n");
+            // printf("aboba3\n");
             setExtSign(&ext_value_1, 0);
             sub_no_equote(ext_value_1, ext_value_2, ext_result);
             setExtSign(ext_result, 1);
         } else if (!is_less_no_sign(ext_value_1, ext_value_2) && !getExtSign(ext_value_1)) {
-            printf("aboba4\n");
+            // printf("aboba4\n");
             setExtSign(&ext_value_2, 0);
             sub_no_equote(ext_value_1, ext_value_2, ext_result);
             setExtSign(ext_result, 0);            

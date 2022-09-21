@@ -1,15 +1,8 @@
 #include "../../s21_decimal.h"
 
 int division_by_ten(s21_extended_decimal *decimal) {
-
-    printf("-----------start----------\n");
-    smart_print_exdec(*decimal);
-
-
     s21_extended_decimal dec_for_get_remainder;
     equate_extdec(*decimal, &dec_for_get_remainder);
-
-
 
     int save_scale = getExtScale(*decimal);
     int save_sign = getExtSign(*decimal);
@@ -50,6 +43,14 @@ int division_by_ten(s21_extended_decimal *decimal) {
     shift_right(&qwe, 64);
     add_no_equote(buf_qwe, qwe, &qwe);
 
+    equate_extdec(qwe, &buf_qwe);
+    shift_right(&qwe, 128);
+    add_no_equote(buf_qwe, qwe, &qwe);
+
+    equate_extdec(qwe, &buf_qwe);
+    shift_right(&qwe, 256);
+    add_no_equote(buf_qwe, qwe, &qwe);
+
     //-----5-----//
     shift_right(&qwe, 3);
 
@@ -72,6 +73,7 @@ int division_by_ten(s21_extended_decimal *decimal) {
         res.extBits[8] > 0) {
         init_extended_decimal(&res);
         res.extBits[0] = 1;
+        setExtSign(&res, getExtSign(qwe));
         add_no_equote(res, qwe, &qwe);
         equate_extdec(qwe, decimal);
     } else {
@@ -83,29 +85,20 @@ int division_by_ten(s21_extended_decimal *decimal) {
         setExtScale(getExtScale(*decimal) - 1, decimal);
     }
 
+
+    //------------------------------------get_remainder-------------------------------------------//
+
     s21_extended_decimal remainder, x10_decimal;
     init_extended_decimal(&remainder);
     init_extended_decimal(&x10_decimal);
     equate_extdec(*decimal, &x10_decimal);
+
     multiply_extdec_by_ten(&x10_decimal);
 
-    printf("-----------A----------\n");
-    smart_print_exdec(*decimal); //после деления на 10
-     printf("\n");
-    smart_print_exdec(dec_for_get_remainder); // стартовый децимал
-    printf("\n");
-    smart_print_exdec(x10_decimal); // 120 (после умножения на 10)
-    printf("-----------A----------\n");
-    printf("см 2 бит!!!!!!ТШЩАРУАШЙЦЩШАЙАУЩШАРЙ\n");
     sub_no_equote(dec_for_get_remainder, x10_decimal, &remainder); // result это число от 0 до 9
 
-    printf("AAAAAA\n");
-    smart_print_exdec(remainder);
-
-    printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d\n", remainder.extBits[3]);
-    
     int int_remainder = 0;
-    int_remainder = remainder.extBits[3];
+    int_remainder = remainder.extBits[0];
 
     return int_remainder;
  

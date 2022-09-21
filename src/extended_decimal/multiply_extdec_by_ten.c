@@ -9,14 +9,11 @@ void multiply_extdec_by_ten(s21_extended_decimal *E_decimal) {
     int save_scale = getExtScale(*E_decimal);
     int save_sign = getExtSign(*E_decimal);
     int dec_bit = 0;
-
     shift_left(&x2_dec, 1);
     shift_left(&x8_dec, 3);
-
     s21_extended_decimal result;
     init_extended_decimal(&result);
-    alt_add(x2_dec, x8_dec, &result); // тут мб именно альт нужен но это не точно
-    // s21_add(x2_dec, x8_dec, &result);
+    add_no_equote(x2_dec, x8_dec, &result); // тут мб именно альт нужен но это не точно
     equate_extdec(result, E_decimal);
     setExtScale(save_scale, E_decimal);
     setExtSign(E_decimal, save_sign);

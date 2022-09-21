@@ -12,7 +12,7 @@ int ext_is_less(s21_extended_decimal value_1, s21_extended_decimal value_2) {
         result = 0;
     } else {
         equate_ext_scale(&value_1, &value_2);
-        for (int i = 95; i >= 0; i--) {
+        for (int i = 287; i >= 0; i--) {
             bit_v1 = get_extdec_bit(value_1, i);
             bit_v2 = get_extdec_bit(value_2, i);
             if (bit_v1 > bit_v2) {

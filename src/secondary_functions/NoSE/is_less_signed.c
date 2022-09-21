@@ -1,11 +1,6 @@
 #include "../../s21_decimal.h"
 
-int s21_is_less(s21_decimal value_1, s21_decimal value_2) {
-    s21_extended_decimal ext_value_1, ext_value_2;
-    init_extended_decimal(&ext_value_1);
-    init_extended_decimal(&ext_value_2);
-    equate_dec_to_extdec(value_1, &ext_value_1);
-    equate_dec_to_extdec(value_2, &ext_value_2);
+int is_less_signed(s21_extended_decimal ext_value_1, s21_extended_decimal ext_value_2) {
     int result = 3;
     int first_sign = getExtSign(ext_value_1);
     int second_sign = getExtSign(ext_value_2);
@@ -42,3 +37,4 @@ int s21_is_less(s21_decimal value_1, s21_decimal value_2) {
 
 // 0 - FALSE
 // 1 - TRUE
+
