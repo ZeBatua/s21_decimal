@@ -24,6 +24,12 @@
 #define TRUE 1
 #define FALSE 0
 
+#define ASSERT_DECIMAL_EQ                                                  \
+  for (size_t i = 0; i < 4; i++) {                                         \
+    ck_assert_msg(result.bits[i] == expected.bits[i], "[%zu] %u != %u", i, \
+                  result.bits[i], expected.bits[i]);                       \
+  }
+
 #define S21_MAX_UINT 4294967295
 #define is_fin(x) __builtin_isfinite(x)
 #define is_nan(x) __builtin_isnan(x)
@@ -3404,6 +3410,186 @@ END_TEST
 
 // div
 
+// 1 / 3 (0-0)
+START_TEST(s21_div_box_1_3_0_0) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(0, &a);
+  setScale(0, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{89478485, 347537611, 180700362, 1835008}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3(0 - 1)
+START_TEST(s21_div_box_1_3_0_1) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(0, &a);
+  setScale(1, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{894784853, 3475376110, 1807003620, 1835008}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (1-0)
+START_TEST(s21_div_box_1_3_1_0) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(1, &a);
+  setScale(0, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{1297438037, 893747220, 18070036, 1835008}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (1-1)
+START_TEST(s21_div_box_1_3_1_1) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(1, &a);
+  setScale(1, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{89478485, 347537611, 180700362, 1835008}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (10-10)
+START_TEST(s21_div_box_1_3_10_10) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(10, &a);
+  setScale(10, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{89478485, 347537611, 180700362, 1835008}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (28-28)
+START_TEST(s21_div_box_1_3_28_28) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(28, &a);
+  setScale(28, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{89478485, 347537611, 180700362, 1835008}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (28-0)
+START_TEST(s21_div_box_1_3_28_0) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(28, &a);
+  setScale(0, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{0, 0, 0, 0}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (0-28)
+START_TEST(s21_div_box_1_3_0_28) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(0, &a);
+  setScale(28, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{894784853, 3475376110, 1807003620, 65536}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (5-15)
+START_TEST(s21_div_box_1_3_5_15) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(5, &a);
+  setScale(15, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{894784853, 3475376110, 1807003620, 1245184}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (15-5)
+START_TEST(s21_div_box_1_3_15_5) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(15, &a);
+  setScale(5, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{2367771989, 77610214, 0, 1835008}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (5-0)
+START_TEST(s21_div_box_1_3_5_0) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(5, &a);
+  setScale(0, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{4241839445, 15551256, 1807, 1835008}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
+// 1 / 3 (0-5)
+START_TEST(s21_div_box_1_3_0_5) {
+  s21_decimal a = {{1, 0, 0, 0}};
+  s21_decimal b = {{3, 0, 0, 0}};
+  setScale(0, &a);
+  setScale(5, &b);
+  s21_decimal result = {0};
+  int ex_code = s21_div(a, b, &result);
+  s21_decimal expected = {{894784853, 3475376110, 1807003620, 1572864}};
+
+  ASSERT_DECIMAL_EQ
+  ck_assert_int_eq(0, ex_code);
+}
+END_TEST
+
 START_TEST(div_test_1) {
   int num1 = 100;
   int num2 = 50;
@@ -6245,102 +6431,102 @@ END_TEST
 
 // mod
 
-// START_TEST(mod_test_1) {
-//   int num1 = 3;
-//   int num2 = 2;
-//   int res_origin = num1 % num2;
-//   s21_decimal a = {0};
-//   s21_decimal b = {0};
-//   s21_from_int_to_decimal(num1, &a);
-//   s21_from_int_to_decimal(num2, &b);
-//   s21_decimal res_dec = {0};
-//   int res_int = 0;
-//   s21_mod(a, b, &res_dec);
-//   s21_from_decimal_to_int(res_dec, &res_int);
-//   ck_assert_int_eq(res_int, res_origin);
-// }
-// END_TEST
+START_TEST(mod_test_1) {
+  int num1 = 3;
+  int num2 = 2;
+  int res_origin = num1 % num2;
+  s21_decimal a = {0};
+  s21_decimal b = {0};
+  s21_from_int_to_decimal(num1, &a);
+  s21_from_int_to_decimal(num2, &b);
+  s21_decimal res_dec = {0};
+  int res_int = 0;
+  s21_mod(a, b, &res_dec);
+  s21_from_decimal_to_int(res_dec, &res_int);
+  ck_assert_int_eq(res_int, res_origin);
+}
+END_TEST
 
-// START_TEST(mod_test_2) {
-//   int num1 = -98765;
-//   int num2 = 1234;
-//   int res_origin = num1 % num2;
-//   s21_decimal a = {0};
-//   s21_decimal b = {0};
-//   s21_from_int_to_decimal(num1, &a);
-//   s21_from_int_to_decimal(num2, &b);
-//   s21_decimal res_dec = {0};
-//   int res_int = 0;
-//   s21_mod(a, b, &res_dec);
-//   s21_from_decimal_to_int(res_dec, &res_int);
-//   ck_assert_int_eq(res_int, res_origin);
-// }
-// END_TEST
+START_TEST(mod_test_2) {
+  int num1 = -98765;
+  int num2 = 1234;
+  int res_origin = num1 % num2;
+  s21_decimal a = {0};
+  s21_decimal b = {0};
+  s21_from_int_to_decimal(num1, &a);
+  s21_from_int_to_decimal(num2, &b);
+  s21_decimal res_dec = {0};
+  int res_int = 0;
+  s21_mod(a, b, &res_dec);
+  s21_from_decimal_to_int(res_dec, &res_int);
+  ck_assert_int_eq(res_int, res_origin);
+}
+END_TEST
 
-// START_TEST(mod_test_3) {
-//   int num1 = 30198;
-//   int num2 = 20210;
-//   int res_origin = num1 % num2;
-//   s21_decimal a = {0};
-//   s21_decimal b = {0};
-//   s21_from_int_to_decimal(num1, &a);
-//   s21_from_int_to_decimal(num2, &b);
-//   s21_decimal res_dec = {0};
-//   int res_int = 0;
-//   s21_mod(a, b, &res_dec);
-//   s21_from_decimal_to_int(res_dec, &res_int);
-//   ck_assert_int_eq(res_int, res_origin);
-// }
-// END_TEST
+START_TEST(mod_test_3) {
+  int num1 = 30198;
+  int num2 = 20210;
+  int res_origin = num1 % num2;
+  s21_decimal a = {0};
+  s21_decimal b = {0};
+  s21_from_int_to_decimal(num1, &a);
+  s21_from_int_to_decimal(num2, &b);
+  s21_decimal res_dec = {0};
+  int res_int = 0;
+  s21_mod(a, b, &res_dec);
+  s21_from_decimal_to_int(res_dec, &res_int);
+  ck_assert_int_eq(res_int, res_origin);
+}
+END_TEST
 
-// START_TEST(mod_test_4) {
-//   int num1 = -98765;
-//   int num2 = -1234;
-//   int res_origin = num1 % num2;
-//   // printf("%f", fmod(-98765, -1234));
-//   s21_decimal a = {0};
-//   s21_decimal b = {0};
-//   s21_from_int_to_decimal(num1, &a);
-//   s21_from_int_to_decimal(num2, &b);
-//   s21_decimal res_dec = {0};
-//   int res_int = 0;
-//   s21_mod(a, b, &res_dec);
-//   s21_from_decimal_to_int(res_dec, &res_int);
-//   ck_assert_int_eq(res_int, res_origin);
-// }
-// END_TEST
+START_TEST(mod_test_4) {
+  int num1 = -98765;
+  int num2 = -1234;
+  int res_origin = num1 % num2;
+  // printf("%f", fmod(-98765, -1234));
+  s21_decimal a = {0};
+  s21_decimal b = {0};
+  s21_from_int_to_decimal(num1, &a);
+  s21_from_int_to_decimal(num2, &b);
+  s21_decimal res_dec = {0};
+  int res_int = 0;
+  s21_mod(a, b, &res_dec);
+  s21_from_decimal_to_int(res_dec, &res_int);
+  ck_assert_int_eq(res_int, res_origin);
+}
+END_TEST
 
-// START_TEST(mod_test_5) {
-//   int num1 = 98765;
-//   int num2 = 127234;
-//   int res_origin = num1 % num2;
-//   s21_decimal a = {0};
-//   s21_decimal b = {0};
-//   s21_from_int_to_decimal(num1, &a);
-//   s21_from_int_to_decimal(num2, &b);
-//   s21_decimal res_dec = {0};
-//   int res_int = 0;
-//   s21_mod(a, b, &res_dec);
-//   s21_from_decimal_to_int(res_dec, &res_int);
-//   ck_assert_int_eq(res_int, res_origin);
-// }
-// END_TEST
+START_TEST(mod_test_5) {
+  int num1 = 98765;
+  int num2 = 127234;
+  int res_origin = num1 % num2;
+  s21_decimal a = {0};
+  s21_decimal b = {0};
+  s21_from_int_to_decimal(num1, &a);
+  s21_from_int_to_decimal(num2, &b);
+  s21_decimal res_dec = {0};
+  int res_int = 0;
+  s21_mod(a, b, &res_dec);
+  s21_from_decimal_to_int(res_dec, &res_int);
+  ck_assert_int_eq(res_int, res_origin);
+}
+END_TEST
 
-// START_TEST(mod_test_6) {
-//   int num1 = 342576;
-//   int num2 = 1542134;
-//   int res_origin = num1 % num2;
-//   s21_decimal a = {0};
-//   s21_decimal b = {0};
-//   s21_from_int_to_decimal(num1, &a);
-//   s21_from_int_to_decimal(num2, &b);
-//   s21_decimal res_dec = {0};
-//   int res_int = 0;
-//   s21_mod(a, b, &res_dec);
-//   s21_from_decimal_to_int(res_dec, &res_int);
-//   ck_assert_int_eq(res_int, res_origin);
-// }
-// END_TEST
+START_TEST(mod_test_6) {
+  int num1 = 342576;
+  int num2 = 1542134;
+  int res_origin = num1 % num2;
+  s21_decimal a = {0};
+  s21_decimal b = {0};
+  s21_from_int_to_decimal(num1, &a);
+  s21_from_int_to_decimal(num2, &b);
+  s21_decimal res_dec = {0};
+  int res_int = 0;
+  s21_mod(a, b, &res_dec);
+  s21_from_decimal_to_int(res_dec, &res_int);
+  ck_assert_int_eq(res_int, res_origin);
+}
+END_TEST
 
 // less
 
@@ -10103,6 +10289,21 @@ int main() {
 
   // div
 
+  tcase_add_test(tc, s21_div_box_1_3_0_0);
+  tcase_add_test(tc, s21_div_box_1_3_0_1);
+  tcase_add_test(tc, s21_div_box_1_3_1_0);
+  tcase_add_test(tc, s21_div_box_1_3_1_1);
+  tcase_add_test(tc, s21_div_box_1_3_10_10);
+  tcase_add_test(tc, s21_div_box_1_3_28_28);
+  tcase_add_test(tc, s21_div_box_1_3_28_0);
+  tcase_add_test(tc, s21_div_box_1_3_0_28);
+  tcase_add_test(tc, s21_div_box_1_3_5_15);
+  tcase_add_test(tc, s21_div_box_1_3_15_5);
+  tcase_add_test(tc, s21_div_box_1_3_5_0);
+  tcase_add_test(tc, s21_div_box_1_3_0_5);
+
+  tcase_set_timeout(tc,  30);
+
   tcase_add_test(tc, div_test_1);
   tcase_add_test(tc, div_test_2);
   tcase_add_test(tc, div_test_3);
@@ -10277,12 +10478,12 @@ int main() {
 
   // mod
 
-  // tcase_add_test(tc, mod_test_1);
-  // tcase_add_test(tc, mod_test_2);
-  // tcase_add_test(tc, mod_test_3);
-  // tcase_add_test(tc, mod_test_4);
-  // tcase_add_test(tc, mod_test_5);
-  // tcase_add_test(tc, mod_test_6);
+  tcase_add_test(tc, mod_test_1);
+  tcase_add_test(tc, mod_test_2);
+  tcase_add_test(tc, mod_test_3);
+  tcase_add_test(tc, mod_test_4);
+  tcase_add_test(tc, mod_test_5);
+  tcase_add_test(tc, mod_test_6);
 
   // less
 
