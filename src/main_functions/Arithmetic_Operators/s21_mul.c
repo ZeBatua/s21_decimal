@@ -13,8 +13,6 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
     int first_sign = getExtSign(ext_value_1);
     int second_sign = getExtSign(ext_value_2);
-    int final_sign = !!(first_sign + second_sign);
-    setExtSign(&ext_result, !!(first_sign + second_sign));
     s21_extended_decimal first_dec_mask;
     s21_extended_decimal second_dec_mask;
     init_extended_decimal(&first_dec_mask);
@@ -28,7 +26,11 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         equate_extdec(ext_result, &second_dec_mask);
     }
     setExtScale((getExtScale(ext_value_1) + getExtScale(ext_value_2)), &ext_result);
-    setExtSign(&ext_result, final_sign);
+    if (first_sign && second_sign) {
+        setExtSign(&ext_result, 0);
+    } else if (first_sign || second_sign) {
+        setExtSign(&ext_result, 1);
+    }
     error = equate_extdec_to_dec(ext_result, result);
 
     return error;

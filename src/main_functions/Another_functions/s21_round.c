@@ -32,16 +32,14 @@ int s21_round(s21_decimal value,
     equate_extdec_to_dec(ext_value, &value);
     equate_extdec_to_dec(ext_buf, &buf);
 
-    s21_sub(value, buf, &remainder);  // тут может быть ошибка поэтому возможно
-                                      // лучше создать ext_add
+    s21_sub(value, buf, &remainder);
 
     setScale(save_scale_2, &remainder);
     setSign(&remainder, 0);
     setScale(save_scale_2, &five);
     setSign(&five, 0);
 
-    if (s21_is_greater_or_equal(remainder,
-                                five)) {  // требует версии для extdec
+    if (s21_is_greater(remainder, five)) {  // требует версии для extdec
       division_by_ten(&ext_buf);
 
       int save_scale = getExtScale(ext_buf);
