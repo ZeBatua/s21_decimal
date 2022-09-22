@@ -82,6 +82,13 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
         decimal->bits[2] = E_decimal.extBits[2];
         decimal->bits[1] = E_decimal.extBits[1];
         decimal->bits[0] = E_decimal.extBits[0];
+
+        //----if_decimal_is_equal_zero----//
+        s21_decimal zero;
+        init_decimal(&zero);
+        if (decimal->bits[0] == 0 && decimal->bits[1] == 0 && decimal->bits[2] == 0) {
+            decimal->bits[3] = 0;
+        }
     }
 
     return error;

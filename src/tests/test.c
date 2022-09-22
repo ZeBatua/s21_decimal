@@ -1268,6 +1268,13 @@ START_TEST(test_add13) {
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
+<<<<<<< HEAD
+    // printf("\n\n");
+    // smart_print_binary_decimal(result1);
+    // printf("\n\n");
+    // smart_print_binary_decimal(my_result);
+=======
+>>>>>>> origin/provemen
     eq_add = s21_is_equal(result1, my_result);
     ck_assert_int_eq(eq_add, 1);
 
