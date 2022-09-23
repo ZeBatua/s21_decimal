@@ -34,18 +34,22 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
         one.extBits[9] = E_decimal.extBits[9];
 
         int ten_multiply = 1;
+        int plus_one = 0;
         while (E_decimal.extBits[3] != 0 || getExtScale(E_decimal) > 28) {
-            remainder = division_by_ten(&E_decimal);
-            full_remainder = full_remainder + remainder * ten_multiply;
-            ten_multiply *= 10;
+            plus_one = 0;
+            remainder = division_by_ten(&E_decimal) + plus_one;
+            if (remainder >= 5) plus_one = 1;
+
+
         }
 
         //----округление full_emainder----//
+        smart_print_exdec(E_decimal);
         
-        while (full_remainder >= 10) { ////////СУПЕРВАЖНОЗАТЕСТИТЬ
-            full_remainder /= 10.0;
-            full_remainder = round(full_remainder);
-        }
+        // while (full_remainder >= 10) { ////////СУПЕРВАЖНОЗАТЕСТИТЬ
+        //     full_remainder /= 10.0;
+        //     full_remainder = round(full_remainder);
+        // }
         //--------------------------------//
 
         //-------bank_round-------//
@@ -55,13 +59,13 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
         division_by_ten(&bank_E_decimal);
         multiply_extdec_by_ten(&bank_E_decimal);
         sub_no_equote(E_decimal, bank_E_decimal, &bank_E_decimal);
-        if (bank_E_decimal.extBits[0] % 2 == 1 && full_remainder >= 5) {
+        if (bank_E_decimal.extBits[0] % 2 == 1 && plus_one == 1) {
             add_no_equote(E_decimal, one, &E_decimal);
-        } else if (bank_E_decimal.extBits[0] % 2 == 1 && full_remainder < 5) {
+        } else if (bank_E_decimal.extBits[0] % 2 == 1 && plus_one == 1) {
             // nichigo
-        } else if (bank_E_decimal.extBits[0] % 2 == 0 && full_remainder > 5) {
+        } else if (bank_E_decimal.extBits[0] % 2 == 0 && plus_one == 1) {
             add_no_equote(E_decimal, one, &E_decimal);
-        } else if (bank_E_decimal.extBits[0] % 2 == 0 && full_remainder < 5) {
+        } else if (bank_E_decimal.extBits[0] % 2 == 0 && plus_one == 1) {
             // nichigo
         }
         //------end_bank_round-----//

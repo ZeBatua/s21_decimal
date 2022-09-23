@@ -45,21 +45,25 @@ SOURCES_WITH_MAIN = \
 all: clean s21_decimal.a test gcov_report 
 
 s21_decimal.a:
-	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) -c 
-	ar rcs s21_decimal.a $(OBJECTS)
-	ranlib s21_decimal.a
+	@$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) -c 
+	@ar rcs s21_decimal.a $(OBJECTS)
+	@ranlib s21_decimal.a
 #	mkdir o_files
 #	mv *.o o_files
 
 s21_test.o: s21_test.c
-	$(CC) $(ASAN) $(CFLAGS) $(var) -c s21_test.c
+	@$(CC) $(ASAN) $(CFLAGS) $(var) -c s21_test.c
 
-test: s21_decimal.a s21_test.o
-	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
+test: clean s21_decimal.a s21_test.o
+	@$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
 	./test
 
-gcov_report: s21_decimal.a 
-	$(CC) $(var) $(SOURCES) $(ASAN) $(GFLAGS) $(CCOV) -g  s21_test.c s21_decimal.a -L s21_decimal.a -o ./s21_test.out
+test2: clean s21_decimal.a s21_test.o
+	@$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  dec_test.c s21_decimal.a -o test2 $(TFLAGS)
+	./test2
+
+gcov_report: clean s21_decimal.a 
+	@$(CC) $(var) $(SOURCES) $(ASAN) $(GFLAGS) $(CCOV) -g  s21_test.c s21_decimal.a -L s21_decimal.a -o ./s21_test.out
 	./s21_test.out 
 	gcovr -b 
 	gcovr 
@@ -68,7 +72,7 @@ gcov_report: s21_decimal.a
 #	lcov -t "s21_test" -o test.info -c -d	genhtml -o report test.info
 
 s21_dec: clean
-	$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN) $(var) $(TFLAGS) -g -o s21_dec
+	@$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN) $(var) $(TFLAGS) -g -o s21_dec
 	./s21_dec
 
 check:
@@ -78,8 +82,8 @@ check:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=RESULT_VALGRIND.txt ./test	
 
 clean: 
-	rm -rf *.o *.out *.gc
-	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda 
+	@rm -rf *.o *.out *.gc
+	@rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda 
 
 rebuild:
 	make clean

@@ -39,7 +39,7 @@ int s21_round(s21_decimal value,
     setScale(save_scale_2, &five);
     setSign(&five, 0);
 
-    if (s21_is_greater(remainder, five)) {  // требует версии для extdec
+    if (s21_is_greater_or_equal(remainder, five)) {  // требует версии для extdec
       division_by_ten(&ext_buf);
 
       int save_scale = getExtScale(ext_buf);

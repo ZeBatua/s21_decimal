@@ -20,9 +20,11 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
 
     equate_dec_to_extdec(value_1, &ext_value_1);
     equate_dec_to_extdec(value_2, &ext_value_2);
-    equate_dec_to_extdec(value_1, &buf_value_1);
+    equate_extdec(ext_value_1, &buf_value_1);
     equate_dec_to_extdec(*result, &ext_result);
     compare_scale_for_div(&ext_value_1, &ext_value_2);
+    //!!!!!/// equate_dec_to_extdec(value_1, &buf_value_1); secomd time 
+    equate_extdec(ext_value_1, &buf_value_1);
     printf("f sclae = %d\n", getExtScale(ext_value_1));
     printf("s sclae = %d\n", getExtScale(ext_value_2));
     // 899,19485838
@@ -36,18 +38,26 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
     s_width = get_width(ext_value_2);
     difference_width = f_width - s_width;
     int next_digit_counter = difference_width;
+    int plus_scale = 0;
     
     int divinded_length = get_width(ext_value_1);
     int dividend_scale = getExtScale(ext_value_1);
     int ti_menia_besish = getScale(value_1);
 
     int decrease_divinded_length = 0;
-    int plus_scale = 0;
     int bug_stop = 0;
 
     if (is_equal_no_sign(ext_value_2, zero)) {
         error = 3;
+    } else if (is_equal_no_sign(ext_value_1, zero)) {
+        init_decimal(result);
     } else if (is_equal_no_sign(ext_value_2, one)) {
+        while(getExtScale(ext_value_2) > 0) {
+            multiply_extdec_by_ten(&ext_value_1);
+            setExtScale(getExtScale(ext_value_1) - 1, &ext_value_1);
+            setExtScale(getExtScale(ext_value_2) - 1, &ext_value_2);
+        }
+        difference_width = get_width(ext_value_1) - get_width(ext_value_2);
         equate_extdec(ext_value_1, &subtraction_times);
         setExtScale(getExtScale(ext_value_1) - 1, &ext_value_1);
     } else {
@@ -56,30 +66,26 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 multiply_extdec_by_ten(&ext_value_2);
                 setExtScale(getExtScale(ext_value_2) - 1, &ext_value_2);
                 setExtScale(getExtScale(ext_value_1) - 1, &ext_value_1);
-
-                printf("1\n");
+                // plus_scale++;
             }
+            setExtScale(getExtScale(ext_value_1) - 1, &ext_value_1);
+            difference_width = get_width(ext_value_1) - get_width(ext_value_2);
+            
         }
-        int plus_scale = 0;
+        
         scale_in_dividend = getExtScale(ext_value_1);
-        plus_scale = get_needed_value_from_devinded(&ext_value_1, ext_value_2,  difference_width);
-        dividend_scale = getExtScale(ext_value_1);//39614081257132168796771975168
+        plus_scale += get_needed_value_from_devinded(&ext_value_1, ext_value_2,  difference_width);
+        dividend_scale = getExtScale(ext_value_1);
         f_width =  get_width(ext_value_1);
         setExtScale(0, &ext_value_2);
-        divinded_length = divinded_length - f_width;// ne trogat
+        divinded_length = divinded_length - f_width;
 
-        while (bug_stop < 100) { // 40862548488990303206999699535 // res = 45402831654433670229999666150
-                                                                        // 4540283165443367022999966615
-            printf("1\n");
-            subtraction_for_div(&ext_value_1, ext_value_2, &subtraction_times); // try to substract
-            divinded_length -= 1;
-            // if (decrease_divinded_length == 0) next_digit_counter -= 1;
-
+        while (bug_stop < 100) { // 9223372036854775808
+            subtraction_for_div(&ext_value_1, ext_value_2, &subtraction_times);
             if (divinded_length > 0) {
                 multiply_extdec_by_ten(&ext_value_1);
                 setExtScale(getExtScale(ext_value_1) - 1, &ext_value_1);
-                set_next_digit(&ext_value_1, buf_value_1, divinded_length); //  next_digit_counter -> divinded_length 
-                // next_digit_counter--;
+                set_next_digit(&ext_value_1, buf_value_1, divinded_length); 
             } else if (divinded_length <= 0 && !is_equal_no_sign(ext_value_1, zero)) {
                 multiply_extdec_by_ten(&ext_value_1);
                 setExtScale(getExtScale(ext_value_1) - 1, &ext_value_1);
@@ -90,7 +96,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 multiply_extdec_by_ten(&subtraction_times);
                 setExtScale(getExtScale(subtraction_times) - 1, &subtraction_times);
                 divinded_length -= 1;
-                set_next_digit(&ext_value_1, buf_value_1, divinded_length); //  next_digit_counter -> divinded_length
+                set_next_digit(&ext_value_1, buf_value_1, divinded_length);
             }
             if (is_less_no_sign(ext_value_1, ext_value_2) && is_equal_no_sign(ext_value_1, zero) && divinded_length > 0) {
                 multiply_extdec_by_ten(&ext_value_1);
@@ -98,33 +104,53 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) { // 
                 multiply_extdec_by_ten(&subtraction_times);
                 setExtScale(getExtScale(subtraction_times) - 1, &subtraction_times);
                 divinded_length -= 1;
-                set_next_digit(&ext_value_1, buf_value_1, divinded_length); //  next_digit_counter -> divinded_length
+                set_next_digit(&ext_value_1, buf_value_1, divinded_length);
             }
             //--- scale from dividend (34,5645 / 2) ---//
             if (scale_length2 > 1) setExtScale(scale_length2, &subtraction_times), scale_length2++;
-            if (divinded_length + 1 == scale_in_dividend && s21_is_not_equal(value_1, value_2)) setExtScale(scale_length2, &subtraction_times), scale_length2++;
+            if (divinded_length + 1 == scale_in_dividend && s21_is_not_equal(value_1, value_2) && plus_scale == 0) setExtScale(scale_length2, &subtraction_times), scale_length2++;
 
             //--- scale from divivdend remainder  (42 / 490) ---//
             if (divinded_length == 0 && is_equal_no_sign(ext_value_1, zero)) break;
-            if (divinded_length < 0 && scale_length2 == 0) scale_length++, setExtScale(scale_length, &subtraction_times);
+            if (divinded_length < 0 && scale_length2 == 1) scale_length++, setExtScale(scale_length, &subtraction_times);
             if (divinded_length < 0 && is_equal_no_sign(ext_value_1, zero)) break;
             if (scale_length == 33 || scale_length2 == 33) break;
+            // if (scale_length == 28 + plus_scale || scale_length2 == 28 + plus_scale)  break;
             if (bug_stop == 28 && is_less_no_sign(ext_value_1, zero)) {
                 error = 2;
                 break;
             }
+            divinded_length -= 1;
             bug_stop++;
 
             // printf("main_while\n");
         }
     }
-    setExtScale(getExtScale(subtraction_times) + plus_scale, &subtraction_times);
-    // printf("bug_stop = %d\n", bug_stop);
-    if (subtraction_times.extBits[8] != 0) error = 2;
+    printf("SCALE = %d\n", getExtScale(subtraction_times));
+    printf("plus = %d\n", plus_scale);
+
+
+    // setExtScale(getExtScale(subtraction_times) + plus_scale, &subtraction_times);
+    // printf("SCALE = %d\n", getExtScale(subtraction_times));
+    // if (subtraction_times.extBits[8] != 0) error = 2;
+    printf("-----------------------------------------------------------------------------------------------------------------------------------\n");
+    smart_print_exdec(subtraction_times);
+    printf("-----------------------------------------------------------------------------------------------------------------------------------\n");
     if (error == 0) {
         error = equate_extdec_to_dec(subtraction_times, result);
-        printf("123123131231231312312421421412,DFOMRFPWENF\n");
+        printf("-----------------------------------------------------------------------------------------------------------------------------------\n");
+        smart_print_binary_decimal(*result);
+        printf("-----------------------------------------------------------------------------------------------------------------------------------\n");
+        smart_print_binary_decimal(*result);
+        equate_dec_to_extdec(*result, &subtraction_times);
+        while(plus_scale - 1 > 0) {
+            division_by_ten(&subtraction_times);
+            setExtScale(getExtScale(subtraction_times) + 1, &subtraction_times);
+            plus_scale--;
+        }
+        if (error == 0) error = equate_extdec_to_dec(subtraction_times, result);
     }
+    
     if (f_sign || s_sign) {
         setSign(result, 1);
     } else if (f_sign && s_sign) {
@@ -168,46 +194,65 @@ int get_width(s21_extended_decimal decimal) {
     return width;
 }
 
-int get_needed_value_from_devinded(s21_extended_decimal *divinded, s21_extended_decimal divider, int width) { // не робит если 1< 2
+int get_needed_value_from_devinded(s21_extended_decimal *divinded, s21_extended_decimal divider, int diff_width) { // не робит если 1< 2
     // printf("START_get_needed_value_from_devinded\n");
     s21_extended_decimal buf;
     equate_extdec(*divinded, &buf);
-    // while (width > 0) {
-    //     division_by_ten(divinded);
-    //     printf("5\n");
-    //     width--;
-    // }
+    int buf_diff_width = diff_width;
+
     int mul10 = 0;
-    if (width < 0) {
+    if (diff_width < 0) {
         while (is_less_no_sign(*divinded, divider)) {
             multiply_extdec_by_ten(divinded);
             setExtScale(getExtScale(*divinded) - 1, divinded);
             mul10++;
         }
-    } else {
-        int check = 0;
-        if (!is_less_no_sign(*divinded, divider) && !is_equal_no_sign(*divinded, divider)) {
-            equate_extdec(buf, divinded);
-            while (width - 1 > 0) {
-                division_by_ten(divinded);
-                printf("8\n");
-                width--;
-            }
-            check = 1;
+    } else if (diff_width > 0) {
+        while (diff_width > 0) {
+            division_by_ten(divinded);
+            diff_width--;
         }
-        if (is_equal_no_sign(divider, *divinded)) {
-        } else if ((width + 1 == get_width(*divinded) && width + 1 == get_width(divider)) && !is_less_no_sign(divider, *divinded)) {
+        int check_too_few_value = 0;
+        if (is_less_no_sign(*divinded, divider)) check_too_few_value = 1;
+        if (check_too_few_value) {
+            equate_extdec(buf, divinded);
+            diff_width = buf_diff_width;
+            while (diff_width - 1 > 0) {
+                division_by_ten(divinded);
+                diff_width--;
+            }
+        }
+    } else {
+        if (is_less_no_sign(*divinded, divider)) {
             multiply_extdec_by_ten(divinded);
             setExtScale(getExtScale(*divinded) - 1, divinded);
-
-        } else {
-            while (width > 0 && check != 1) {
-                division_by_ten(divinded);
-                printf("5\n");
-                width--;
-            }
+            mul10++;
         }
     }
+
+    //     int check = 0;
+    //     if (!is_less_no_sign(*divinded, divider) && !is_equal_no_sign(*divinded, divider)) {
+    //         equate_extdec(buf, divinded);
+    //         while (width - 1 > 0) {
+    //             division_by_ten(divinded);
+    //             printf("8\n");
+    //             width--;
+    //         }
+    //         check = 1;
+    //     }
+    //     if (is_equal_no_sign(divider, *divinded)) {
+    //     } else if ((width + 1 == get_width(*divinded) && width + 1 == get_width(divider)) && !is_less_no_sign(divider, *divinded)) {
+    //         multiply_extdec_by_ten(divinded);
+    //         setExtScale(getExtScale(*divinded) - 1, divinded);
+
+    //     } else {
+    //         while (width > 0 && check != 1) {
+    //             division_by_ten(divinded);
+    //             printf("5\n");
+    //             width--;
+    //         }
+    //     }
+    // }
     return mul10;
 }
 
@@ -224,7 +269,7 @@ int subtraction_for_div(s21_extended_decimal *minuend, s21_extended_decimal subt
         printf("10\n");
         sub_no_equote(*minuend, subtrahend, minuend);
         add_no_equote(*result, one, result);
-        smart_print_exdec(*minuend);
+        // smart_print_exdec(*minuend);
         if (is_less_no_sign(*minuend, subtrahend) && !is_equal_no_sign(*minuend, zero)) {
             break;
         }
