@@ -23,8 +23,6 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     
     equate_ext_scale(&ext_value_1, &ext_value_2);
     // int dec1_sign = getExtSign(value_1), dec2_sign = getExtSign(value_2);
-    smart_print_exdec(ext_result);
-    
     // dec1_non_zero_extended_bit = get_first_non_zero_extBit(ext_value_1);
     // dec2_non_zero_extended_bit = get_first_non_zero_extBit(ext_value_2);
     
@@ -32,9 +30,15 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         // printf("%d - width dec1\n", width_dec1);
         // printf("%d - width dec2\n", width_dec2);
         if (is_less_no_sign(ext_value_1, ext_value_2) && is_equal_no_sign(tmp, ext_result)) { // если делимое меньше делителя - делимое является остатком
-            error = equate_extdec_to_dec(ext_value_1, result);
+            equate_extdec(ext_value_1, &tmp);
+            break;
         } else if (is_equal_no_sign(tmp, ext_result)) {
-            if (!is_less_no_sign(ext_value_1, ext_value_2) || is_equal_no_sign(ext_value_1, ext_value_2)) { // если делимое больше делителя при первом проходе
+            if (is_equal_no_sign(ext_value_1, ext_value_2)) {
+                init_decimal(result);
+                break;
+            }
+            if (!is_less_no_sign(ext_value_1, ext_value_2)) { // если делимое больше делителя при первом проходе
+                printf("start dec %d\nstart dec2 %d\n", get_first_non_zero_extBit(ext_value_1), get_first_non_zero_extBit(ext_value_2));
                 step_to_shift = get_first_non_zero_extBit(ext_value_1) - get_first_non_zero_extBit(ext_value_2);
                 // printf("step_to_shift %d\n", step_to_shift);
                 shift_left(&ext_value_2, step_to_shift);
@@ -60,7 +64,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         smart_print_exdec(tmp_val_2);
         // printf("%d - width dec1\n", width_dec1);
         // printf("%d - width dec2\n", width_dec2);
-        while (is_less_no_sign(tmp_val_2, tmp) || width_dec2 <= width_dec1) { // придумать условие
+        while (width_dec2 <= width_dec1) { // придумать условие
             width_dec2 = get_first_non_zero_extBit(ext_value_2);
             width_dec1 = get_first_non_zero_extBit(tmp_val_2);
             if (!is_less_no_sign(tmp, ext_value_2) || is_equal_no_sign(tmp, ext_value_2)) { // если делимое больше делителя при первом проходе
@@ -80,11 +84,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
                 step_to_shift = get_first_non_zero_extBit(ext_value_2) - get_first_non_zero_extBit(tmp);
                 shift_right(&ext_value_2, step_to_shift);
                 if (is_less_no_sign(tmp, ext_value_2)) shift_right(&ext_value_2, 1);
-                
-                init_extended_decimal(&ext_result);
-                subtraction_no_sign(tmp, ext_value_2, &ext_result); // структура забивается мусором, нужна функция для временного хранения(?)
-                init_extended_decimal(&tmp);
-                equate_extdec(ext_result, &tmp);
+                subtraction_no_sign(tmp, ext_value_2, &tmp); // структура забивается мусором, нужна функция для временного хранения(?)
                 printf("after sub delimoe/delitel step to shift rigth %d\n", step_to_shift);
                 printf("print ext_value_2 decimal\nprint tmp decimal\n");
                 smart_print_exdec(ext_value_2);
