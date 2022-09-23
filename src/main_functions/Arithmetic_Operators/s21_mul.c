@@ -11,49 +11,28 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     equate_dec_to_extdec(value_2, &ext_value_2);
     equate_dec_to_extdec(*result, &ext_result);
 
-
     int first_sign = getExtSign(ext_value_1);
     int second_sign = getExtSign(ext_value_2);
-    setExtSign(&ext_result, !!(first_sign + second_sign));
     s21_extended_decimal first_dec_mask;
     s21_extended_decimal second_dec_mask;
     init_extended_decimal(&first_dec_mask);
     init_extended_decimal(&second_dec_mask);
 
-    // printf("check decimals\n");
-    // smart_print_exdec(ext_value_1);
-    // printf("\n");
-    // smart_print_exdec(ext_value_2);
-
-    // if (round > round2) round = round2;
-    // round = 192 - round + 1;
-    // printf("round = %d\n", round);
-
     int shift_counter = 0;
-    // printf("-----------------------------------------------------------------------------------------------------------------------------------\n");
     for (int i = 0; i < 96; i++) {
         create_mask(ext_value_1, ext_value_2, &first_dec_mask, &second_dec_mask, &shift_counter, i);
-        // smart_print_exdec(first_dec_mask);
-        // printf("\n");
+
         add_no_equote(first_dec_mask, second_dec_mask, &ext_result);
         equate_extdec(ext_result, &second_dec_mask);
-        // printf("i = %d\n", i);
     }
-    // equate_extdec(first_dec_mask, &ext_result);
-    // printf("suda\n");
-    // printf("scale 1 = %d\n", getExtScale(ext_value_1));
-    // printf("scale 2 = %d\n", getExtScale(ext_value_2));
-
     setExtScale((getExtScale(ext_value_1) + getExtScale(ext_value_2)), &ext_result);
-    // printf("summ scale = %d\n", getExtScale(ext_result));
-    // smart_print_exdec(ext_result);
-
-    // while (getExtScale(ext_result) > 28) {
-    //     division_by_ten(&ext_result);
-    // }
-
+    if (first_sign && second_sign) {
+        setExtSign(&ext_result, 0);
+    } else if (first_sign || second_sign) {
+        setExtSign(&ext_result, 1);
+    }
     error = equate_extdec_to_dec(ext_result, result);
-    // equate_decimal(first_dec_mask, &ext_result);
+
     return error;
 }
 

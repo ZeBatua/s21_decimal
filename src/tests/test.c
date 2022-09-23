@@ -1268,6 +1268,13 @@ START_TEST(test_add13) {
     init_decimal(&result1);
 
     s21_add(dec1, dec2, &result1);
+<<<<<<< HEAD
+    // printf("\n\n");
+    // smart_print_binary_decimal(result1);
+    // printf("\n\n");
+    // smart_print_binary_decimal(my_result);
+=======
+>>>>>>> origin/provemen
     eq_add = s21_is_equal(result1, my_result);
     ck_assert_int_eq(eq_add, 1);
 
@@ -2109,10 +2116,10 @@ START_TEST(test_div6) {
     s21_decimal dec1;
     init_decimal(&dec1);
     dec1.bits[3] = 0;
-    dec1.bits[2] = 0b10000100000010001011010100111000;
+    dec1.bits[2] = 0b10000100000010001011010100111000; //100001000000100010110101001110000100000010111100100101110011010100011100010001011011000001001111
     dec1.bits[1] = 0b01000000101111001001011100110101;
     dec1.bits[0] = 0b00011100010001011011000001001111;
-
+// 40862548488990303206999699535
     s21_decimal dec2;
     init_decimal(&dec2);
     dec2.bits[3] = 0;
