@@ -27,7 +27,6 @@ int s21_round(s21_decimal value,
     multiply_extdec_by_ten(&ext_buf);  // scale +1
 
     int save_scale_2 = getExtScale(ext_buf);
-    int save_sign_2 = getExtSign(ext_buf);
 
     equate_extdec_to_dec(ext_value, &value);
     equate_extdec_to_dec(ext_buf, &buf);

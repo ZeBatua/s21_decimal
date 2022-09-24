@@ -10,7 +10,5 @@ void setScale(int scale, s21_decimal *value) {
                 setBit(0, &value->bits[3], i);
             }
         }
-    } else {
-        printf("trying input invalid scale: %d\n", scale);
-    }
+    } 
 }

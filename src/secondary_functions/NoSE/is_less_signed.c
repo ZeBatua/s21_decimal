@@ -32,9 +32,3 @@ int is_less_signed(s21_extended_decimal ext_value_1, s21_extended_decimal ext_va
     }
     return result;
 }
-// функция скажет что -10 > -5 тк знаки выполняется условия "знаки одинаковые"
-// и дальше мы сравниваем какое число больше по модулю, что неправильно
-
-// 0 - FALSE
-// 1 - TRUE
-

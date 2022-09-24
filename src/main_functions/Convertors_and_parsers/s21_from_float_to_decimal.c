@@ -16,34 +16,24 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
       while (fmod(D_src, 10.0) == 0 && scale > 0) {
         D_src /= 10;
         scale--;
-        // printf("KKK\n");
       }
       if (scale <= 28 && binary_exp + 1 > -95 && binary_exp + 1 <= 95) {
         src = D_src;
         unsigned int fbits = *((unsigned int *)&src);
         binary_exp = getBinaryExp(src);
-        // printf("\n\nbinary_exp = %d\n", binary_exp);
-        // printf("decimal bit[0] = %d\n", dst->bits[0]);
         set_decimal_bit(dst, binary_exp / 32, binary_exp % 32, !!binary_exp);
-        
-        // smart_print_binary_decimal(*dst);
-        // printf("decimal bit[0] = %d\n", dst->bits[0]);
-        // printf("fbits = %u\n", fbits);
         if (src != 1) {
           unsigned int Fmask = 0b00000000010000000000000000000000;
           unsigned int mask = 1;
           binary_exp -= 1;
-          // printf("scale = %d\n", binary_exp);
           while (binary_exp > -2) {
             mask = 1;
             set_decimal_bit(dst, binary_exp / 32, binary_exp % 32, !!(fbits & Fmask));
             mask >>= 1;
             Fmask >>= 1;
             binary_exp -= 1;
-            // printf("A1\n");
           }
         }
-        // printf("decimal bit[0] after set float = %d\n", dst->bits[0]);
       }
       setScale(scale, dst);
       setSign(dst, src_sign);

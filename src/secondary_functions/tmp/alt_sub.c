@@ -1,9 +1,8 @@
 #include "../../s21_decimal.h"
-// а что если я занимаю последнего бита??
+
 void alt_sub(s21_extended_decimal value_1, s21_extended_decimal value_2, s21_extended_decimal *result) {
     init_extended_decimal(result);
     int first_dec_bit = 0, second_dec_bit = 0;
-    int dec1_sign = getExtSign(value_1), dec2_sign = getExtSign(value_2);
     int taken_bit = 0;
     for (int i = 0; i < 288; i++) {
         first_dec_bit = get_extdec_bit(value_1, i);

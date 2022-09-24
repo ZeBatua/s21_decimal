@@ -1,9 +1,8 @@
 #include "../s21_decimal.h"
-// весь децимал сместить на место. утерянную невмещенную часть перевести в инт -> округлить -> решить прибавлять ли единицу к основной части
+
 int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
     int error = 0;
     init_decimal(decimal);
-    // smart_print_exdec(E_decimal);
 
     s21_extended_decimal check_E_decimal;
     init_extended_decimal(&check_E_decimal);
@@ -26,32 +25,20 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
     }
     if (error == 0) {
         float remainder = 0.0;
-        float full_remainder = 0.0;
         
         s21_extended_decimal one;
         init_extended_decimal(&one);
         one.extBits[0] = 1;
         one.extBits[9] = E_decimal.extBits[9];
 
-        int ten_multiply = 1;
         int plus_one = 0;
+        int five = 0;
         while (E_decimal.extBits[3] != 0 || getExtScale(E_decimal) > 28) {
-            plus_one = 0;
             remainder = division_by_ten(&E_decimal) + plus_one;
-            if (remainder >= 5) plus_one = 1;
-
-
+            plus_one = 0;
+            if (remainder > 5) plus_one = 1;
         }
-
-        //----округление full_emainder----//
-        smart_print_exdec(E_decimal);
-        
-        // while (full_remainder >= 10) { ////////СУПЕРВАЖНОЗАТЕСТИТЬ
-        //     full_remainder /= 10.0;
-        //     full_remainder = round(full_remainder);
-        // }
-        //--------------------------------//
-
+        if (remainder == 5) five = 1;
         //-------bank_round-------//
         s21_extended_decimal bank_E_decimal;
         init_extended_decimal(&bank_E_decimal);
@@ -59,15 +46,20 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
         division_by_ten(&bank_E_decimal);
         multiply_extdec_by_ten(&bank_E_decimal);
         sub_no_equote(E_decimal, bank_E_decimal, &bank_E_decimal);
-        if (bank_E_decimal.extBits[0] % 2 == 1 && plus_one == 1) {
-            add_no_equote(E_decimal, one, &E_decimal);
-        } else if (bank_E_decimal.extBits[0] % 2 == 1 && plus_one == 1) {
+        if (bank_E_decimal.extBits[0] % 2 == 1 && plus_one == 1) {                      // decimal НЕчетный, remainder > 5
+            add_no_equote(E_decimal, one, &E_decimal);                                 
+        } else if (bank_E_decimal.extBits[0] % 2 == 1 && plus_one == 0 && five == 0) {  // decimal НЕчетный, remainder < 5
             // nichigo
-        } else if (bank_E_decimal.extBits[0] % 2 == 0 && plus_one == 1) {
+        } else if (bank_E_decimal.extBits[0] % 2 == 1 && plus_one == 0 && five == 1) {  // decimal НЕчетный, remainder == 5
             add_no_equote(E_decimal, one, &E_decimal);
-        } else if (bank_E_decimal.extBits[0] % 2 == 0 && plus_one == 1) {
+        } else if (bank_E_decimal.extBits[0] % 2 == 0 && plus_one == 1 &&  five == 0) { // decimal четный, remainder > 5
+            add_no_equote(E_decimal, one, &E_decimal);
+        } else if (bank_E_decimal.extBits[0] % 2 == 0 && plus_one == 0 &&  five == 0) { // decimal четный, remainder < 5
+            // nichigo
+        } else if (bank_E_decimal.extBits[0] % 2 == 0 && plus_one == 0 && five == 1) {  // decimal четный, remainder == 5
             // nichigo
         }
+
         //------end_bank_round-----//
 
         if ((E_decimal.extBits[3] != 0 ||
@@ -94,6 +86,5 @@ int equate_extdec_to_dec(s21_extended_decimal E_decimal, s21_decimal *decimal) {
             decimal->bits[3] = 0;
         }
     }
-
     return error;
 }

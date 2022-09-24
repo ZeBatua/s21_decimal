@@ -9,6 +9,5 @@ int get_first_non_zero_extBit(s21_extended_decimal dec) {
         }
     }
     counter = 288 - counter;
-    printf("get_first_non_zero_extBit = %d\n", counter);
     return counter;
 }

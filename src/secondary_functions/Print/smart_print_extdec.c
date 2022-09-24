@@ -1,4 +1,4 @@
-#include "../s21_decimal.h"
+#include "../../s21_decimal.h"
 
 void smart_print_exdec(s21_extended_decimal dec) {
     int mass[320] = {0};

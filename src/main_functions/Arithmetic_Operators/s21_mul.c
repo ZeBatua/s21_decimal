@@ -20,7 +20,7 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
     int shift_counter = 0;
     for (int i = 0; i < 96; i++) {
-        create_mask(ext_value_1, ext_value_2, &first_dec_mask, &second_dec_mask, &shift_counter, i);
+        create_mask(ext_value_1, ext_value_2, &first_dec_mask, &shift_counter, i);
 
         add_no_equote(first_dec_mask, second_dec_mask, &ext_result);
         equate_extdec(ext_result, &second_dec_mask);
@@ -37,7 +37,7 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 void create_mask(s21_extended_decimal ext_value_1, s21_extended_decimal ext_value_2,
-                 s21_extended_decimal *first_dec_mask, s21_extended_decimal *second_dec_mask,
+                 s21_extended_decimal *first_dec_mask,
                  int *shift_counter, int bit) {
     int bit_value = get_extdec_bit(ext_value_2, bit);
     if (bit_value == 1) {

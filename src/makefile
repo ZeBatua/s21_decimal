@@ -1,4 +1,4 @@
-#CFLAGS = -Wall -Werror -Wextra -std=c11
+CFLAGS = -Wall -Werror -Wextra -std=c11
 CC = gcc
 CCOV = -fprofile-arcs -ftest-coverage
 GFLAGS = --coverage
@@ -52,7 +52,7 @@ s21_decimal.a:
 #	mv *.o o_files
 
 s21_test.o: s21_test.c
-	@$(CC) $(ASAN) $(CFLAGS) $(var) -c s21_test.c
+	@$(CC) $(ASAN) $(var) -c s21_test.c
 
 test: clean s21_decimal.a s21_test.o
 	@$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
@@ -83,12 +83,9 @@ check:
 
 clean: 
 	@rm -rf *.o *.out *.gc
-	@rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda 
+	@rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno test2 test3 *.o *.a
 
 rebuild:
 	make clean
 	make s21_decimal	
 	make test
-
-	
-

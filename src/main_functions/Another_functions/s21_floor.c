@@ -15,7 +15,6 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
       one.bits[0] = 1;
       setSign(&one, 1);
       s21_add(value, one, result);
-      smart_print_binary_decimal(*result);
     } else {
       equate_decimal(value, result);
     }

@@ -65,7 +65,7 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 void create_mask(s21_extended_decimal ext_value_1,
                  s21_extended_decimal ext_value_2,
                  s21_extended_decimal *first_dec_mask,
-                 s21_extended_decimal *second_dec_mask, int *shift_counter,
+                 int *shift_counter,
                  int bit);
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int is_equal_no_sign(s21_extended_decimal value_1,
