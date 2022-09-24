@@ -1,9 +1,9 @@
-CFLAGS = -Wall -Werror -Wextra -std=c11
+# CFLAGS = -Wall -Werror -Wextra -std=c11
 CC = gcc
 CCOV = -fprofile-arcs -ftest-coverage
 GFLAGS = --coverage
 LDFLAGS = -lgcov
-TFLAGS = -lcheck -lm -pthread -L -lrt 
+TFLAGS = -lcheck  -lm -pthread -L -lrt -ld --verbose
 UFLAG =-lsubunit
 OBJECTS = *.o
 #ASAN = -g -fsanitize=adress
@@ -44,23 +44,18 @@ SOURCES_WITH_MAIN = \
 
 all: clean s21_decimal.a test gcov_report 
 
-s21_decimal.a:
-	@$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) -c 
-	@ar rcs s21_decimal.a $(OBJECTS)
-	@ranlib s21_decimal.a
-#	mkdir o_files
-#	mv *.o o_files
+s21_decimal.a: clean
+	$(CC) $(SOURCES) $(ASAN) $(TFLAGS) $(CFLAGS)
+	ar rcs s21_decimal.a $(OBJECTS)
+	ranlib s21_decimal.a
 
-s21_test.o: s21_test.c
-	@$(CC) $(ASAN) $(var) -c s21_test.c
-
-test: clean s21_decimal.a s21_test.o
-	@$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
+test: clean s21_decimal.a
+	@$(CC) $(ASAN) $(TFLAGS) s21_test.c s21_decimal.a -o test
 	./test
 
-test2: clean s21_decimal.a s21_test.o
-	@$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  dec_test.c s21_decimal.a -o test2 $(TFLAGS)
-	./test2
+test2: clean s21_decimal.a
+	@$(CC) $(ASAN) $(TFLAGS) dec_test.c s21_decimal.a -o test
+	./test
 
 gcov_report: clean s21_decimal.a 
 	@$(CC) $(var) $(SOURCES) $(ASAN) $(GFLAGS) $(CCOV) -g  s21_test.c s21_decimal.a -L s21_decimal.a -o ./s21_test.out
@@ -77,13 +72,21 @@ s21_dec: clean
 
 check:
 	cppcheck *.c
-
 #	CK_FORK=no leaks --atExit --./test
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=RESULT_VALGRIND.txt ./test	
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=RESULT_VALGRIND.txt
+	./test
+
+valgrind: clean s21_decimal.a test
+     valgrind --leak-check=full \
+     --show-leak-kinds=all \
+     --track-origins=yes \
+     --verbose \
+     --log-file=valgrind-out.txt \
+     ./test
 
 clean: 
 	@rm -rf *.o *.out *.gc
-	@rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno test2 test3 *.o *.a
+	@rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno test test2 test3 *.o *.a
 
 rebuild:
 	make clean
