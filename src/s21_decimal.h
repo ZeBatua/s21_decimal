@@ -119,4 +119,4 @@ void smart_print_exdec(s21_extended_decimal dec);
 void extdec_to_binary_mass(s21_extended_decimal decimal, int *mass);
 void print_binary_extdec(int mass[]);
 
-#endif  // SRC_S21_DECIMAL_H_
+#endif // SRC_S21_DECIMAL_H_

@@ -6,7 +6,7 @@ LDFLAGS = -lgcov
 TFLAGS = -lcheck -lm -pthread -L -lrt 
 UFLAG =-lsubunit
 OBJECTS = *.o
-#ASAN = -g -fsanitize=adress
+#ASAN = -g -fsanitize=address
 var = $(shell pkg-config --cflags --libs check)
 
 SOURCES = \
@@ -25,7 +25,7 @@ SOURCES = \
 	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 SOURCES_WITH_MAIN = \
-	my_main.c \
+	main.c \
 	./secondary_functions/Bit_operations/*.c \
 	./secondary_functions/convert_dec/*.c \
 	./secondary_functions/dec_to_back_string/*.c \
@@ -68,7 +68,7 @@ gcov_report: s21_decimal.a
 #	lcov -t "s21_test" -o test.info -c -d	genhtml -o report test.info
 
 s21_dec: clean
-	$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN) $(TFLAGS) -g -o s21_dec
+	$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN)  -g -o s21_dec
 	./s21_dec
 
 check:

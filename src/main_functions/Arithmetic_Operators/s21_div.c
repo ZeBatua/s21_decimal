@@ -1,3 +1,4 @@
+
 #include "../../s21_decimal.h"
 
 void compare_scale_for_div(s21_extended_decimal *divinded, s21_extended_decimal *divider);
