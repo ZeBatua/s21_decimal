@@ -23,8 +23,13 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     equate_dec_to_extdec(*result, &ext_result);
     equate_dec_to_extdec(*result, &tmp);
     equate_ext_scale(&ext_value_1, &ext_value_2);
+
+    printf("ext_value_1\n");
     smart_print_exdec(ext_value_1);
+    printf("ext_value_2\n");
     smart_print_exdec(ext_value_2);
+    printf("tmp_val2\n");
+    smart_print_exdec(tmp_val_2);
 
     Scale_for_save_dec1 = getScale(value_1);
     Scale_for_save_dec2 = getScale(value_2);
@@ -37,9 +42,15 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         }
         shift_left(&ext_value_1, max_scale);
         shift_left(&ext_value_2, max_scale);
+        shift_left(&tmp_val_2, max_scale);
     }
+    printf("ext_value_1\n");
     smart_print_exdec(ext_value_1);
+    printf("ext_value_2\n");
     smart_print_exdec(ext_value_2);
+    printf("tmp_val2\n");
+    smart_print_exdec(tmp_val_2);
+    // setExtScale(max_scale, &tmp_val_2);
     width_dec1 = get_first_non_zero_extBit(tmp_val_2);
 
     if (is_less_no_sign(ext_value_1, ext_value_2) && is_equal_no_sign(tmp, ext_result)) { // если делимое меньше делителя - делимое является остатком
@@ -61,6 +72,14 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             shift_right(&ext_value_2, step_to_shift);
             subtraction_no_sign(ext_value_1, ext_value_2, &tmp);
         }
+        printf("ext_value_1\n");
+        smart_print_exdec(ext_value_1);
+        printf("ext_value_2\n");
+        smart_print_exdec(ext_value_2);
+        printf("tmp_val2\n");
+        smart_print_exdec(tmp_val_2);
+        printf("tmp\n");
+        smart_print_exdec(tmp);
     }
     while (1) { // придумать условие scale и сравнение
         if (!is_less_no_sign(tmp, ext_value_2) || is_equal_no_sign(tmp, ext_value_2)) { // если делимое больше делителя при первом проходе
