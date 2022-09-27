@@ -23,7 +23,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
         binary_exp = getBinaryExp(src);
         set_decimal_bit(dst, binary_exp / 32, binary_exp % 32, !!binary_exp);
         if (src != 1) {
-          unsigned int Fmask = 0b00000000010000000000000000000000;
+          unsigned int Fmask = 4194304;
           unsigned int mask = 1;
           binary_exp -= 1;
           while (binary_exp > -2) {

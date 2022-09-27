@@ -1,10 +1,10 @@
-# CFLAGS = -Wall -Werror -Wextra -std=c11
+#CFLAGS = -Wall -Werror -Wextra -std=c11 -pedantic -fanalyzer
 CC = gcc
-CCOV = -fprofile-arcs -ftest-coverage
+CCOV = -fprofile-arcs -ftest-coverage 
 GFLAGS = --coverage
 LDFLAGS = -lgcov
-TFLAGS = -lcheck  -lm -pthread -L -lrt -ld --verbose
-UFLAG =-lsubunit
+TFLAGS = -lcheck 
+UFLAG = -lsubunit -lm -pthread -L -lrt -lsubunit -pthread
 OBJECTS = *.o
 #ASAN = -g -fsanitize=adress
 var = $(shell pkg-config --cflags --libs check)
@@ -44,51 +44,51 @@ SOURCES_WITH_MAIN = \
 
 all: clean s21_decimal.a test gcov_report 
 
-s21_decimal.a: clean
-	$(CC) $(SOURCES) $(ASAN) $(TFLAGS) $(CFLAGS)
+s21_decimal.a:
+	@$(CC) $(SOURCES) $(var) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) -c 
 	ar rcs s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
 
-test: clean s21_decimal.a
-	@$(CC) $(ASAN) $(TFLAGS) s21_test.c s21_decimal.a -o test
+test: s21_decimal.a
+	$(CC) $(ASAN) s21_decimal.a s21_test.c  $(TFLAGS) -o test 
 	./test
 
-test2: clean s21_decimal.a
-	@$(CC) $(ASAN) $(TFLAGS) dec_test.c s21_decimal.a -o test
-	./test
+gcov_report:
+	gcov s21_test.c $(SOURCES)
+	lcov --capture --directory ./ --output-file coverage.info
+	genhtml coverage.info --output-directory ./gcov_report
+	open ./gcov_report
 
-gcov_report: clean s21_decimal.a 
-	@$(CC) $(var) $(SOURCES) $(ASAN) $(GFLAGS) $(CCOV) -g  s21_test.c s21_decimal.a -L s21_decimal.a -o ./s21_test.out
-	./s21_test.out 
-	gcovr -b 
-	gcovr 
-	gcovr --html-details -o report.html
+# @$(CC) $(CFLAGS) -c $(CCOV) $(SOURCES)
+# gcc -c s21_test.c -o s21_test.o
+# @$(CC) $(CFLAGS) -fprofile-arcs *.o  $(TFLAGS) -o gtest
+# ./gtest
+# gcovr -r . --html --html-details -o coverage_report.html
+# open ./coverage_report.html
+# rm *.o
 
-#	lcov -t "s21_test" -o test.info -c -d	genhtml -o report test.info
-
-s21_dec: clean
-	@$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN) $(var) $(TFLAGS) -g -o s21_dec
+s21_dec: clean s21_decimal.a
+	@$(CC) $(CFLAGS) s21_decimal.a main.c $(TFLAGS) -g -o s21_dec
 	./s21_dec
 
-check:
-	cppcheck *.c
-#	CK_FORK=no leaks --atExit --./test
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=RESULT_VALGRIND.txt
-	./test
+check: test
+	cppcheck s21_decimal.h $(SOURCES)
+	# cp ../materials/linters/CPPLINT.cfg CPPLINT.cfg
+	# python3 ../materials/linters/cpplint.py --extensions=c s21_decimal.h $(SOURCES)
+	CK_FORK=no leaks --atExit -- ./test
+	rm -rf ./CPPLINT*
 
-valgrind: clean s21_decimal.a test
-     valgrind --leak-check=full \
-     --show-leak-kinds=all \
-     --track-origins=yes \
-     --verbose \
-     --log-file=valgrind-out.txt \
-     ./test
 
 clean: 
-	@rm -rf *.o *.out *.gc
-	@rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno test test2 test3 *.o *.a
+	rm -rf *.o *.out *.gc
+	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno *.gcov gtest gcov_report *.info
+
 
 rebuild:
 	make clean
 	make s21_decimal	
 	make test
+
+valgrind: clean s21_decimal.a
+	$(CC) $(ASAN) $(LDFLAGS) $(TFLAGS) s21_test.c s21_decimal.a -o test 
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose  --log-file=valgrind-out.txt ./test
