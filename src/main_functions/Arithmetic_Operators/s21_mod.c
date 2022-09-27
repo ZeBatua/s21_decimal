@@ -9,7 +9,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int step_to_shift = 0, step_to_shift_Scale = 0;
     int width_dec1 = 0, width_dec2 = 0;
     int Sign_for_save = 0, Scale_for_save_dec1 = 0, Scale_for_save_dec2 = 0;
-    int max_scale = 0, scale_dec1 = 0, scale_dec2 = 0;
+    int mult_x10 = 0, scale_dec1 = 0, scale_dec2 = 0;
     
     init_extended_decimal(&ext_value_1);
     init_extended_decimal(&ext_value_2);
@@ -22,7 +22,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     equate_dec_to_extdec(value_2, &tmp_val_2);
     equate_dec_to_extdec(*result, &ext_result);
     equate_dec_to_extdec(*result, &tmp);
-    equate_ext_scale(&ext_value_1, &ext_value_2);
+    // equate_ext_scale(&ext_value_1, &ext_value_2);
 
     printf("ext_value_1\n");
     smart_print_exdec(ext_value_1);
@@ -36,20 +36,28 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     Sign_for_save = getSign(value_1);
     if (Scale_for_save_dec1 >= 1 || Scale_for_save_dec2 >= 1) {
         if (Scale_for_save_dec1 >= Scale_for_save_dec2) {
-            max_scale = Scale_for_save_dec1;
+            mult_x10 = Scale_for_save_dec1 - Scale_for_save_dec2
+            for (int i = 0, i < mult_x10, i++) 
+            setExtScale(0, &ext_value_1);
         } else {
-            max_scale = Scale_for_save_dec2;
+            shift_left(&ext_value_2, Scale_for_save_dec1 - Scale_for_save_dec2);
+            setExtScale(Scale_for_save_dec1 - Scale_for_save_dec2, &ext_value_1);
         }
-        shift_left(&ext_value_1, max_scale);
-        shift_left(&ext_value_2, max_scale);
-        shift_left(&tmp_val_2, max_scale);
+        equate_extdec(ext_value_2, &tmp_val_2);
+        // shift_left(&ext_value_1, max_scale);
+        // shift_left(&ext_value_2, max_scale);
+        // shift_left(&tmp_val_2, max_scale);
     }
-    printf("ext_value_1\n");
+    printf("\n\n\n\next_value_1\n");
     smart_print_exdec(ext_value_1);
     printf("ext_value_2\n");
     smart_print_exdec(ext_value_2);
     printf("tmp_val2\n");
     smart_print_exdec(tmp_val_2);
+    printf("tmp\n");
+    smart_print_exdec(tmp);
+    printf("ext_result\n");
+    smart_print_exdec(ext_result);
     // setExtScale(max_scale, &tmp_val_2);
     width_dec1 = get_first_non_zero_extBit(tmp_val_2);
 
@@ -64,14 +72,20 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             step_to_shift = get_first_non_zero_extBit(ext_value_1) - get_first_non_zero_extBit(ext_value_2);
             shift_left(&ext_value_2, step_to_shift);
             if (is_less_no_sign(ext_value_1, ext_value_2)) shift_right(&ext_value_2, 1);
+            // printf("ext_value_2 if ext1 > ext2\n");
+            // smart_print_exdec(ext_value_2);
+            // printf("tmp\n");
+            // smart_print_exdec(tmp);
             if (!is_less_no_sign(ext_value_1, ext_value_2) || is_equal_no_sign(ext_value_1, ext_value_2)) subtraction_no_sign(ext_value_1, ext_value_2, &tmp);
             
         }
-        if (is_less_no_sign(ext_value_1, ext_value_2) ) { // если делимое меньше делителя
-            step_to_shift = get_first_non_zero_extBit(ext_value_2) - get_first_non_zero_extBit(ext_result);
-            shift_right(&ext_value_2, step_to_shift);
-            subtraction_no_sign(ext_value_1, ext_value_2, &tmp);
-        }
+        // if (is_less_no_sign(ext_value_1, ext_value_2) ) { // если делимое меньше делителя
+        //     step_to_shift = get_first_non_zero_extBit(ext_value_2) - get_first_non_zero_extBit(ext_result);
+        //     shift_right(&ext_value_2, step_to_shift);
+        //     printf("ext_value_2 -  error\n");
+        //     smart_print_exdec(ext_value_2);
+        //     subtraction_no_sign(ext_value_1, ext_value_2, &tmp);
+        // }
         printf("ext_value_1\n");
         smart_print_exdec(ext_value_1);
         printf("ext_value_2\n");
@@ -89,6 +103,11 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             width_dec2 = get_first_non_zero_extBit(ext_value_2);
             if (width_dec2 <= width_dec1) break;
             if (!is_less_no_sign(tmp, ext_value_2) || is_equal_no_sign(tmp, ext_value_2)) subtraction_no_sign(tmp, ext_value_2, &tmp);
+            printf("tmp\n");
+            smart_print_exdec(tmp);
+            printf("ext_value_2\n");
+            smart_print_exdec(ext_value_2);
+            
         }
         if (is_less_no_sign(tmp, ext_value_2)) { // если делимое меньше делителя
             step_to_shift = get_first_non_zero_extBit(ext_value_2) - get_first_non_zero_extBit(tmp);
@@ -96,7 +115,10 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             if (is_less_no_sign(tmp, ext_value_2)) shift_right(&ext_value_2, 1);
             width_dec2 = get_first_non_zero_extBit(ext_value_2);
             if (width_dec2 < width_dec1) break;
-            subtraction_no_sign(tmp, ext_value_2, &tmp);
+            printf("tmp\n");
+            smart_print_exdec(tmp);
+            printf("ext_value_2\n");
+            smart_print_exdec(ext_value_2);
         }
     }
     error = equate_extdec_to_dec(tmp, result);

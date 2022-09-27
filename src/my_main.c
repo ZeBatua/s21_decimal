@@ -47,22 +47,22 @@ int main() {
     // printf("result\n00000000000000000000000000000000 00000000000000000000000000000000 00000000000000000000101000000001\n");
 
 
-    float c = fmod(1.236, 0.240);
-    printf("%f", c);
+    float c = fmod(154.865, 254);
+    printf("%f\n", c);
 
     init_decimal(&dec1);
     dec1.bits[3] = 0;
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
-    dec1.bits[0] = 2366;
+    dec1.bits[0] = 1548688875;
     // setSign(&dec1, 0);
-    setScale(2, &dec1);
+    setScale(3, &dec1);
 
     init_decimal(&dec2);
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
     dec2.bits[1] = 0;
-    dec2.bits[0] = 2; // 1111111111111000101
+    dec2.bits[0] = 254; // 1111111111111000101
 
     init_decimal(&result1);
 
@@ -70,7 +70,7 @@ int main() {
 
     smart_print_binary_decimal(result1);
 
-    printf("result\n00000000000000000000000000000000 00000000000000000000000000000000 00000000000000000000101000000001\n");
+    printf("result\n00000000000000000000000000000000 00000000000000000000000000000000 00000000000000000000000001111100\n");
 
     // init_decimal(&dec1);
     // dec1.bits[3] = 0;
@@ -78,7 +78,6 @@ int main() {
     // dec1.bits[1] = 0;
     // dec1.bits[0] = 0b000000001000000000000000000111100;
 
-    
     // init_decimal(&dec2);
     // dec2.bits[3] = 0;
     // dec2.bits[2] = 0;
