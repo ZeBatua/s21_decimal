@@ -35,7 +35,6 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     Scale_for_save_dec2 = getScale(value_2);
     Sign_for_save = getSign(value_1);
     if (Scale_for_save_dec1 >= 1 || Scale_for_save_dec2 >= 1) {
-        // mult_x10 = Scale_for_save_dec1 - Scale_for_save_dec2;
         if (Scale_for_save_dec1 >= Scale_for_save_dec2) {
             mult_x10 = Scale_for_save_dec1 - Scale_for_save_dec2;
             for (int i = 0; i < mult_x10; i++) {
