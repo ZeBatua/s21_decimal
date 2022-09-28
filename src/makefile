@@ -75,7 +75,7 @@ check: test
 
 clean: 
 	rm -rf *.o *.out *.gc
-	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno *.gcov gtest gcov_report *.info report
+	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno *.gcov gcov_report *.info report
 
 
 rebuild:
