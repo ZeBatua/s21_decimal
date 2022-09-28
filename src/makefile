@@ -53,19 +53,13 @@ test: s21_decimal.a
 	$(CC) $(ASAN) s21_decimal.a s21_test.c  $(TFLAGS) -o test 
 	./test
 
-gcov_report:
-	gcov s21_test.c $(SOURCES)
-	lcov --capture --directory ./ --output-file coverage.info
-	genhtml coverage.info --output-directory ./gcov_report
-	open ./gcov_report
-
-# @$(CC) $(CFLAGS) -c $(CCOV) $(SOURCES)
-# gcc -c s21_test.c -o s21_test.o
-# @$(CC) $(CFLAGS) -fprofile-arcs *.o  $(TFLAGS) -o gtest
-# ./gtest
-# gcovr -r . --html --html-details -o coverage_report.html
-# open ./coverage_report.html
-# rm *.o
+gcov_report: clean
+	@$(CC) $(CCOV) --coverage $(var)  s21_test.c $(SOURCES) -lcheck -lm -lpthread -o s21_test.out 
+	./s21_test.out 
+	lcov -t "s21_test.out" -o s21_test.info -c -d .
+	genhtml -o report s21_test.info
+	open ./report/index-sort-f.html
+	rm -rf coverage.* *dSYM *.css *.html *.gcda *.gcno
 
 s21_dec: clean s21_decimal.a
 	@$(CC) $(CFLAGS) s21_decimal.a main.c $(TFLAGS) -g -o s21_dec

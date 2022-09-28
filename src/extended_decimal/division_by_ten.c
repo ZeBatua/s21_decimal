@@ -1,4 +1,4 @@
-#include "../../s21_decimal.h"
+#include "../s21_decimal.h"
 
 int division_by_ten(s21_extended_decimal *decimal) {
   s21_extended_decimal dec_for_get_remainder;
