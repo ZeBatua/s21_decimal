@@ -1,6 +1,6 @@
 # Prerequisites
 *.d
-Makefile
+.DS_Store
 
 # Object files
 *.o

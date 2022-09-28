@@ -25,7 +25,7 @@ SOURCES = \
 	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 SOURCES_WITH_MAIN = \
-	main.c \
+	my_main.c \
 	./secondary_functions/Bit_operations/*.c \
 	./secondary_functions/convert_dec/*.c \
 	./secondary_functions/dec_to_back_string/*.c \
@@ -53,19 +53,13 @@ test: s21_decimal.a
 	$(CC) $(ASAN) s21_decimal.a s21_test.c  $(TFLAGS) -o test 
 	./test
 
-gcov_report:
-	gcov s21_test.c $(SOURCES)
-	lcov --capture --directory ./ --output-file coverage.info
-	genhtml coverage.info --output-directory ./gcov_report
-	open ./gcov_report
-
-# @$(CC) $(CFLAGS) -c $(CCOV) $(SOURCES)
-# gcc -c s21_test.c -o s21_test.o
-# @$(CC) $(CFLAGS) -fprofile-arcs *.o  $(TFLAGS) -o gtest
-# ./gtest
-# gcovr -r . --html --html-details -o coverage_report.html
-# open ./coverage_report.html
-# rm *.o
+gcov_report: clean
+	@$(CC) $(CCOV) --coverage $(var)  s21_test.c $(SOURCES) -lcheck -lm -lpthread -o s21_test.out 
+	./s21_test.out 
+	lcov -t "s21_test.out" -o s21_test.info -c -d .
+	genhtml -o report s21_test.info
+	open ./report/index-sort-f.html
+	rm -rf coverage.* *dSYM *.css *.html *.gcda *.gcno
 
 s21_dec: clean s21_decimal.a
 	@$(CC) $(CFLAGS) s21_decimal.a main.c $(TFLAGS) -g -o s21_dec
@@ -81,7 +75,7 @@ check: test
 
 clean: 
 	rm -rf *.o *.out *.gc
-	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno *.gcov gtest gcov_report *.info
+	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno *.gcov gcov_report *.info report
 
 
 rebuild:
@@ -92,3 +86,4 @@ rebuild:
 valgrind: clean s21_decimal.a
 	$(CC) $(ASAN) $(LDFLAGS) $(TFLAGS) s21_test.c s21_decimal.a -o test 
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose  --log-file=valgrind-out.txt ./test
+
