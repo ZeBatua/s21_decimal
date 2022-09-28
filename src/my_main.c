@@ -54,15 +54,16 @@ int main() {
     dec1.bits[3] = 0;
     dec1.bits[2] = 0;
     dec1.bits[1] = 0;
-    dec1.bits[0] = 1548688875;
+    dec1.bits[0] = 15689;
     // setSign(&dec1, 0);
-    setScale(3, &dec1);
+    setScale(0, &dec1);
 
     init_decimal(&dec2);
     dec2.bits[3] = 0;
     dec2.bits[2] = 0;
     dec2.bits[1] = 0;
-    dec2.bits[0] = 254; // 1111111111111000101
+    dec2.bits[0] = 15467; // 1111111111111000101
+    setScale(4, &dec2);
 
     init_decimal(&result1);
 
