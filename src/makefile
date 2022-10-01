@@ -1,10 +1,10 @@
-#CFLAGS = -Wall -Werror -Wextra -std=c11 -pedantic -fanalyzer
+#CFLAGS = -Wall -Werror -Wextra -std=c11
 CC = gcc
-CCOV = -fprofile-arcs -ftest-coverage 
+CCOV = -fprofile-arcs -ftest-coverage
 GFLAGS = --coverage
 LDFLAGS = -lgcov
-TFLAGS = -lcheck 
-UFLAG = -lsubunit -lm -pthread -L -lrt -lsubunit -pthread
+TFLAGS = -lcheck -lm -pthread -L -lrt 
+UFLAG = -lsubunit
 OBJECTS = *.o
 #ASAN = -g -fsanitize=adress
 var = $(shell pkg-config --cflags --libs check)
@@ -25,7 +25,7 @@ SOURCES = \
 	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c
 SOURCES_WITH_MAIN = \
-	my_main.c \
+	main.c \
 	./secondary_functions/Bit_operations/*.c \
 	./secondary_functions/convert_dec/*.c \
 	./secondary_functions/dec_to_back_string/*.c \
@@ -45,45 +45,47 @@ SOURCES_WITH_MAIN = \
 all: clean s21_decimal.a test gcov_report 
 
 s21_decimal.a:
-	@$(CC) $(SOURCES) $(var) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) -c 
+	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) -c 
 	ar rcs s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
+#	mkdir o_files
+#	mv *.o o_files
 
-test: s21_decimal.a
-	$(CC) $(ASAN) s21_decimal.a s21_test.c  $(TFLAGS) -o test 
+s21_test.o: s21_test.c
+	$(CC) $(ASAN) $(CFLAGS) $(var) -c s21_test.c
+
+test: s21_decimal.a s21_test.o
+	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
 	./test
 
-gcov_report: clean
-	@$(CC) $(CCOV) --coverage $(var)  s21_test.c $(SOURCES) -lcheck -lm -lpthread -o s21_test.out 
+gcov_report: s21_decimal.a test	
+	$(CC) $(SOURCES) $(ASAN) $(GFLAGS) $(CCOV) -g  s21_test.c s21_decimal.a -L s21_decimal.a $(TFLAGS) -o ./s21_test/out
 	./s21_test.out 
-	lcov -t "s21_test.out" -o s21_test.info -c -d .
-	genhtml -o report s21_test.info
-	open ./report/index-sort-f.html
-	rm -rf coverage.* *dSYM *.css *.html *.gcda *.gcno
+#	gcovr -b 
+#	gcovr 
+#	gcovr --html-details -o report.html
 
-s21_dec: clean s21_decimal.a
-	@$(CC) $(CFLAGS) s21_decimal.a main.c $(TFLAGS) -g -o s21_dec
+	lcov -t "s21_test" -o test.info -c -d 
+	genhtml -o report test.info
+
+s21_dec: clean
+	$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN) $(TFLAGS) -g -o s21_dec
 	./s21_dec
 
-check: test
-	cppcheck s21_decimal.h $(SOURCES)
-	# cp ../materials/linters/CPPLINT.cfg CPPLINT.cfg
-	# python3 ../materials/linters/cpplint.py --extensions=c s21_decimal.h $(SOURCES)
-	CK_FORK=no leaks --atExit -- ./test
-	rm -rf ./CPPLINT*
+check:
+	cppcheck *.c
 
+#	CK_FORK=no leaks --atExit --./test
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=RESULT_VALGRIND.txt ./test	
 
 clean: 
 	rm -rf *.o *.out *.gc
-	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno *.gcov gcov_report *.info report
-
+	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda 
 
 rebuild:
 	make clean
 	make s21_decimal	
 	make test
 
-valgrind: clean s21_decimal.a
-	$(CC) $(ASAN) $(LDFLAGS) $(TFLAGS) s21_test.c s21_decimal.a -o test 
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose  --log-file=valgrind-out.txt ./test
+	
 
