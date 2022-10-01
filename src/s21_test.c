@@ -6622,7 +6622,6 @@ START_TEST(mod_test_9) {
   setScale(5, &orig);
 
   s21_mod(dec1, dec2, &result);
-  smart_print_binary_decimal(result);
   diff = s21_is_equal(result, orig);
   ck_assert_int_eq(diff, S21_TRUE);
 }
@@ -6655,7 +6654,6 @@ START_TEST(mod_test_10) {
   setScale(10, &orig);
 
   s21_mod(dec1, dec2, &result);
-  smart_print_binary_decimal(result);
   diff = s21_is_equal(result, orig);
   ck_assert_int_eq(diff, S21_TRUE);
 }
@@ -6688,11 +6686,11 @@ START_TEST(mod_test_11) {
   setScale(20, &orig);
 
   s21_mod(dec1, dec2, &result);
-  smart_print_binary_decimal(result);
   diff = s21_is_equal(result, orig);
   ck_assert_int_eq(diff, S21_TRUE);
 }
 END_TEST
+
 START_TEST(mod_test_12) {
   s21_decimal dec1, dec2, result, orig;
   int diff = 9;
@@ -6718,9 +6716,42 @@ START_TEST(mod_test_12) {
   orig.bits[1] = 0;
   orig.bits[0] = 0;
   setScale(3, &orig);
-
+  
   s21_mod(dec1, dec2, &result);
-  smart_print_binary_decimal(result);
+  diff = s21_is_equal(result, orig);
+  ck_assert_int_eq(diff, S21_TRUE);
+}
+END_TEST
+
+START_TEST(mod_test_13) {
+  s21_decimal dec1, dec2, result, orig;
+  int diff = 9;
+  init_decimal(&dec1);
+  init_decimal(&dec2);
+  init_decimal(&result);
+  init_decimal(&orig);
+
+  dec1.bits[3] = 0;
+  dec1.bits[2] = 21474836;
+  dec1.bits[1] = 21474847;
+  dec1.bits[0] = 223335554;
+  setScale(0, &dec1);
+  setSign(&dec1, 1);
+
+  dec2.bits[3] = 0;
+  dec2.bits[2] = 2147483645;
+  dec2.bits[1] = 2147483647;
+  dec2.bits[0] = 2147483647;
+  setScale(2, &dec2);
+
+  orig.bits[3] = 0;
+  orig.bits[2] = 21474836;
+  orig.bits[1] = 21474847;
+  orig.bits[0] = 223335554;
+  setScale(0, &orig);
+  setSign(&orig, 1);
+  
+  s21_mod(dec1, dec2, &result);
   diff = s21_is_equal(result, orig);
   ck_assert_int_eq(diff, S21_TRUE);
 }
@@ -10690,6 +10721,7 @@ int main() {
   tcase_add_test(tc, mod_test_10);
   tcase_add_test(tc, mod_test_11);
   tcase_add_test(tc, mod_test_12);
+  tcase_add_test(tc, mod_test_13);
 
   // // less
 
