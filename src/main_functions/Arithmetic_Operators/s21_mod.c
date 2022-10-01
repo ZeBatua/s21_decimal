@@ -9,7 +9,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int step_to_shift = 0, step_to_shift_Scale = 0;
     int width_dec1 = 0, width_dec2 = 0;
     int Sign_for_save = 0, Scale_for_save_dec1 = 0, Scale_for_save_dec2 = 0;
-    int mult_x10 = 0, scale_dec1 = 0, scale_dec2 = 0;
+    int mult_x10 = 0, high_scale = 0;
     
     init_extended_decimal(&ext_value_1);
     init_extended_decimal(&ext_value_2);
@@ -22,7 +22,6 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     equate_dec_to_extdec(value_2, &tmp_val_2);
     equate_dec_to_extdec(*result, &ext_result);
     equate_dec_to_extdec(*result, &tmp);
-    // equate_ext_scale(&ext_value_1, &ext_value_2);
 
     printf("ext_value_1\n");
     smart_print_exdec(ext_value_1);
@@ -35,18 +34,24 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     Scale_for_save_dec2 = getScale(value_2);
     Sign_for_save = getSign(value_1);
     if (Scale_for_save_dec1 >= 1 || Scale_for_save_dec2 >= 1) {
-        if (Scale_for_save_dec1 >= Scale_for_save_dec2) {
+        if (Scale_for_save_dec1 > Scale_for_save_dec2) {
+            high_scale = Scale_for_save_dec1;
             mult_x10 = Scale_for_save_dec1 - Scale_for_save_dec2;
             for (int i = 0; i < mult_x10; i++) {
                 multiply_extdec_by_ten(&ext_value_2);
             }
             setExtScale(0, &ext_value_1);
             setExtScale(0, &ext_value_2);
-        } else {
+        } else if (Scale_for_save_dec1 < Scale_for_save_dec2) {
+            high_scale = Scale_for_save_dec2;
             mult_x10 = Scale_for_save_dec2 - Scale_for_save_dec1;
             for (int i = 0; i < mult_x10; i++) {
                 multiply_extdec_by_ten(&ext_value_1);
             }
+            setExtScale(0, &ext_value_1);
+            setExtScale(0, &ext_value_2);
+        } else {
+            high_scale = Scale_for_save_dec1;
             setExtScale(0, &ext_value_1);
             setExtScale(0, &ext_value_2);
         }
@@ -129,7 +134,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         }
     }
     error = equate_extdec_to_dec(tmp, result);
-    setScale(mult_x10, result);
+    setScale(high_scale, result);
     if (Sign_for_save) {
         setSign(result, 1);
     } else {
