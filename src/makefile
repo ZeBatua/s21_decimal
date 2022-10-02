@@ -1,13 +1,13 @@
-#CFLAGS = -Wall -Werror -Wextra -std=c11
+CFLAGS = -Wall -Werror -Wextra -std=c11
 CC = gcc
 CCOV = -fprofile-arcs -ftest-coverage
-GFLAGS = -coverage -g
+#GFLAGS = -coverage -g
 LDFLAGS = -lgcov
 TFLAGS = -lcheck -lm -pthread -L -lrt 
 UFLAG = -lsubunit
 OBJECTS = *.o
 #ASAN = -g -fsanitize=adress
-# var = $(shell pkg-config --cflags --libs check)
+var = $(shell pkg-config --cflags --libs check)
 
 SOURCES = \
 	./secondary_functions/Bit_operations/*.c \
@@ -44,17 +44,29 @@ var = $(shell pkg-config --cflags --libs check)
 all: clean s21_decimal.a 
 
 s21_decimal.a:
+<<<<<<< HEAD
 	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) $(GFLAGS) $(var)  -c
+=======
+	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) $(GFLAGS)-c
+>>>>>>> defc0a1c46774d6036a58d485e4fb20d26ea7c15
 	ar rcs s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
 #	mkdir o_files
 #	mv *.o o_files
 
+<<<<<<< HEAD
 s21_test.o: s21_test.c
 	$(CC) $(ASAN) $(var) -c s21_test.c
 
 test: s21_decimal.a s21_test.o
 	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
+=======
+s21_test.o:
+	$(CC) $(ASAN) $(CFLAGS) $(var) -c ./tests/s21_test.c
+
+test: s21_decimal.a s21_test.o
+	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var) s21_test.o s21_decimal.a -o test $(TFLAGS)
+>>>>>>> defc0a1c46774d6036a58d485e4fb20d26ea7c15
 	./test
 
 gcov_report: s21_decimal.a test	
