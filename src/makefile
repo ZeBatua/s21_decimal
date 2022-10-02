@@ -21,7 +21,7 @@ SOURCES = \
 	./main_functions/Comparison_Operators/*.c \
 	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c 
-#	 ./s21_test.c
+
 # SOURCES_WITH_MAIN = \
 # 	main.c \
 # 	./secondary_functions/Bit_operations/*.c \
@@ -44,29 +44,17 @@ var = $(shell pkg-config --cflags --libs check)
 all: clean s21_decimal.a 
 
 s21_decimal.a:
-<<<<<<< HEAD
-	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) $(GFLAGS) $(var)  -c
-=======
 	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) $(GFLAGS)-c
->>>>>>> defc0a1c46774d6036a58d485e4fb20d26ea7c15
 	ar rcs s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
 #	mkdir o_files
 #	mv *.o o_files
 
-<<<<<<< HEAD
-s21_test.o: s21_test.c
+s21_test.o:
 	$(CC) $(ASAN) $(var) -c s21_test.c
 
 test: s21_decimal.a s21_test.o
-	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
-=======
-s21_test.o:
-	$(CC) $(ASAN) $(CFLAGS) $(var) -c ./tests/s21_test.c
-
-test: s21_decimal.a s21_test.o
-	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var) s21_test.o s21_decimal.a -o test $(TFLAGS)
->>>>>>> defc0a1c46774d6036a58d485e4fb20d26ea7c15
+	$(CC) $(ASAN) $(LDFLAGS) $(var) s21_test.o s21_decimal.a -o test $(TFLAGS)
 	./test
 
 gcov_report: s21_decimal.a test	
