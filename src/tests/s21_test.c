@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "s21_decimal.h"
+#include "../s21_decimal.h"
 
 #define S21_TRUE 1
 #define S21_FALSE 0
@@ -6757,6 +6757,64 @@ START_TEST(mod_test_13) {
 }
 END_TEST
 
+START_TEST(mod_test_14) {
+  s21_decimal dec1, dec2, result, orig;
+  int diff = 9;
+  init_decimal(&dec1);
+  init_decimal(&dec2);
+  init_decimal(&result);
+  init_decimal(&orig);
+
+  dec1.bits[3] = 0;
+  dec1.bits[2] = 21474836;
+  dec1.bits[1] = 21474847;
+  dec1.bits[0] = 223335554;
+
+  dec2.bits[3] = 0;
+  dec2.bits[2] = 21474836;
+  dec2.bits[1] = 21474847;
+  dec2.bits[0] = 223335554;
+
+  orig.bits[3] = 0;
+  orig.bits[2] = 0;
+  orig.bits[1] = 0;
+  orig.bits[0] = 0;
+
+  s21_mod(dec1, dec2, &result);
+  diff = s21_is_equal(result, orig);
+  ck_assert_int_eq(diff, S21_TRUE);
+}
+END_TEST
+
+START_TEST(mod_test_15) {
+  s21_decimal dec1, dec2, result, orig;
+  int diff = 9;
+  init_decimal(&dec1);
+  init_decimal(&dec2);
+  init_decimal(&result);
+  init_decimal(&orig);
+
+  dec1.bits[3] = 0;
+  dec1.bits[2] = 21474836;
+  dec1.bits[1] = 21474847;
+  dec1.bits[0] = 223335554;
+  setScale(1, &dec1);
+  setSign(&dec1, 1);
+
+  dec2.bits[3] = 0;
+  dec2.bits[2] = 0;
+  dec2.bits[1] = 0;
+  dec2.bits[0] = 0;
+  setScale(0, &dec2);
+
+  printf("\n\n\n");
+  printf("%f", fmod(-4141.2, 0));
+  printf("\n1\n1\n1");
+  diff = s21_mod(dec1, dec2, &result);
+  ck_assert_int_eq(diff, 3);
+}
+END_TEST
+
 // less
 
 START_TEST(less_1) {
@@ -10326,92 +10384,92 @@ int main() {
 
   // sub
 
-  tcase_add_test(tc, sub_test_1);
-  tcase_add_test(tc, sub_test_2);
-  tcase_add_test(tc, sub_test_3);
-  tcase_add_test(tc, sub_test_4);
-  tcase_add_test(tc, sub_test_5);
-  tcase_add_test(tc, sub_test_6);
-  tcase_add_test(tc, sub_test_7);
-  tcase_add_test(tc, sub_test_8);
-  tcase_add_test(tc, sub_test_9);
-  tcase_add_test(tc, sub_test_10);
-  tcase_add_test(tc, s21_subTest1);
-  tcase_add_test(tc, s21_subTest2);
-  tcase_add_test(tc, s21_subTest3);
-  tcase_add_test(tc, s21_subTest4);
-  tcase_add_test(tc, s21_subTest5);
-  tcase_add_test(tc, s21_subTest6);
-  tcase_add_test(tc, s21_subTest7);
-  tcase_add_test(tc, s21_subTest8);
-  tcase_add_test(tc, s21_subTest9);
-  tcase_add_test(tc, s21_subTest10);
-  tcase_add_test(tc, s21_subTest11);
-  tcase_add_test(tc, s21_subTest12);
-  tcase_add_test(tc, s21_subTest13);
-  tcase_add_test(tc, s21_subTest14);
-  tcase_add_test(tc, s21_subTest15);
-  tcase_add_test(tc, s21_subTest16);
-  // tcase_add_test(tc, s21_subTest17);
-  tcase_add_test(tc, s21_subTest18);
-  // tcase_add_test(tc, s21_subTest19);
-  tcase_add_test(tc, s21_subTest20);
-  tcase_add_test(tc, s21_subTest21);
-  // tcase_add_test(tc, s21_subTest22);
-  tcase_add_test(tc, s21_subTest23);
-  tcase_add_test(tc, s21_subTest24);
-  tcase_add_test(tc, s21_subTest25);
-  tcase_add_test(tc, s21_subTest26);
-  tcase_add_test(tc, s21_subTest27);
-  tcase_add_test(tc, s21_subTest28);
-  tcase_add_test(tc, s21_subTest29);
-  tcase_add_test(tc, s21_subTest30);
-  tcase_add_test(tc, s21_subTest31);
-  tcase_add_test(tc, s21_subTest32);
-  tcase_add_test(tc, s21_subTest33);
-  tcase_add_test(tc, s21_test_decimal_sub_simple_0);
-  tcase_add_test(tc, s21_test_decimal_sub_simple_1);
-  tcase_add_test(tc, s21_test_decimal_sub_simple_2);
-  tcase_add_test(tc, s21_test_decimal_sub_simple_3);
-  tcase_add_test(tc, s21_test_decimal_sub_simple_7);
-  tcase_add_test(tc, s21_test_decimal_sub_simple_8);
-  tcase_add_test(tc, s21_test_decimal_sub_simple_10);
-  tcase_add_test(tc, s21_test_decimal_sub_simple_11);
-  tcase_add_test(tc, sub_test_11);
-  tcase_add_test(tc, sub_test_12);
-  // tcase_add_test(tc, sub_test_13);
-  // tcase_add_test(tc, sub_test_14);
-  tcase_add_test(tc, sub_test_15);
-  // tcase_add_test(tc, sub_test_16);
-  // tcase_add_test(tc, sub_test_17);
-  tcase_add_test(tc, sub_test_18);
-  tcase_add_test(tc, sub_test_19);
-  tcase_add_test(tc, sub_test_20);
-  tcase_add_test(tc, sub_test_21);
-  tcase_add_test(tc, s21_sub_int_22);
-  tcase_add_test(tc, s21_sub_int_23);
-  tcase_add_test(tc, s21_sub_int_24);
-  tcase_add_test(tc, s21_sub_int_25);
-  tcase_add_test(tc, s21_sub_int_26);
-  tcase_add_test(tc, s21_sub_inf_27);
-  tcase_add_test(tc, s21_sub_neg_inf_28);
-  // tcase_add_test(tc, s21_sub_max_30);
-  tcase_add_test(tc, s21_sub_max_31);
-  tcase_add_test(tc, s21_sub_max_32);
-  // tcase_add_test(tc, s21_sub_max_33);
-  tcase_add_test(tc, s21_sub_max_34);
-  tcase_add_test(tc, s21_sub_max_35);
+  // tcase_add_test(tc, sub_test_1);
+  // tcase_add_test(tc, sub_test_2);
+  // tcase_add_test(tc, sub_test_3);
+  // tcase_add_test(tc, sub_test_4);
+  // tcase_add_test(tc, sub_test_5);
+  // tcase_add_test(tc, sub_test_6);
+  // tcase_add_test(tc, sub_test_7);
+  // tcase_add_test(tc, sub_test_8);
+  // tcase_add_test(tc, sub_test_9);
+  // tcase_add_test(tc, sub_test_10);
+  // tcase_add_test(tc, s21_subTest1);
+  // tcase_add_test(tc, s21_subTest2);
+  // tcase_add_test(tc, s21_subTest3);
+  // tcase_add_test(tc, s21_subTest4);
+  // tcase_add_test(tc, s21_subTest5);
+  // tcase_add_test(tc, s21_subTest6);
+  // tcase_add_test(tc, s21_subTest7);
+  // tcase_add_test(tc, s21_subTest8);
+  // tcase_add_test(tc, s21_subTest9);
+  // tcase_add_test(tc, s21_subTest10);
+  // tcase_add_test(tc, s21_subTest11);
+  // tcase_add_test(tc, s21_subTest12);
+  // tcase_add_test(tc, s21_subTest13);
+  // tcase_add_test(tc, s21_subTest14);
+  // tcase_add_test(tc, s21_subTest15);
+  // tcase_add_test(tc, s21_subTest16);
+  // // tcase_add_test(tc, s21_subTest17);
+  // tcase_add_test(tc, s21_subTest18);
+  // // tcase_add_test(tc, s21_subTest19);
+  // tcase_add_test(tc, s21_subTest20);
+  // tcase_add_test(tc, s21_subTest21);
+  // // tcase_add_test(tc, s21_subTest22);
+  // tcase_add_test(tc, s21_subTest23);
+  // tcase_add_test(tc, s21_subTest24);
+  // tcase_add_test(tc, s21_subTest25);
+  // tcase_add_test(tc, s21_subTest26);
+  // tcase_add_test(tc, s21_subTest27);
+  // tcase_add_test(tc, s21_subTest28);
+  // tcase_add_test(tc, s21_subTest29);
+  // tcase_add_test(tc, s21_subTest30);
+  // tcase_add_test(tc, s21_subTest31);
+  // tcase_add_test(tc, s21_subTest32);
+  // tcase_add_test(tc, s21_subTest33);
+  // tcase_add_test(tc, s21_test_decimal_sub_simple_0);
+  // tcase_add_test(tc, s21_test_decimal_sub_simple_1);
+  // tcase_add_test(tc, s21_test_decimal_sub_simple_2);
+  // tcase_add_test(tc, s21_test_decimal_sub_simple_3);
+  // tcase_add_test(tc, s21_test_decimal_sub_simple_7);
+  // tcase_add_test(tc, s21_test_decimal_sub_simple_8);
+  // tcase_add_test(tc, s21_test_decimal_sub_simple_10);
+  // tcase_add_test(tc, s21_test_decimal_sub_simple_11);
+  // tcase_add_test(tc, sub_test_11);
+  // tcase_add_test(tc, sub_test_12);
+  // // tcase_add_test(tc, sub_test_13);
+  // // tcase_add_test(tc, sub_test_14);
+  // tcase_add_test(tc, sub_test_15);
+  // // tcase_add_test(tc, sub_test_16);
+  // // tcase_add_test(tc, sub_test_17);
+  // tcase_add_test(tc, sub_test_18);
+  // tcase_add_test(tc, sub_test_19);
+  // tcase_add_test(tc, sub_test_20);
+  // tcase_add_test(tc, sub_test_21);
+  // tcase_add_test(tc, s21_sub_int_22);
+  // tcase_add_test(tc, s21_sub_int_23);
+  // tcase_add_test(tc, s21_sub_int_24);
+  // tcase_add_test(tc, s21_sub_int_25);
+  // tcase_add_test(tc, s21_sub_int_26);
+  // tcase_add_test(tc, s21_sub_inf_27);
+  // tcase_add_test(tc, s21_sub_neg_inf_28);
+  // // tcase_add_test(tc, s21_sub_max_30);
+  // tcase_add_test(tc, s21_sub_max_31);
+  // tcase_add_test(tc, s21_sub_max_32);
+  // // tcase_add_test(tc, s21_sub_max_33);
+  // tcase_add_test(tc, s21_sub_max_34);
+  // tcase_add_test(tc, s21_sub_max_35);
 
-  // mul
+  // // mul
 
-  tcase_add_test(tc, mul_test_1);
-  tcase_add_test(tc, mul_test_2);
-  tcase_add_test(tc, mul_test_3);
-  tcase_add_test(tc, mul_test_4);
-  tcase_add_test(tc, mul_test_5);
-  tcase_add_test(tc, mul_test_6);
-  tcase_add_test(tc, mul_test_7);
-  // tcase_add_test(tc, mul_test_8);
+  // tcase_add_test(tc, mul_test_1);
+  // tcase_add_test(tc, mul_test_2);
+  // tcase_add_test(tc, mul_test_3);
+  // tcase_add_test(tc, mul_test_4);
+  // tcase_add_test(tc, mul_test_5);
+  // tcase_add_test(tc, mul_test_6);
+  // tcase_add_test(tc, mul_test_7);
+  // // tcase_add_test(tc, mul_test_8);
 
   // add
 
@@ -10518,194 +10576,194 @@ int main() {
   tcase_add_test(tc, s21_add_max_36);
   tcase_add_test(tc, add_test_37);
 
-  // div
+  // // div
 
-  tcase_add_test(tc, s21_div_box_1_3_0_0);
-  tcase_add_test(tc, s21_div_box_1_3_0_1);
-  tcase_add_test(tc, s21_div_box_1_3_1_0);
-  tcase_add_test(tc, s21_div_box_1_3_1_1);
-  tcase_add_test(tc, s21_div_box_1_3_10_10);
-  tcase_add_test(tc, s21_div_box_1_3_28_28);
-  tcase_add_test(tc, s21_div_box_1_3_28_0);
-  tcase_add_test(tc, s21_div_box_1_3_0_28);
-  tcase_add_test(tc, s21_div_box_1_3_5_15);
-  tcase_add_test(tc, s21_div_box_1_3_15_5);
-  tcase_add_test(tc, s21_div_box_1_3_5_0);
-  tcase_add_test(tc, s21_div_box_1_3_0_5);
+  // tcase_add_test(tc, s21_div_box_1_3_0_0);
+  // tcase_add_test(tc, s21_div_box_1_3_0_1);
+  // tcase_add_test(tc, s21_div_box_1_3_1_0);
+  // tcase_add_test(tc, s21_div_box_1_3_1_1);
+  // tcase_add_test(tc, s21_div_box_1_3_10_10);
+  // tcase_add_test(tc, s21_div_box_1_3_28_28);
+  // tcase_add_test(tc, s21_div_box_1_3_28_0);
+  // tcase_add_test(tc, s21_div_box_1_3_0_28);
+  // tcase_add_test(tc, s21_div_box_1_3_5_15);
+  // tcase_add_test(tc, s21_div_box_1_3_15_5);
+  // tcase_add_test(tc, s21_div_box_1_3_5_0);
+  // tcase_add_test(tc, s21_div_box_1_3_0_5);
 
-  tcase_set_timeout(tc,  30);
+  // tcase_set_timeout(tc,  30);
 
-  tcase_add_test(tc, div_test_1);
-  tcase_add_test(tc, div_test_2);
-  tcase_add_test(tc, div_test_3);
-  tcase_add_test(tc, div_test_4);
+  // tcase_add_test(tc, div_test_1);
+  // tcase_add_test(tc, div_test_2);
+  // tcase_add_test(tc, div_test_3);
+  // tcase_add_test(tc, div_test_4);
 
-  // equal
+  // // equal
 
-  tcase_add_test(tc, equal_1);
-  tcase_add_test(tc, equal_2);
-  tcase_add_test(tc, equal_3);
-  tcase_add_test(tc, equal_4);
-  tcase_add_test(tc, equal_5);
-  tcase_add_test(tc, equal_6);
-  tcase_add_test(tc, equal_7);
-  tcase_add_test(tc, equal_8);
-  tcase_add_test(tc, equal_9);
-  tcase_add_test(tc, equal_10);
-  tcase_add_test(tc, s21_equal_null_12);
-  tcase_add_test(tc, s21_is_equalTest1);
-  tcase_add_test(tc, s21_is_equalTest2);
-  tcase_add_test(tc, s21_is_equalTest3);
-  tcase_add_test(tc, s21_is_equalTest4);
-  tcase_add_test(tc, s21_is_equalTest5);
-  tcase_add_test(tc, s21_is_equalTest6);
-  tcase_add_test(tc, s21_is_equalTest7);
-  tcase_add_test(tc, s21_is_equalTest8);
-  tcase_add_test(tc, s21_is_equalTest9);
-  tcase_add_test(tc, s21_is_equalTest10);
-  tcase_add_test(tc, s21_is_equalTest11);
-  tcase_add_test(tc, s21_is_equalTest12);
-  tcase_add_test(tc, s21_is_equalTest13);
-  tcase_add_test(tc, s21_is_equalTest14);
-  tcase_add_test(tc, s21_is_equalTest15);
-  tcase_add_test(tc, s21_is_equalTest16);
-  tcase_add_test(tc, s21_is_equalTest17);
-  tcase_add_test(tc, s21_is_equalTest18);
-  tcase_add_test(tc, s21_is_equalTest19);
-  tcase_add_test(tc, s21_is_equalTest20);
-  tcase_add_test(tc, s21_is_equalTest21);
-  tcase_add_test(tc, s21_is_equalTest22);
-  tcase_add_test(tc, s21_is_equalTest23);
-  tcase_add_test(tc, s21_is_equalTest24);
-  tcase_add_test(tc, s21_is_equalTest25);
-  tcase_add_test(tc, s21_is_equalTest26);
-  tcase_add_test(tc, s21_is_equalTest27);
-  tcase_add_test(tc, s21_is_equalTest28);
-  tcase_add_test(tc, s21_is_equalTest29);
-  tcase_add_test(tc, s21_is_equalTest30);
-  tcase_add_test(tc, s21_is_equalTest31);
-  tcase_add_test(tc, s21_is_equalTest32);
-  tcase_add_test(tc, s21_is_equalTest33);
-  tcase_add_test(tc, s21_is_equalTest34);
-  tcase_add_test(tc, s21_is_equalTest35);
-  tcase_add_test(tc, s21_is_equalTest36);
+  // tcase_add_test(tc, equal_1);
+  // tcase_add_test(tc, equal_2);
+  // tcase_add_test(tc, equal_3);
+  // tcase_add_test(tc, equal_4);
+  // tcase_add_test(tc, equal_5);
+  // tcase_add_test(tc, equal_6);
+  // tcase_add_test(tc, equal_7);
+  // tcase_add_test(tc, equal_8);
+  // tcase_add_test(tc, equal_9);
+  // tcase_add_test(tc, equal_10);
+  // tcase_add_test(tc, s21_equal_null_12);
+  // tcase_add_test(tc, s21_is_equalTest1);
+  // tcase_add_test(tc, s21_is_equalTest2);
+  // tcase_add_test(tc, s21_is_equalTest3);
+  // tcase_add_test(tc, s21_is_equalTest4);
+  // tcase_add_test(tc, s21_is_equalTest5);
+  // tcase_add_test(tc, s21_is_equalTest6);
+  // tcase_add_test(tc, s21_is_equalTest7);
+  // tcase_add_test(tc, s21_is_equalTest8);
+  // tcase_add_test(tc, s21_is_equalTest9);
+  // tcase_add_test(tc, s21_is_equalTest10);
+  // tcase_add_test(tc, s21_is_equalTest11);
+  // tcase_add_test(tc, s21_is_equalTest12);
+  // tcase_add_test(tc, s21_is_equalTest13);
+  // tcase_add_test(tc, s21_is_equalTest14);
+  // tcase_add_test(tc, s21_is_equalTest15);
+  // tcase_add_test(tc, s21_is_equalTest16);
+  // tcase_add_test(tc, s21_is_equalTest17);
+  // tcase_add_test(tc, s21_is_equalTest18);
+  // tcase_add_test(tc, s21_is_equalTest19);
+  // tcase_add_test(tc, s21_is_equalTest20);
+  // tcase_add_test(tc, s21_is_equalTest21);
+  // tcase_add_test(tc, s21_is_equalTest22);
+  // tcase_add_test(tc, s21_is_equalTest23);
+  // tcase_add_test(tc, s21_is_equalTest24);
+  // tcase_add_test(tc, s21_is_equalTest25);
+  // tcase_add_test(tc, s21_is_equalTest26);
+  // tcase_add_test(tc, s21_is_equalTest27);
+  // tcase_add_test(tc, s21_is_equalTest28);
+  // tcase_add_test(tc, s21_is_equalTest29);
+  // tcase_add_test(tc, s21_is_equalTest30);
+  // tcase_add_test(tc, s21_is_equalTest31);
+  // tcase_add_test(tc, s21_is_equalTest32);
+  // tcase_add_test(tc, s21_is_equalTest33);
+  // tcase_add_test(tc, s21_is_equalTest34);
+  // tcase_add_test(tc, s21_is_equalTest35);
+  // tcase_add_test(tc, s21_is_equalTest36);
 
-  // not equal
+  // // not equal
 
-  tcase_add_test(tc, not_equal_1);
-  tcase_add_test(tc, not_equal_2);
-  tcase_add_test(tc, not_equal_3);
-  tcase_add_test(tc, not_equal_4);
-  tcase_add_test(tc, not_equal_5);
-  tcase_add_test(tc, not_equal_6);
-  tcase_add_test(tc, s21_not_equal_7);
+  // tcase_add_test(tc, not_equal_1);
+  // tcase_add_test(tc, not_equal_2);
+  // tcase_add_test(tc, not_equal_3);
+  // tcase_add_test(tc, not_equal_4);
+  // tcase_add_test(tc, not_equal_5);
+  // tcase_add_test(tc, not_equal_6);
+  // tcase_add_test(tc, s21_not_equal_7);
 
-  // floor
+  // // floor
 
-  tcase_add_test(tc, s21_floor_1);
-  tcase_add_test(tc, s21_floor_2);
-  tcase_add_test(tc, s21_floor_3);
-  tcase_add_test(tc, s21_floor_4);
-  tcase_add_test(tc, s21_floor_5);
-  tcase_add_test(tc, s21_floor_6);
-  tcase_add_test(tc, s21_floor_7);
-  tcase_add_test(tc, s21_floor_8);
-  tcase_add_test(tc, s21_floor_9);
-  tcase_add_test(tc, s21_floor_10);
-  tcase_add_test(tc, s21_floor_11);
-  tcase_add_test(tc, s21_floor_01);
-  tcase_add_test(tc, s21_floor_02);
-  tcase_add_test(tc, s21_floorTest1);
-  tcase_add_test(tc, s21_floorTest2);
-  tcase_add_test(tc, s21_floorTest3);
-  tcase_add_test(tc, s21_floorTest4);
-  tcase_add_test(tc, s21_floorTest5);
-  tcase_add_test(tc, s21_floorTest6);
-  tcase_add_test(tc, s21_floorTest7);
-  tcase_add_test(tc, s21_floorTest8);
-  tcase_add_test(tc, s21_floorTest9);
-  tcase_add_test(tc, s21_floorTest10);
-  tcase_add_test(tc, s21_floorTest11);
+  // tcase_add_test(tc, s21_floor_1);
+  // tcase_add_test(tc, s21_floor_2);
+  // tcase_add_test(tc, s21_floor_3);
+  // tcase_add_test(tc, s21_floor_4);
+  // tcase_add_test(tc, s21_floor_5);
+  // tcase_add_test(tc, s21_floor_6);
+  // tcase_add_test(tc, s21_floor_7);
+  // tcase_add_test(tc, s21_floor_8);
+  // tcase_add_test(tc, s21_floor_9);
+  // tcase_add_test(tc, s21_floor_10);
+  // tcase_add_test(tc, s21_floor_11);
+  // tcase_add_test(tc, s21_floor_01);
+  // tcase_add_test(tc, s21_floor_02);
+  // tcase_add_test(tc, s21_floorTest1);
+  // tcase_add_test(tc, s21_floorTest2);
+  // tcase_add_test(tc, s21_floorTest3);
+  // tcase_add_test(tc, s21_floorTest4);
+  // tcase_add_test(tc, s21_floorTest5);
+  // tcase_add_test(tc, s21_floorTest6);
+  // tcase_add_test(tc, s21_floorTest7);
+  // tcase_add_test(tc, s21_floorTest8);
+  // tcase_add_test(tc, s21_floorTest9);
+  // tcase_add_test(tc, s21_floorTest10);
+  // tcase_add_test(tc, s21_floorTest11);
 
-  // from decimal to float
+  // // from decimal to float
 
-  // truncate
+  // // truncate
 
-  tcase_add_test(tc, s21_trun_1);
-  tcase_add_test(tc, s21_trun_2);
-  tcase_add_test(tc, s21_trun_3);
-  tcase_add_test(tc, s21_trun_4);
-  tcase_add_test(tc, s21_truncate_1);
-  tcase_add_test(tc, s21_truncate_2);
-  tcase_add_test(tc, s21_truncate_3);
-  tcase_add_test(tc, s21_truncate_4);
-  tcase_add_test(tc, s21_truncate_5);
-  tcase_add_test(tc, s21_truncate_6);
-  tcase_add_test(tc, s21_truncate_7);
-  tcase_add_test(tc, s21_truncate_8);
-  tcase_add_test(tc, s21_truncateTest1);
-  tcase_add_test(tc, s21_truncateTest2);
-  tcase_add_test(tc, s21_truncateTest3);
-  tcase_add_test(tc, s21_truncateTest4);
-  tcase_add_test(tc, s21_truncateTest5);
-  tcase_add_test(tc, s21_truncateTest6);
-  tcase_add_test(tc, s21_truncateTest7);
-  tcase_add_test(tc, s21_truncateTest8);
-  tcase_add_test(tc, s21_truncateTest9);
-  tcase_add_test(tc, s21_truncateTest10);
-  tcase_add_test(tc, s21_truncateTest11);
+  // tcase_add_test(tc, s21_trun_1);
+  // tcase_add_test(tc, s21_trun_2);
+  // tcase_add_test(tc, s21_trun_3);
+  // tcase_add_test(tc, s21_trun_4);
+  // tcase_add_test(tc, s21_truncate_1);
+  // tcase_add_test(tc, s21_truncate_2);
+  // tcase_add_test(tc, s21_truncate_3);
+  // tcase_add_test(tc, s21_truncate_4);
+  // tcase_add_test(tc, s21_truncate_5);
+  // tcase_add_test(tc, s21_truncate_6);
+  // tcase_add_test(tc, s21_truncate_7);
+  // tcase_add_test(tc, s21_truncate_8);
+  // tcase_add_test(tc, s21_truncateTest1);
+  // tcase_add_test(tc, s21_truncateTest2);
+  // tcase_add_test(tc, s21_truncateTest3);
+  // tcase_add_test(tc, s21_truncateTest4);
+  // tcase_add_test(tc, s21_truncateTest5);
+  // tcase_add_test(tc, s21_truncateTest6);
+  // tcase_add_test(tc, s21_truncateTest7);
+  // tcase_add_test(tc, s21_truncateTest8);
+  // tcase_add_test(tc, s21_truncateTest9);
+  // tcase_add_test(tc, s21_truncateTest10);
+  // tcase_add_test(tc, s21_truncateTest11);
 
-  // round
+  // // round
 
-  tcase_add_test(tc, s21_round_1);
-  tcase_add_test(tc, s21_round_2);
-  tcase_add_test(tc, s21_round_3);
-  tcase_add_test(tc, s21_round_4);
-  tcase_add_test(tc, s21_round_5);
-  tcase_add_test(tc, s21_round_6);
-  tcase_add_test(tc, s21_round_7);
-  tcase_add_test(tc, s21_round_8);
-  tcase_add_test(tc, s21_round_9);
-  tcase_add_test(tc, s21_round_10);
-  tcase_add_test(tc, s21_round_11);
-  tcase_add_test(tc, s21_round_12);
-  tcase_add_test(tc, s21_round_13);
-  tcase_add_test(tc, s21_roundTest1);
-  tcase_add_test(tc, s21_roundTest2);
-  tcase_add_test(tc, s21_roundTest3);
-  tcase_add_test(tc, s21_roundTest4);
-  tcase_add_test(tc, s21_roundTest5);
-  tcase_add_test(tc, s21_roundTest6);
-  tcase_add_test(tc, s21_roundTest7);
-  tcase_add_test(tc, s21_roundTest8);
-  tcase_add_test(tc, s21_roundTest9);
-  tcase_add_test(tc, s21_roundTest10);
-  tcase_add_test(tc, s21_roundTest11);
-  tcase_add_test(tc, s21_roundTest12);
-  tcase_add_test(tc, s21_roundTest13);
-  tcase_add_test(tc, s21_roundTest14);
-  tcase_add_test(tc, s21_roundTest15);
+  // tcase_add_test(tc, s21_round_1);
+  // tcase_add_test(tc, s21_round_2);
+  // tcase_add_test(tc, s21_round_3);
+  // tcase_add_test(tc, s21_round_4);
+  // tcase_add_test(tc, s21_round_5);
+  // tcase_add_test(tc, s21_round_6);
+  // tcase_add_test(tc, s21_round_7);
+  // tcase_add_test(tc, s21_round_8);
+  // tcase_add_test(tc, s21_round_9);
+  // tcase_add_test(tc, s21_round_10);
+  // tcase_add_test(tc, s21_round_11);
+  // tcase_add_test(tc, s21_round_12);
+  // tcase_add_test(tc, s21_round_13);
+  // tcase_add_test(tc, s21_roundTest1);
+  // tcase_add_test(tc, s21_roundTest2);
+  // tcase_add_test(tc, s21_roundTest3);
+  // tcase_add_test(tc, s21_roundTest4);
+  // tcase_add_test(tc, s21_roundTest5);
+  // tcase_add_test(tc, s21_roundTest6);
+  // tcase_add_test(tc, s21_roundTest7);
+  // tcase_add_test(tc, s21_roundTest8);
+  // tcase_add_test(tc, s21_roundTest9);
+  // tcase_add_test(tc, s21_roundTest10);
+  // tcase_add_test(tc, s21_roundTest11);
+  // tcase_add_test(tc, s21_roundTest12);
+  // tcase_add_test(tc, s21_roundTest13);
+  // tcase_add_test(tc, s21_roundTest14);
+  // tcase_add_test(tc, s21_roundTest15);
 
-  // negate
+  // // negate
 
-  tcase_add_test(tc, s21_negate_1);
-  tcase_add_test(tc, s21_negate_2);
-  tcase_add_test(tc, s21_negate_3);
-  tcase_add_test(tc, s21_negate_4);
-  tcase_add_test(tc, s21_negate_5);
-  tcase_add_test(tc, s21_test_negate_0);
-  tcase_add_test(tc, s21_test_negate_1);
-  tcase_add_test(tc, s21_test_negate_2);
-  tcase_add_test(tc, s21_test_negate_3);
-  tcase_add_test(tc, s21_test_negate_4);
-  tcase_add_test(tc, s21_test_negate_5);
-  tcase_add_test(tc, s21_test_negate_6);
-  tcase_add_test(tc, s21_test_negate_7);
-  tcase_add_test(tc, s21_test_negate_8);
-  tcase_add_test(tc, negate_0);
-  tcase_add_test(tc, negate_1);
-  tcase_add_test(tc, negate_2);
-  tcase_add_test(tc, negate_3);
+  // tcase_add_test(tc, s21_negate_1);
+  // tcase_add_test(tc, s21_negate_2);
+  // tcase_add_test(tc, s21_negate_3);
+  // tcase_add_test(tc, s21_negate_4);
+  // tcase_add_test(tc, s21_negate_5);
+  // tcase_add_test(tc, s21_test_negate_0);
+  // tcase_add_test(tc, s21_test_negate_1);
+  // tcase_add_test(tc, s21_test_negate_2);
+  // tcase_add_test(tc, s21_test_negate_3);
+  // tcase_add_test(tc, s21_test_negate_4);
+  // tcase_add_test(tc, s21_test_negate_5);
+  // tcase_add_test(tc, s21_test_negate_6);
+  // tcase_add_test(tc, s21_test_negate_7);
+  // tcase_add_test(tc, s21_test_negate_8);
+  // tcase_add_test(tc, negate_0);
+  // tcase_add_test(tc, negate_1);
+  // tcase_add_test(tc, negate_2);
+  // tcase_add_test(tc, negate_3);
 
   // mod
 
@@ -10722,268 +10780,270 @@ int main() {
   tcase_add_test(tc, mod_test_11);
   tcase_add_test(tc, mod_test_12);
   tcase_add_test(tc, mod_test_13);
+  tcase_add_test(tc, mod_test_14);
+  tcase_add_test(tc, mod_test_15);
 
-  // // less
+  // // // less
 
-  tcase_add_test(tc, less_1);
-  tcase_add_test(tc, less_2);
-  tcase_add_test(tc, less_3);
-  tcase_add_test(tc, less_4);
-  tcase_add_test(tc, less_5);
-  tcase_add_test(tc, less_6);
-  tcase_add_test(tc, less_7);
-  tcase_add_test(tc, s21_less_8);
+  // tcase_add_test(tc, less_1);
+  // tcase_add_test(tc, less_2);
+  // tcase_add_test(tc, less_3);
+  // tcase_add_test(tc, less_4);
+  // tcase_add_test(tc, less_5);
+  // tcase_add_test(tc, less_6);
+  // tcase_add_test(tc, less_7);
+  // tcase_add_test(tc, s21_less_8);
 
-  // less or equal
+  // // less or equal
 
-  tcase_add_test(tc, less_or_equal_1);
-  tcase_add_test(tc, less_or_equal_2);
-  tcase_add_test(tc, less_or_equal_3);
-  tcase_add_test(tc, less_or_equal_4);
-  tcase_add_test(tc, less_or_equal_5);
-  tcase_add_test(tc, less_or_equal_6);
-  tcase_add_test(tc, less_or_equal_7);
-  tcase_add_test(tc, less_or_equal_8);
-  tcase_add_test(tc, less_or_equal_9);
-  tcase_add_test(tc, less_or_equal_10);
-  tcase_add_test(tc, less_or_equal_11);
-  tcase_add_test(tc, less_or_equal_12);
-  tcase_add_test(tc, less_or_equal_13);
-  tcase_add_test(tc, less_or_equal_14);
-  tcase_add_test(tc, less_or_equal_15);
-  tcase_add_test(tc, less_or_equal_16);
-  tcase_add_test(tc, less_or_equal_17);
-  tcase_add_test(tc, less_or_equal_18);
-  tcase_add_test(tc, less_or_equal_19);
-  tcase_add_test(tc, less_or_equal_20);
-  tcase_add_test(tc, less_or_equal_21);
-  tcase_add_test(tc, less_or_equal_22);
-  tcase_add_test(tc, s21_less_or_equal_23);
-  tcase_add_test(tc, s21_test_is_less_or_equal_1);
-  tcase_add_test(tc, s21_test_is_less_or_equal_2);
-  tcase_add_test(tc, s21_test_is_less_or_equal_2i);
-  tcase_add_test(tc, s21_test_is_less_or_equal_3);
-  tcase_add_test(tc, s21_test_is_less_or_equal_4);
-  tcase_add_test(tc, s21_test_is_less_or_equal_41);
-  tcase_add_test(tc, s21_test_is_less_or_equal_5);
-  tcase_add_test(tc, s21_test_is_less_or_equal_6);
-  tcase_add_test(tc, s21_test_is_less_or_equal_7);
-  tcase_add_test(tc, s21_test_is_less_or_equal_8);
-  tcase_add_test(tc, s21_test_is_less_or_equal_8);
-  tcase_add_test(tc, s21_test_is_less_or_equal_9);
-  tcase_add_test(tc, s21_test_is_less_or_equal_10);
-  tcase_add_test(tc, s21_is_less_or_equalTest1);
-  tcase_add_test(tc, s21_is_less_or_equalTest2);
-  tcase_add_test(tc, s21_is_less_or_equalTest3);
-  tcase_add_test(tc, s21_is_less_or_equalTest4);
-  tcase_add_test(tc, s21_is_less_or_equalTest5);
-  tcase_add_test(tc, s21_is_less_or_equalTest6);
-  tcase_add_test(tc, s21_is_less_or_equalTest7);
-  tcase_add_test(tc, s21_is_less_or_equalTest8);
-  tcase_add_test(tc, s21_is_less_or_equalTest9);
-  tcase_add_test(tc, s21_is_less_or_equalTest10);
-  tcase_add_test(tc, s21_is_less_or_equalTest11);
-  tcase_add_test(tc, s21_is_less_or_equalTest12);
-  tcase_add_test(tc, s21_is_less_or_equalTest13);
-  tcase_add_test(tc, s21_is_less_or_equalTest14);
-  tcase_add_test(tc, s21_is_less_or_equalTest15);
-  tcase_add_test(tc, s21_is_less_or_equalTest16);
-  tcase_add_test(tc, s21_is_less_or_equalTest18);
-  tcase_add_test(tc, s21_is_less_or_equalTest19);
-  tcase_add_test(tc, s21_is_less_or_equalTest20);
-  tcase_add_test(tc, s21_is_less_or_equalTest21);
-  tcase_add_test(tc, s21_is_less_or_equalTest22);
-  tcase_add_test(tc, s21_is_less_or_equalTest23);
-  tcase_add_test(tc, s21_is_less_or_equalTest24);
-  tcase_add_test(tc, s21_is_less_or_equalTest25);
-  tcase_add_test(tc, s21_is_less_or_equalTest26);
-  tcase_add_test(tc, s21_is_less_or_equalTest27);
-  tcase_add_test(tc, s21_is_less_or_equalTest28);
-  tcase_add_test(tc, s21_is_less_or_equalTest29);
-  tcase_add_test(tc, s21_is_less_or_equalTest30);
-  tcase_add_test(tc, s21_is_less_or_equalTest31);
-  tcase_add_test(tc, s21_is_less_or_equalTest32);
-  tcase_add_test(tc, s21_is_less_or_equalTest33);
-  tcase_add_test(tc, s21_is_less_or_equalTest34);
-  tcase_add_test(tc, s21_is_less_or_equalTest35);
+  // tcase_add_test(tc, less_or_equal_1);
+  // tcase_add_test(tc, less_or_equal_2);
+  // tcase_add_test(tc, less_or_equal_3);
+  // tcase_add_test(tc, less_or_equal_4);
+  // tcase_add_test(tc, less_or_equal_5);
+  // tcase_add_test(tc, less_or_equal_6);
+  // tcase_add_test(tc, less_or_equal_7);
+  // tcase_add_test(tc, less_or_equal_8);
+  // tcase_add_test(tc, less_or_equal_9);
+  // tcase_add_test(tc, less_or_equal_10);
+  // tcase_add_test(tc, less_or_equal_11);
+  // tcase_add_test(tc, less_or_equal_12);
+  // tcase_add_test(tc, less_or_equal_13);
+  // tcase_add_test(tc, less_or_equal_14);
+  // tcase_add_test(tc, less_or_equal_15);
+  // tcase_add_test(tc, less_or_equal_16);
+  // tcase_add_test(tc, less_or_equal_17);
+  // tcase_add_test(tc, less_or_equal_18);
+  // tcase_add_test(tc, less_or_equal_19);
+  // tcase_add_test(tc, less_or_equal_20);
+  // tcase_add_test(tc, less_or_equal_21);
+  // tcase_add_test(tc, less_or_equal_22);
+  // tcase_add_test(tc, s21_less_or_equal_23);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_1);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_2);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_2i);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_3);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_4);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_41);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_5);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_6);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_7);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_8);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_8);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_9);
+  // tcase_add_test(tc, s21_test_is_less_or_equal_10);
+  // tcase_add_test(tc, s21_is_less_or_equalTest1);
+  // tcase_add_test(tc, s21_is_less_or_equalTest2);
+  // tcase_add_test(tc, s21_is_less_or_equalTest3);
+  // tcase_add_test(tc, s21_is_less_or_equalTest4);
+  // tcase_add_test(tc, s21_is_less_or_equalTest5);
+  // tcase_add_test(tc, s21_is_less_or_equalTest6);
+  // tcase_add_test(tc, s21_is_less_or_equalTest7);
+  // tcase_add_test(tc, s21_is_less_or_equalTest8);
+  // tcase_add_test(tc, s21_is_less_or_equalTest9);
+  // tcase_add_test(tc, s21_is_less_or_equalTest10);
+  // tcase_add_test(tc, s21_is_less_or_equalTest11);
+  // tcase_add_test(tc, s21_is_less_or_equalTest12);
+  // tcase_add_test(tc, s21_is_less_or_equalTest13);
+  // tcase_add_test(tc, s21_is_less_or_equalTest14);
+  // tcase_add_test(tc, s21_is_less_or_equalTest15);
+  // tcase_add_test(tc, s21_is_less_or_equalTest16);
+  // tcase_add_test(tc, s21_is_less_or_equalTest18);
+  // tcase_add_test(tc, s21_is_less_or_equalTest19);
+  // tcase_add_test(tc, s21_is_less_or_equalTest20);
+  // tcase_add_test(tc, s21_is_less_or_equalTest21);
+  // tcase_add_test(tc, s21_is_less_or_equalTest22);
+  // tcase_add_test(tc, s21_is_less_or_equalTest23);
+  // tcase_add_test(tc, s21_is_less_or_equalTest24);
+  // tcase_add_test(tc, s21_is_less_or_equalTest25);
+  // tcase_add_test(tc, s21_is_less_or_equalTest26);
+  // tcase_add_test(tc, s21_is_less_or_equalTest27);
+  // tcase_add_test(tc, s21_is_less_or_equalTest28);
+  // tcase_add_test(tc, s21_is_less_or_equalTest29);
+  // tcase_add_test(tc, s21_is_less_or_equalTest30);
+  // tcase_add_test(tc, s21_is_less_or_equalTest31);
+  // tcase_add_test(tc, s21_is_less_or_equalTest32);
+  // tcase_add_test(tc, s21_is_less_or_equalTest33);
+  // tcase_add_test(tc, s21_is_less_or_equalTest34);
+  // tcase_add_test(tc, s21_is_less_or_equalTest35);
 
-  // greater
+  // // greater
 
-  tcase_add_test(tc, greater_1);
-  tcase_add_test(tc, greater_2);
-  tcase_add_test(tc, greater_3);
-  tcase_add_test(tc, greater_4);
-  tcase_add_test(tc, greater_5);
-  tcase_add_test(tc, greater_6);
-  tcase_add_test(tc, greater_7);
-  tcase_add_test(tc, greater_8);
-  tcase_add_test(tc, greater_9);
-  tcase_add_test(tc, greater_10);
-  tcase_add_test(tc, greater_11);
-  tcase_add_test(tc, greater_12);
-  tcase_add_test(tc, greater_13);
-  tcase_add_test(tc, greater_14);
-  tcase_add_test(tc, greater_15);
-  tcase_add_test(tc, greater_16);
-  tcase_add_test(tc, greater_17);
-  tcase_add_test(tc, greater_18);
-  tcase_add_test(tc, greater_19);
-  tcase_add_test(tc, greater_20);
-  tcase_add_test(tc, greater_21);
-  tcase_add_test(tc, greater_22);
-  tcase_add_test(tc, greater_23);
-  tcase_add_test(tc, greater_24);
-  tcase_add_test(tc, greater_25);
-  tcase_add_test(tc, greater_26);
-  tcase_add_test(tc, greater_27);
-  tcase_add_test(tc, greater_27);
-  tcase_add_test(tc, greater_28);
-  tcase_add_test(tc, greater_29);
-  tcase_add_test(tc, greater_30);
-  tcase_add_test(tc, greater_31);
-  tcase_add_test(tc, greater_32);
-  tcase_add_test(tc, greater_33);
-  tcase_add_test(tc, greater_34);
-  tcase_add_test(tc, greater_35);
-  tcase_add_test(tc, greater_36);
-  tcase_add_test(tc, greater_37);
-  tcase_add_test(tc, greater_38);
-  tcase_add_test(tc, greater_39);
-  tcase_add_test(tc, greater_40);
-  tcase_add_test(tc, greater_41);
-  tcase_add_test(tc, greater_42);
-  tcase_add_test(tc, greater_43);
-  tcase_add_test(tc, greater_44);
-  tcase_add_test(tc, greater_45);
-  tcase_add_test(tc, greater_46);
-  tcase_add_test(tc, greater_47);
-  tcase_add_test(tc, greater_48);
-  tcase_add_test(tc, greater_49);
-  tcase_add_test(tc, greater_50);
-  tcase_add_test(tc, greater_51);
-  tcase_add_test(tc, greater_52);
-  tcase_add_test(tc, greater_53);
-  tcase_add_test(tc, greater_54);
-  tcase_add_test(tc, greater_55);
-  tcase_add_test(tc, greater_56);
-  tcase_add_test(tc, greater_57);
-  tcase_add_test(tc, greater_58);
-  tcase_add_test(tc, greater_59);
-  tcase_add_test(tc, greater_60);
+  // tcase_add_test(tc, greater_1);
+  // tcase_add_test(tc, greater_2);
+  // tcase_add_test(tc, greater_3);
+  // tcase_add_test(tc, greater_4);
+  // tcase_add_test(tc, greater_5);
+  // tcase_add_test(tc, greater_6);
+  // tcase_add_test(tc, greater_7);
+  // tcase_add_test(tc, greater_8);
+  // tcase_add_test(tc, greater_9);
+  // tcase_add_test(tc, greater_10);
+  // tcase_add_test(tc, greater_11);
+  // tcase_add_test(tc, greater_12);
+  // tcase_add_test(tc, greater_13);
+  // tcase_add_test(tc, greater_14);
+  // tcase_add_test(tc, greater_15);
+  // tcase_add_test(tc, greater_16);
+  // tcase_add_test(tc, greater_17);
+  // tcase_add_test(tc, greater_18);
+  // tcase_add_test(tc, greater_19);
+  // tcase_add_test(tc, greater_20);
+  // tcase_add_test(tc, greater_21);
+  // tcase_add_test(tc, greater_22);
+  // tcase_add_test(tc, greater_23);
+  // tcase_add_test(tc, greater_24);
+  // tcase_add_test(tc, greater_25);
+  // tcase_add_test(tc, greater_26);
+  // tcase_add_test(tc, greater_27);
+  // tcase_add_test(tc, greater_27);
+  // tcase_add_test(tc, greater_28);
+  // tcase_add_test(tc, greater_29);
+  // tcase_add_test(tc, greater_30);
+  // tcase_add_test(tc, greater_31);
+  // tcase_add_test(tc, greater_32);
+  // tcase_add_test(tc, greater_33);
+  // tcase_add_test(tc, greater_34);
+  // tcase_add_test(tc, greater_35);
+  // tcase_add_test(tc, greater_36);
+  // tcase_add_test(tc, greater_37);
+  // tcase_add_test(tc, greater_38);
+  // tcase_add_test(tc, greater_39);
+  // tcase_add_test(tc, greater_40);
+  // tcase_add_test(tc, greater_41);
+  // tcase_add_test(tc, greater_42);
+  // tcase_add_test(tc, greater_43);
+  // tcase_add_test(tc, greater_44);
+  // tcase_add_test(tc, greater_45);
+  // tcase_add_test(tc, greater_46);
+  // tcase_add_test(tc, greater_47);
+  // tcase_add_test(tc, greater_48);
+  // tcase_add_test(tc, greater_49);
+  // tcase_add_test(tc, greater_50);
+  // tcase_add_test(tc, greater_51);
+  // tcase_add_test(tc, greater_52);
+  // tcase_add_test(tc, greater_53);
+  // tcase_add_test(tc, greater_54);
+  // tcase_add_test(tc, greater_55);
+  // tcase_add_test(tc, greater_56);
+  // tcase_add_test(tc, greater_57);
+  // tcase_add_test(tc, greater_58);
+  // tcase_add_test(tc, greater_59);
+  // tcase_add_test(tc, greater_60);
 
-  // greater or equal
+  // // greater or equal
 
-  tcase_add_test(tc, greater_or_equal_1);
-  tcase_add_test(tc, greater_or_equal_2);
-  tcase_add_test(tc, greater_or_equal_3);
-  tcase_add_test(tc, greater_or_equal_4);
-  tcase_add_test(tc, greater_or_equal_5);
-  tcase_add_test(tc, greater_or_equal_6);
-  tcase_add_test(tc, greater_or_equal_7);
-  tcase_add_test(tc, greater_or_equal_8);
-  tcase_add_test(tc, greater_or_equal_9);
-  tcase_add_test(tc, greater_or_equal_10);
-  tcase_add_test(tc, greater_or_equal_11);
-  tcase_add_test(tc, greater_or_equal_12);
-  tcase_add_test(tc, greater_or_equal_13);
+  // tcase_add_test(tc, greater_or_equal_1);
+  // tcase_add_test(tc, greater_or_equal_2);
+  // tcase_add_test(tc, greater_or_equal_3);
+  // tcase_add_test(tc, greater_or_equal_4);
+  // tcase_add_test(tc, greater_or_equal_5);
+  // tcase_add_test(tc, greater_or_equal_6);
+  // tcase_add_test(tc, greater_or_equal_7);
+  // tcase_add_test(tc, greater_or_equal_8);
+  // tcase_add_test(tc, greater_or_equal_9);
+  // tcase_add_test(tc, greater_or_equal_10);
+  // tcase_add_test(tc, greater_or_equal_11);
+  // tcase_add_test(tc, greater_or_equal_12);
+  // tcase_add_test(tc, greater_or_equal_13);
 
-  // decimal to int
+  // // decimal to int
 
-  tcase_add_test(tc, s21_from_decimal_to_int_1);
-  tcase_add_test(tc, s21_from_decimal_to_int_2);
-  tcase_add_test(tc, s21_from_decimal_to_int_4);
-  tcase_add_test(tc, s21_from_decimal_to_int_5);
-  // tcase_add_test(tc, s21_from_decimal_to_int_6);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_0);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_1);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_3);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_4);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_6);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_7);
-  // tcase_add_test(tc, s21_test_from_decimal_to_int_8);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_9);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_10);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_11);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_12);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_14);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_15);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_16);
-  tcase_add_test(tc, s21_test_from_decimal_to_int_17);
-  tcase_add_test(tc, s21_from_decimal_to_intTest1);
-  tcase_add_test(tc, s21_from_decimal_to_intTest2);
-  tcase_add_test(tc, s21_from_decimal_to_intTest3);
-  tcase_add_test(tc, s21_from_decimal_to_intTest4);
-  tcase_add_test(tc, s21_from_decimal_to_intTest5);
-  tcase_add_test(tc, s21_from_decimal_to_intTest6);
-  tcase_add_test(tc, s21_from_decimal_to_intTest7);
-  tcase_add_test(tc, s21_from_decimal_to_intTest8);
-  tcase_add_test(tc, s21_from_decimal_to_intTest9);
-  tcase_add_test(tc, s21_from_decimal_to_intTest10);
-  tcase_add_test(tc, s21_from_decimal_to_intTest11);
-  tcase_add_test(tc, s21_from_decimal_to_intTest12);
-  tcase_add_test(tc, s21_from_decimal_to_intTest13);
-  tcase_add_test(tc, s21_from_decimal_to_intTest14);
-  tcase_add_test(tc, s21_from_decimal_to_intTest15);
+  // tcase_add_test(tc, s21_from_decimal_to_int_1);
+  // tcase_add_test(tc, s21_from_decimal_to_int_2);
+  // tcase_add_test(tc, s21_from_decimal_to_int_4);
+  // tcase_add_test(tc, s21_from_decimal_to_int_5);
+  // // tcase_add_test(tc, s21_from_decimal_to_int_6);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_0);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_1);
+  // // tcase_add_test(tc, s21_test_from_decimal_to_int_3);
+  // // tcase_add_test(tc, s21_test_from_decimal_to_int_4);
+  // // tcase_add_test(tc, s21_test_from_decimal_to_int_6);
+  // // tcase_add_test(tc, s21_test_from_decimal_to_int_7);
+  // // tcase_add_test(tc, s21_test_from_decimal_to_int_8);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_9);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_10);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_11);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_12);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_14);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_15);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_16);
+  // tcase_add_test(tc, s21_test_from_decimal_to_int_17);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest1);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest2);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest3);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest4);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest5);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest6);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest7);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest8);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest9);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest10);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest11);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest12);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest13);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest14);
+  // tcase_add_test(tc, s21_from_decimal_to_intTest15);
 
-  // from int to decimal
+  // // from int to decimal
 
-  // tcase_add_test(tc, s21_from_int_to_decimal_1);
-  tcase_add_test(tc, s21_test_from_int_to_decimal_0);
-  tcase_add_test(tc, s21_test_from_int_to_decimal_1);
-  tcase_add_test(tc, s21_test_from_int_to_decimal_2);
-  tcase_add_test(tc, s21_test_from_int_to_decimal_3);
-  tcase_add_test(tc, s21_test_from_int_to_decimal_4);
-  tcase_add_test(tc, s21_test_from_int_to_decimal_5);
-  tcase_add_test(tc, s21_from_int_to_decimalTest1);
-  tcase_add_test(tc, s21_from_int_to_decimalTest2);
-  tcase_add_test(tc, s21_from_int_to_decimalTest3);
-  tcase_add_test(tc, s21_from_int_to_decimalTest4);
-  tcase_add_test(tc, s21_from_int_to_decimalTest5);
-  tcase_add_test(tc, s21_from_int_to_decimalTest6);
-  tcase_add_test(tc, s21_from_int_to_decimalTest7);
-  tcase_add_test(tc, s21_from_int_to_decimalTest8);
-  tcase_add_test(tc, s21_from_int_to_decimalTest9);
-  tcase_add_test(tc, from_int_to_decimal_0);
-  tcase_add_test(tc, from_int_to_decimal_1);
+  // // tcase_add_test(tc, s21_from_int_to_decimal_1);
+  // tcase_add_test(tc, s21_test_from_int_to_decimal_0);
+  // tcase_add_test(tc, s21_test_from_int_to_decimal_1);
+  // tcase_add_test(tc, s21_test_from_int_to_decimal_2);
+  // tcase_add_test(tc, s21_test_from_int_to_decimal_3);
+  // tcase_add_test(tc, s21_test_from_int_to_decimal_4);
+  // tcase_add_test(tc, s21_test_from_int_to_decimal_5);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest1);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest2);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest3);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest4);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest5);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest6);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest7);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest8);
+  // tcase_add_test(tc, s21_from_int_to_decimalTest9);
+  // tcase_add_test(tc, from_int_to_decimal_0);
+  // tcase_add_test(tc, from_int_to_decimal_1);
 
-  // from float to decimal
+  // // from float to decimal
 
-  tcase_add_test(tc, s21_from_float_to_decimal_1);
-  tcase_add_test(tc, s21_from_float_to_decimal_2);
-  // tcase_add_test(tc, s21_from_float_to_decimal_3);
-  // tcase_add_test(tc, s21_from_float_to_decimal_4);
-  tcase_add_test(tc, s21_from_float_to_decimal_5);
-  tcase_add_test(tc, s21_from_float_to_decimal_6);
-  tcase_add_test(tc, s21_from_float_to_decimal_7);
-  tcase_add_test(tc, s21_from_float_to_decimal_8);
-  tcase_add_test(tc, s21_from_float_to_decimal_10);
-  tcase_add_test(tc, s21_from_float_to_decimal_11);
-  tcase_add_test(tc, s21_from_float_to_decimal_12);
-  // tcase_add_test(tc, s21_from_float_to_decimal_13);
-  tcase_add_test(tc, s21_from_float_to_decimal_14);
-  tcase_add_test(tc, s21_from_float_to_decimal_15);
-  tcase_add_test(tc, s21_from_float_to_decimal_16);
-  tcase_add_test(tc, s21_from_float_to_decimal_17);
-  tcase_add_test(tc, s21_from_float_to_decimal_18);
+  // tcase_add_test(tc, s21_from_float_to_decimal_1);
+  // tcase_add_test(tc, s21_from_float_to_decimal_2);
+  // // tcase_add_test(tc, s21_from_float_to_decimal_3);
+  // // tcase_add_test(tc, s21_from_float_to_decimal_4);
+  // tcase_add_test(tc, s21_from_float_to_decimal_5);
+  // tcase_add_test(tc, s21_from_float_to_decimal_6);
+  // tcase_add_test(tc, s21_from_float_to_decimal_7);
+  // tcase_add_test(tc, s21_from_float_to_decimal_8);
+  // tcase_add_test(tc, s21_from_float_to_decimal_10);
+  // tcase_add_test(tc, s21_from_float_to_decimal_11);
+  // tcase_add_test(tc, s21_from_float_to_decimal_12);
+  // // tcase_add_test(tc, s21_from_float_to_decimal_13);
+  // tcase_add_test(tc, s21_from_float_to_decimal_14);
+  // tcase_add_test(tc, s21_from_float_to_decimal_15);
+  // tcase_add_test(tc, s21_from_float_to_decimal_16);
+  // tcase_add_test(tc, s21_from_float_to_decimal_17);
+  // tcase_add_test(tc, s21_from_float_to_decimal_18);
 
-  // from decimaal to float
+  // // from decimaal to float
 
-  tcase_add_test(tc, s21_from_decimal_to_float_1);
-  tcase_add_test(tc, s21_from_decimal_to_float_2);
-  tcase_add_test(tc, s21_from_decimal_to_float_3);
-  // tcase_add_test(tc, s21_from_decimal_to_float_4);
-  tcase_add_test(tc, s21_from_decimal_to_float_5);
-  tcase_add_test(tc, s21_from_decimal_to_float_7);
-  tcase_add_test(tc, s21_from_decimal_to_float_8);
-  // tcase_add_test(tc, s21_from_decimal_to_float_9);
-  tcase_add_test(tc, s21_from_decimal_to_float_10);
-  tcase_add_test(tc, s21_from_decimal_to_floatTest1);
-  tcase_add_test(tc, s21_from_decimal_to_floatTest2);
-  tcase_add_test(tc, s21_from_decimal_to_floatTest3);
-  tcase_add_test(tc, s21_from_decimal_to_floatTest4);
-  tcase_add_test(tc, s21_from_decimal_to_floatTest5);
-  tcase_add_test(tc, s21_from_decimal_to_floatTest6);
-  tcase_add_test(tc, s21_from_decimal_to_floatTest7);
+  // tcase_add_test(tc, s21_from_decimal_to_float_1);
+  // tcase_add_test(tc, s21_from_decimal_to_float_2);
+  // tcase_add_test(tc, s21_from_decimal_to_float_3);
+  // // tcase_add_test(tc, s21_from_decimal_to_float_4);
+  // tcase_add_test(tc, s21_from_decimal_to_float_5);
+  // tcase_add_test(tc, s21_from_decimal_to_float_7);
+  // tcase_add_test(tc, s21_from_decimal_to_float_8);
+  // // tcase_add_test(tc, s21_from_decimal_to_float_9);
+  // tcase_add_test(tc, s21_from_decimal_to_float_10);
+  // tcase_add_test(tc, s21_from_decimal_to_floatTest1);
+  // tcase_add_test(tc, s21_from_decimal_to_floatTest2);
+  // tcase_add_test(tc, s21_from_decimal_to_floatTest3);
+  // tcase_add_test(tc, s21_from_decimal_to_floatTest4);
+  // tcase_add_test(tc, s21_from_decimal_to_floatTest5);
+  // tcase_add_test(tc, s21_from_decimal_to_floatTest6);
+  // tcase_add_test(tc, s21_from_decimal_to_floatTest7);
 
   srunner_run_all(sr, CK_NORMAL);
   nf = srunner_ntests_failed(sr);
