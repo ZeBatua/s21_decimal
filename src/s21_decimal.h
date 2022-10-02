@@ -6,23 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
-typedef enum {
-  success,
-  overflow,
-  neg_overflow,
-  invalid_scale,
-} value_type_t;
-
 typedef struct {
   int bits[4];
-  value_type_t value_type;
 } s21_decimal;
 
 typedef struct {
   int extBits[10];
-  value_type_t value_type;
 } s21_extended_decimal;
 
 int getBit(int value, int position);
@@ -64,8 +53,7 @@ void subtraction_no_sign(s21_extended_decimal value_1,
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 void create_mask(s21_extended_decimal ext_value_1,
                  s21_extended_decimal ext_value_2,
-                 s21_extended_decimal *first_dec_mask,
-                 int *shift_counter,
+                 s21_extended_decimal *first_dec_mask, int *shift_counter,
                  int bit);
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int is_equal_no_sign(s21_extended_decimal value_1,

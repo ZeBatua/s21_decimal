@@ -1,4 +1,4 @@
-#include "s21_decimal.h"
+#include "../s21_decimal.h"
 char res[140] = {0};
 
 START_TEST(test_add) {

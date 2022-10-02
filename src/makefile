@@ -12,18 +12,16 @@ OBJECTS = *.o
 SOURCES = \
 	./secondary_functions/Bit_operations/*.c \
 	./secondary_functions/convert_dec/*.c \
-	./secondary_functions/dec_to_back_string/*.c \
 	./secondary_functions/float_functions/*.c \
 	./secondary_functions/GetSet_SignScale/*.c \
 	./secondary_functions/NoSE/*.c \
-	./secondary_functions/Print/*.c \
 	./secondary_functions/shifts/*.c \
-	./secondary_functions/tmp/*.c \
 	./main_functions/Another_functions/*.c \
 	./main_functions/Arithmetic_Operators/*.c \
 	./main_functions/Comparison_Operators/*.c \
 	./extended_decimal/*.c \
-	./main_functions/Convertors_and_parsers/*.c
+	./main_functions/Convertors_and_parsers/*.c 
+#	 ./s21_test.c
 # SOURCES_WITH_MAIN = \
 # 	main.c \
 # 	./secondary_functions/Bit_operations/*.c \
@@ -40,36 +38,37 @@ SOURCES = \
 # 	./main_functions/Comparison_Operators/*.c \
 # 	./extended_decimal/*.c \
 # 	./main_functions/Convertors_and_parsers/*.c
+var = $(shell pkg-config --cflags --libs check)
 
 
-all: clean s21_decimal.a test gcov_report 
+all: clean s21_decimal.a 
 
 s21_decimal.a:
-	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) -c
+	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(TFLAGS) $(LDFLAGS) $(GFLAGS) $(var)  -c
 	ar rcs s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
 #	mkdir o_files
 #	mv *.o o_files
 
 s21_test.o: s21_test.c
-	$(CC) $(ASAN) $(CFLAGS)-c s21_test.c
+	$(CC) $(ASAN) $(var) -c s21_test.c
 
 test: s21_decimal.a s21_test.o
-	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) s21_test.o s21_decimal.a -o test $(TFLAGS)
+	$(CC) $(ASAN) $(GFLAGS) $(LDFLAGS) $(var)  s21_test.o s21_decimal.a -o test $(TFLAGS)
 	./test
 
 gcov_report: s21_decimal.a test	
-	gcovr .
-	gcovr --html-details -o report.html
+	lcov -t 'gcov_report' -o gcov_report.info -c -d .
+	genhtml -o gcov_report gcov_report.info
+    
 
 # s21_dec: clean
 # 	$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN) $(TFLAGS) -g -o s21_dec
 # 	./s21_dec
 
 check:
-#   cppcheck *.c
-#	CK_FORK=no leaks --atExit --./test
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=RESULT_VALGRIND.txt ./test	
+#    cppcheck --enable=all --suppress=missingIncludeSystem .
+	leaks -atExit -exclude -- ./test
 
 clean: 
 	rm -rf *.o *.out *.gc
