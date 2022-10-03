@@ -5,29 +5,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../s21_decimal.h"
+#include "s21_decimal.h"
 
 #define S21_TRUE 1
 #define S21_FALSE 0
 #define CONVERTERS_S21_TRUE 0
 #define CONVERTERS_S21_FALSE 1
-#define U_MAX_INT 4294967295         // 0b11111111111111111111111111111111
-#define MAX_INT 2147483647           // 0b01111111111111111111111111111111
-#define EXPONENT_MINUS_1 2147549184  // 0b10000000000000010000000000000000
-#define EXPONENT_PLUS_1 65536        // 0b00000000000000010000000000000000
-#define EXPONENT_PLUS_2 196608       // 0b00000000000000110000000000000000
-#define EXPONENT_MINUS_28 2149318656 // 0b10000000000111000000000000000000
-#define EXPONENT_PLUS_28 1835008     // 0b00000000000111000000000000000000
-#define MINUS 2147483648             // 0b10000000000000000000000000000000
+#define U_MAX_INT 4294967295          // 0b11111111111111111111111111111111
+#define MAX_INT 2147483647            // 0b01111111111111111111111111111111
+#define EXPONENT_MINUS_1 2147549184   // 0b10000000000000010000000000000000
+#define EXPONENT_PLUS_1 65536         // 0b00000000000000010000000000000000
+#define EXPONENT_PLUS_2 196608        // 0b00000000000000110000000000000000
+#define EXPONENT_MINUS_28 2149318656  // 0b10000000000111000000000000000000
+#define EXPONENT_PLUS_28 1835008      // 0b00000000000111000000000000000000
+#define MINUS 2147483648              // 0b10000000000000000000000000000000
 #define SIZE_BITS 4
 #define NUM_255 255
 #define TRUE 1
 #define FALSE 0
 
-#define ASSERT_DECIMAL_EQ                                                      \
-  for (size_t i = 0; i < 4; i++) {                                             \
-    ck_assert_msg(result.bits[i] == expected.bits[i], "[%zu] %u != %u", i,     \
-                  result.bits[i], expected.bits[i]);                           \
+#define ASSERT_DECIMAL_EQ                                                  \
+  for (size_t i = 0; i < 4; i++) {                                         \
+    ck_assert_msg(result.bits[i] == expected.bits[i], "[%zu] %u != %u", i, \
+                  result.bits[i], expected.bits[i]);                       \
   }
 
 #define S21_MAX_UINT 4294967295
@@ -3674,7 +3674,6 @@ START_TEST(div_test_5) {
   dec2.bits[1] = 0;
   dec2.bits[0] = 0;
 
-  
   diff = s21_div(dec1, dec2, &result);
   ck_assert_int_eq(diff, 3);
 }
@@ -3702,7 +3701,7 @@ START_TEST(div_test_6) {
   orig.bits[2] = 1568954488;
   orig.bits[1] = 1568954488;
   orig.bits[0] = 1568954488;
-  
+
   s21_div(dec1, dec2, &result);
   diff = s21_is_equal(result, orig);
   ck_assert_int_eq(diff, S21_TRUE);
@@ -3732,7 +3731,7 @@ START_TEST(div_test_7) {
   orig.bits[2] = 36;
   orig.bits[1] = 2276626180;
   orig.bits[0] = 2276626144;
-  
+
   s21_div(dec1, dec2, &result);
   diff = s21_is_equal(result, orig);
   ck_assert_int_eq(diff, S21_TRUE);
@@ -3746,24 +3745,23 @@ START_TEST(div_test_8) {
   init_decimal(&dec2);
   init_decimal(&result);
   init_decimal(&orig);
-// 4949341991908698119347372159
+  // 4949341991908698119347372159
   dec1.bits[3] = 0;
   dec1.bits[2] = 0b1111111111011111111111101111;
   dec1.bits[1] = 0b111100000000000000;
   dec1.bits[0] = 0b0000000000000001111111;
-// 31
+  // 31
   dec2.bits[3] = 0;
   dec2.bits[2] = 0;
   dec2.bits[1] = 0;
   dec2.bits[0] = 0b000000011111;
   setScale(2, &dec2);
-// 15965619328737735868862490835.4838709677419355
+  // 15965619328737735868862490835.4838709677419355
   orig.bits[3] = 0;
   orig.bits[2] = 0b1110011100111001110100011010011;
   orig.bits[1] = 0b10000100100000011100111001110;
   orig.bits[0] = 0b1110011100111001110100011010011;
 
-  
   s21_div(dec1, dec2, &result);
   diff = s21_is_equal(result, orig);
   smart_print_binary_decimal(result);
@@ -4717,21 +4715,21 @@ END_TEST
 
 START_TEST(s21_not_equal_7) {
   s21_decimal dec1 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
-  s21_decimal dec2 = {{12, 0, 0, 0b10000000000000010000000000000000}}; // -1.2;
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
+  s21_decimal dec2 = {{12, 0, 0, 0b10000000000000010000000000000000}};  // -1.2;
   ck_assert_int_eq(s21_is_not_equal(dec1, dec2), 1);
 
   s21_decimal dec3 = {
-      {120000, 0, 0, 0b00000000000001000000000000000000}}; //  12.0000
-  s21_decimal dec4 = {{12, 0, 0, 0b00000000000000000000000000000000}}; //
+      {120000, 0, 0, 0b00000000000001000000000000000000}};  //  12.0000
+  s21_decimal dec4 = {{12, 0, 0, 0b00000000000000000000000000000000}};  //
   ck_assert_int_eq(s21_is_not_equal(dec3, dec4), 0);
 
-  s21_decimal dec5 = {{0, 0, 0, 0b00000000000000000000000000000000}};  //  0
-  s21_decimal dec6 = {{00, 0, 0, 0b00000000000000010000000000000000}}; //
+  s21_decimal dec5 = {{0, 0, 0, 0b00000000000000000000000000000000}};   //  0
+  s21_decimal dec6 = {{00, 0, 0, 0b00000000000000010000000000000000}};  //
   ck_assert_int_eq(s21_is_not_equal(dec5, dec6), 0);
 
-  s21_decimal dec7 = {{0, 0, 0, 0b00000000000000000000000000000000}}; //   0
-  s21_decimal dec8 = {{0, 0, 0, 0b10000000000000000000000000000000}}; //  -0;
+  s21_decimal dec7 = {{0, 0, 0, 0b00000000000000000000000000000000}};  //   0
+  s21_decimal dec8 = {{0, 0, 0, 0b10000000000000000000000000000000}};  //  -0;
   ck_assert_int_eq(s21_is_not_equal(dec7, dec8), 1);
 }
 END_TEST
@@ -4780,10 +4778,10 @@ END_TEST
 
 START_TEST(s21_floor_3) {
   s21_decimal dec1;
-  dec1.bits[0] = 0b10010011111111111111110001010010; // 2483027.026
+  dec1.bits[0] = 0b10010011111111111111110001010010;  // 2483027.026
   dec1.bits[1] = 0b00000000000000000000000000000000;
   dec1.bits[2] = 0b00000000000000000000000000000000;
-  dec1.bits[3] = 0b00000000000000110000000000000000; // 3
+  dec1.bits[3] = 0b00000000000000110000000000000000;  // 3
   s21_decimal result;
   result.bits[0] = 0b00000000001001011110001101010011;
   result.bits[1] = 0b00000000000000000000000000000000;
@@ -5248,7 +5246,7 @@ END_TEST
 
 START_TEST(s21_trun_1) {
   s21_decimal dec1;
-  dec1.bits[0] = 0b00000000000000000000000011010011; // 21.1
+  dec1.bits[0] = 0b00000000000000000000000011010011;  // 21.1
   dec1.bits[1] = 0b00000000000000000000000000000000;
   dec1.bits[2] = 0b00000000000000000000000000000000;
   dec1.bits[3] = 0b00000000000000010000000000000000;
@@ -5289,7 +5287,7 @@ END_TEST
 START_TEST(s21_trun_3) {
   s21_decimal dec1;
   dec1.bits[0] =
-      0b11111111111111111111111111111111; // 7922816251426433759354395033.5
+      0b11111111111111111111111111111111;  // 7922816251426433759354395033.5
   dec1.bits[1] = 0b11111111111111111111111111111111;
   dec1.bits[2] = 0b11111111111111111111111111111111;
   dec1.bits[3] = 0b00000000000000010000000000000000;
@@ -5309,7 +5307,7 @@ END_TEST
 
 START_TEST(s21_trun_4) {
   s21_decimal dec1;
-  dec1.bits[0] = 0b10000000000000000000000010100101; // 214.7483813
+  dec1.bits[0] = 0b10000000000000000000000010100101;  // 214.7483813
   dec1.bits[1] = 0b00000000000000000000000000000000;
   dec1.bits[2] = 0b00000000000000000000000000000000;
   dec1.bits[3] = 0b00000000000001110000000000000000;
@@ -5775,7 +5773,7 @@ END_TEST
 
 START_TEST(s21_round_2) {
   s21_decimal dec1;
-  dec1.bits[0] = 0b00000000000000000000000010100101; // -16.5
+  dec1.bits[0] = 0b00000000000000000000000010100101;  // -16.5
   dec1.bits[1] = 0b00000000000000000000000000000000;
   dec1.bits[2] = 0b00000000000000000000000000000000;
   dec1.bits[3] = 0b10000000000000010000000000000000;
@@ -5795,13 +5793,13 @@ END_TEST
 
 START_TEST(s21_round_3) {
   s21_decimal dec1;
-  dec1.bits[0] = 0b11111111111111111111111111111111; // 18014398509481.983
+  dec1.bits[0] = 0b11111111111111111111111111111111;  // 18014398509481.983
   dec1.bits[1] = 0b00000000001111111111111111111111;
   dec1.bits[2] = 0b00000000000000000000000000000000;
   dec1.bits[3] = 0b00000000000000110000000000000000;
   s21_decimal result;
 
-  result.bits[0] = 0b01001101110100101111000110101001; // 18014398509481
+  result.bits[0] = 0b01001101110100101111000110101001;  // 18014398509481
   result.bits[1] = 0b00000000000000000001000001100010;
   result.bits[2] = 0b00000000000000000000000000000000;
   result.bits[3] = 0b00000000000000000000000000000000;
@@ -5816,12 +5814,12 @@ END_TEST
 
 START_TEST(s21_round_4) {
   s21_decimal dec1;
-  dec1.bits[0] = 0b00000000000011110111001001110100; // -10123.40
+  dec1.bits[0] = 0b00000000000011110111001001110100;  // -10123.40
   dec1.bits[1] = 0b00000000000000000000000000000000;
   dec1.bits[2] = 0b00000000000000000000000000000000;
   dec1.bits[3] = 0b10000000000000110000000000000000;
   s21_decimal result;
-  result.bits[0] = 0b00000000000000000000001111110100; // -1012
+  result.bits[0] = 0b00000000000000000000001111110100;  // -1012
   result.bits[1] = 0b00000000000000000000000000000000;
   result.bits[2] = 0b00000000000000000000000000000000;
   result.bits[3] = 0b10000000000000000000000000000000;
@@ -5836,12 +5834,12 @@ END_TEST
 
 START_TEST(s21_round_5) {
   s21_decimal dec1;
-  dec1.bits[0] = 0b10000000000000000000001111110100; // 112590205.4327284
+  dec1.bits[0] = 0b10000000000000000000001111110100;  // 112590205.4327284
   dec1.bits[1] = 0b00000000000001000000000000000000;
   dec1.bits[2] = 0b00000000000000000000000000000000;
   dec1.bits[3] = 0b10000000000001110000000000000000;
   s21_decimal result;
-  result.bits[0] = 0b00000110101101011111110101111101; // 112590205
+  result.bits[0] = 0b00000110101101011111110101111101;  // 112590205
   result.bits[1] = 0b00000000000000000000000000000000;
   result.bits[2] = 0b00000000000000000000000000000000;
   result.bits[3] = 0b10000000000000000000000000000000;
@@ -5856,12 +5854,12 @@ END_TEST
 
 START_TEST(s21_round_6) {
   s21_decimal dec1;
-  dec1.bits[0] = 0b10000000000000000000001111110100; // 2147484660
+  dec1.bits[0] = 0b10000000000000000000001111110100;  // 2147484660
   dec1.bits[1] = 0b00000000000000000000000000000000;
   dec1.bits[2] = 0b00000000000000000000000000000000;
   dec1.bits[3] = 0b00000000000000000000000000000000;
   s21_decimal result;
-  result.bits[0] = 0b10000000000000000000001111110100; // 2147484660
+  result.bits[0] = 0b10000000000000000000001111110100;  // 2147484660
   result.bits[1] = 0b00000000000000000000000000000000;
   result.bits[2] = 0b00000000000000000000000000000000;
   result.bits[3] = 0b00000000000000000000000000000000;
@@ -7010,26 +7008,27 @@ END_TEST
 
 START_TEST(s21_less_8) {
   s21_decimal dec5 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
-  s21_decimal dec6 = {{12, 0, 0, 0b10000000000000010000000000000000}}; // -1.2
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
+  s21_decimal dec6 = {{12, 0, 0, 0b10000000000000010000000000000000}};  // -1.2
   ck_assert_int_eq(s21_is_less(dec5, dec6), 0);
   ck_assert_int_eq(s21_is_less(dec6, dec5), 1);
 
   s21_decimal dec7 = {
-      {12345, 0, 0, 0b10000000000001000000000000000000}}; // -1.2345
-  s21_decimal dec8 = {{12, 0, 0, 0b00000000000000010000000000000000}}; //  1.2;
+      {12345, 0, 0, 0b10000000000001000000000000000000}};  // -1.2345
+  s21_decimal dec8 = {{12, 0, 0, 0b00000000000000010000000000000000}};  //  1.2;
   ck_assert_int_eq(s21_is_less(dec7, dec8), 1);
   ck_assert_int_eq(s21_is_less(dec8, dec7), 0);
 
   s21_decimal dec1 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
-  s21_decimal dec2 = {{12, 0, 0, 0b00000000000000010000000000000000}}; //  1.2;
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
+  s21_decimal dec2 = {{12, 0, 0, 0b00000000000000010000000000000000}};  //  1.2;
   ck_assert_int_eq(s21_is_less(dec1, dec2), 0);
   ck_assert_int_eq(s21_is_less(dec2, dec1), 1);
 
   s21_decimal dec3 = {
-      {12345, 0, 0, 0b10000000000001000000000000000000}}; // -1.2345
-  s21_decimal dec4 = {{12, 0, 0, 0b10000000000000010000000000000000}}; //  -1.2;
+      {12345, 0, 0, 0b10000000000001000000000000000000}};  // -1.2345
+  s21_decimal dec4 = {
+      {12, 0, 0, 0b10000000000000010000000000000000}};  //  -1.2;
   ck_assert_int_eq(s21_is_less(dec3, dec4), 1);
   ck_assert_int_eq(s21_is_less(dec4, dec3), 0);
 
@@ -7291,26 +7290,27 @@ END_TEST
 
 START_TEST(s21_less_or_equal_23) {
   s21_decimal dec5 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
-  s21_decimal dec6 = {{12, 0, 0, 0b10000000000000010000000000000000}}; // -1.2;
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
+  s21_decimal dec6 = {{12, 0, 0, 0b10000000000000010000000000000000}};  // -1.2;
   ck_assert_int_eq(s21_is_less_or_equal(dec5, dec6), 0);
   ck_assert_int_eq(s21_is_less_or_equal(dec6, dec5), 1);
 
   s21_decimal dec7 = {
-      {12345, 0, 0, 0b10000000000001000000000000000000}}; // -1.2345
-  s21_decimal dec8 = {{12, 0, 0, 0b00000000000000010000000000000000}}; //  1.2;
+      {12345, 0, 0, 0b10000000000001000000000000000000}};  // -1.2345
+  s21_decimal dec8 = {{12, 0, 0, 0b00000000000000010000000000000000}};  //  1.2;
   ck_assert_int_eq(s21_is_less_or_equal(dec7, dec8), 1);
   ck_assert_int_eq(s21_is_less_or_equal(dec8, dec7), 0);
 
   s21_decimal dec1 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
-  s21_decimal dec2 = {{12, 0, 0, 0b00000000000000010000000000000000}}; //  1.2;
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
+  s21_decimal dec2 = {{12, 0, 0, 0b00000000000000010000000000000000}};  //  1.2;
   ck_assert_int_eq(s21_is_less_or_equal(dec1, dec2), 0);
   ck_assert_int_eq(s21_is_less_or_equal(dec2, dec1), 1);
 
   s21_decimal dec3 = {
-      {12345, 0, 0, 0b10000000000001000000000000000000}}; // -1.2345
-  s21_decimal dec4 = {{12, 0, 0, 0b10000000000000010000000000000000}}; //  -1.2;
+      {12345, 0, 0, 0b10000000000001000000000000000000}};  // -1.2345
+  s21_decimal dec4 = {
+      {12, 0, 0, 0b10000000000000010000000000000000}};  //  -1.2;
   ck_assert_int_eq(s21_is_less_or_equal(dec3, dec4), 1);
   ck_assert_int_eq(s21_is_less_or_equal(dec4, dec3), 0);
 
@@ -7330,7 +7330,7 @@ START_TEST(s21_test_is_less_or_equal_1) {
   s21_decimal a = {{1, 0, 0, 0}};
   s21_decimal b = {{1, 0, 0, 0}};
   ck_assert_int_eq(s21_is_less_or_equal(a, b),
-                   S21_TRUE); // Возвращаемое значение : 0 - FALSE   1 - TRUE
+                   S21_TRUE);  // Возвращаемое значение : 0 - FALSE   1 - TRUE
 }
 END_TEST
 
@@ -8005,14 +8005,14 @@ START_TEST(s21_is_less_or_equalTest30) {
   src1.bits[0] = 0b01010100010000000011110110001100;
   src1.bits[1] = 0b10001011010100100000010101011001;
   src1.bits[2] =
-      0b00011111101010011000000110101101; // 111111010100110000001101011011000101101010010000001010101100101010100010000000011110110001100
+      0b00011111101010011000000110101101;  // 111111010100110000001101011011000101101010010000001010101100101010100010000000011110110001100
   src1.bits[3] =
-      0b10000000000011000000000000000000; // -9798956154578676.797564534156
+      0b10000000000011000000000000000000;  // -9798956154578676.797564534156
 
   src2.bits[0] = 0b01100101111100100100110110101100;
   src2.bits[1] =
-      0b00000000000001111010100110101011; // 111101010011010101101100101111100100100110110101100
-  src2.bits[2] = 0b00000000000000000000000000000000; // -2156878451.854764
+      0b00000000000001111010100110101011;  // 111101010011010101101100101111100100100110110101100
+  src2.bits[2] = 0b00000000000000000000000000000000;  // -2156878451.854764
   src2.bits[3] = 0b10000000000001100000000000000000;
   int result = s21_is_less_or_equal(src1, src2);
   int origin = 1;
@@ -8254,26 +8254,28 @@ END_TEST
 
 START_TEST(greater_11) {
   s21_decimal dec5 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
-  s21_decimal dec6 = {{12, 0, 0, 0b10000000000000010000000000000000}}; //  -1.2;
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
+  s21_decimal dec6 = {
+      {12, 0, 0, 0b10000000000000010000000000000000}};  //  -1.2;
   ck_assert_int_eq(s21_is_greater(dec5, dec6), 1);
   ck_assert_int_eq(s21_is_greater(dec6, dec5), 0);
 
   s21_decimal dec7 = {
-      {12345, 0, 0, 0b10000000000001000000000000000000}}; // -1.2345
-  s21_decimal dec8 = {{12, 0, 0, 0b00000000000000010000000000000000}}; //  1.2;
+      {12345, 0, 0, 0b10000000000001000000000000000000}};  // -1.2345
+  s21_decimal dec8 = {{12, 0, 0, 0b00000000000000010000000000000000}};  //  1.2;
   ck_assert_int_eq(s21_is_greater(dec7, dec8), 0);
   ck_assert_int_eq(s21_is_greater(dec8, dec7), 1);
 
   s21_decimal dec1 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
-  s21_decimal dec2 = {{12, 0, 0, 0b00000000000000010000000000000000}}; //  1.2
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
+  s21_decimal dec2 = {{12, 0, 0, 0b00000000000000010000000000000000}};  //  1.2
   ck_assert_int_eq(s21_is_greater(dec1, dec2), 1);
   ck_assert_int_eq(s21_is_greater(dec2, dec1), 0);
 
   s21_decimal dec3 = {
-      {12345, 0, 0, 0b10000000000001000000000000000000}}; // -1.2345
-  s21_decimal dec4 = {{12, 0, 0, 0b10000000000000010000000000000000}}; //   -1.2
+      {12345, 0, 0, 0b10000000000001000000000000000000}};  // -1.2345
+  s21_decimal dec4 = {
+      {12, 0, 0, 0b10000000000000010000000000000000}};  //   -1.2
   ck_assert_int_eq(s21_is_greater(dec3, dec4), 0);
   ck_assert_int_eq(s21_is_greater(dec4, dec3), 1);
 }
@@ -8283,7 +8285,7 @@ START_TEST(greater_12) {
   s21_decimal a = {{2, 0, 0, 0}};
   s21_decimal b = {{1, 0, 0, 0}};
   ck_assert_int_eq(s21_is_greater(a, b),
-                   S21_TRUE); // Возвращаемое значение : 0 - FALSE   1 - TRUE
+                   S21_TRUE);  // Возвращаемое значение : 0 - FALSE   1 - TRUE
 }
 END_TEST
 
@@ -9227,26 +9229,26 @@ END_TEST
 
 START_TEST(greater_or_equal_13) {
   s21_decimal dec5 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
-  s21_decimal dec6 = {{12, 0, 0, 0b10000000000000010000000000000000}}; //
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
+  s21_decimal dec6 = {{12, 0, 0, 0b10000000000000010000000000000000}};  //
   ck_assert_int_eq(s21_is_greater_or_equal(dec5, dec6), 1);
   ck_assert_int_eq(s21_is_greater_or_equal(dec6, dec5), 0);
 
   s21_decimal dec7 = {
-      {12345, 0, 0, 0b10000000000001000000000000000000}}; // -1.2345
+      {12345, 0, 0, 0b10000000000001000000000000000000}};  // -1.2345
   s21_decimal dec8 = {{12, 0, 0, 0b00000000000000010000000000000000}};
   ck_assert_int_eq(s21_is_greater_or_equal(dec7, dec8), 0);
   ck_assert_int_eq(s21_is_greater_or_equal(dec8, dec7), 1);
 
   s21_decimal dec1 = {
-      {12345, 0, 0, 0b00000000000001000000000000000000}}; //  1.2345
+      {12345, 0, 0, 0b00000000000001000000000000000000}};  //  1.2345
   s21_decimal dec2 = {{12, 0, 0, 0b00000000000000010000000000000000}};
   ck_assert_int_eq(s21_is_greater_or_equal(dec1, dec2), 1);
   ck_assert_int_eq(s21_is_greater_or_equal(dec2, dec1), 0);
 
   s21_decimal dec3 = {
-      {12345, 0, 0, 0b10000000000001000000000000000000}}; // -1.2345
-  s21_decimal dec4 = {{12, 0, 0, 0b10000000000000010000000000000000}}; //
+      {12345, 0, 0, 0b10000000000001000000000000000000}};  // -1.2345
+  s21_decimal dec4 = {{12, 0, 0, 0b10000000000000010000000000000000}};  //
 
   ck_assert_int_eq(s21_is_greater_or_equal(dec3, dec4), 0);
   ck_assert_int_eq(s21_is_greater_or_equal(dec4, dec3), 1);
@@ -9312,7 +9314,7 @@ START_TEST(s21_from_decimal_to_int_5) {
   src.bits[0] = 18;
   src.bits[1] = 0;
   src.bits[2] = 0;
-  src.bits[3] = c; // 2147483648
+  src.bits[3] = c;  // 2147483648
   result = s21_from_decimal_to_int(src, &number);
   ck_assert_int_eq(number, -18);
   ck_assert_int_eq(result, 0);
@@ -9412,7 +9414,7 @@ END_TEST
 
 START_TEST(s21_test_from_decimal_to_int_11) {
   s21_decimal a = {{MAX_INT, 0, 0, EXPONENT_PLUS_1}};
-  check = 214748364; // (int)(MAX_INT / 10^1)
+  check = 214748364;  // (int)(MAX_INT / 10^1)
   code = s21_from_decimal_to_int(a, &result);
   ck_assert_int_eq(result, check);
   ck_assert_int_eq(code, 0);
@@ -9421,7 +9423,7 @@ END_TEST
 
 START_TEST(s21_test_from_decimal_to_int_12) {
   s21_decimal a = {{MAX_INT, 0, 0, EXPONENT_MINUS_28}};
-  check = 0; // (int)(MAX_INT / 10^28)
+  check = 0;  // (int)(MAX_INT / 10^28)
   code = s21_from_decimal_to_int(a, &result);
   ck_assert_int_eq(result, check);
   ck_assert_int_eq(code, 0);
@@ -9430,7 +9432,7 @@ END_TEST
 
 START_TEST(s21_test_from_decimal_to_int_14) {
   s21_decimal a = {{MAX_INT, 0, 0, EXPONENT_PLUS_28}};
-  check = 0; // (int)(MAX_INT / 10^28)
+  check = 0;  // (int)(MAX_INT / 10^28)
   code = s21_from_decimal_to_int(a, &result);
   ck_assert_int_eq(result, check);
   ck_assert_int_eq(code, 0);
@@ -9822,7 +9824,7 @@ START_TEST(s21_test_from_int_to_decimal_4) {
 END_TEST
 
 START_TEST(s21_test_from_int_to_decimal_5) {
-  a = 0; // ERROR of NAN
+  a = 0;  // ERROR of NAN
   s21_decimal b = {{0, 0, 0, 0}};
   s21_decimal *ptr_b = &b;
   add = s21_from_int_to_decimal(a, ptr_b);
@@ -10714,7 +10716,6 @@ int main() {
   tcase_add_test(tc, div_test_6);
   tcase_add_test(tc, div_test_7);
   tcase_add_test(tc, div_test_8);
-
 
   // equal
 
