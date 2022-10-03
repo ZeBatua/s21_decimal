@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Werror -Wextra -std=c11
+# CFLAGS = -Wall -Werror -Wextra -std=c11
 CC = gcc
 CCOV = -fprofile-arcs -ftest-coverage
 #GFLAGS = -coverage -g
@@ -22,22 +22,19 @@ SOURCES = \
 	./extended_decimal/*.c \
 	./main_functions/Convertors_and_parsers/*.c 
 
-# SOURCES_WITH_MAIN = \
-# 	main.c \
-# 	./secondary_functions/Bit_operations/*.c \
-# 	./secondary_functions/convert_dec/*.c \
-# 	./secondary_functions/dec_to_back_string/*.c \
-# 	./secondary_functions/float_functions/*.c \
-# 	./secondary_functions/GetSet_SignScale/*.c \
-# 	./secondary_functions/NoSE/*.c \
-# 	./secondary_functions/Print/*.c \
-# 	./secondary_functions/shifts/*.c \
-# 	./secondary_functions/tmp/*.c \
-# 	./main_functions/Another_functions/*.c \
-# 	./main_functions/Arithmetic_Operators/*.c \
-# 	./main_functions/Comparison_Operators/*.c \
-# 	./extended_decimal/*.c \
-# 	./main_functions/Convertors_and_parsers/*.c
+SOURCES_WITH_MAIN = \
+	main.c \
+	./secondary_functions/Bit_operations/*.c \
+	./secondary_functions/convert_dec/*.c \
+	./secondary_functions/float_functions/*.c \
+	./secondary_functions/GetSet_SignScale/*.c \
+	./secondary_functions/NoSE/*.c \
+	./secondary_functions/shifts/*.c \
+	./main_functions/Another_functions/*.c \
+	./main_functions/Arithmetic_Operators/*.c \
+	./main_functions/Comparison_Operators/*.c \
+	./extended_decimal/*.c \
+	./main_functions/Convertors_and_parsers/*.c
 var = $(shell pkg-config --cflags --libs check)
 
 
@@ -62,9 +59,9 @@ gcov_report: s21_decimal.a test
 	genhtml -o gcov_report gcov_report.info
     
 
-# s21_dec: clean
-# 	$(CC) $(CFLAGS) $(SOURCES_WITH_MAIN) $(TFLAGS) -g -o s21_dec
-# 	./s21_dec
+s21_dec: clean s21_decimal.a
+	$(CC) -g $(CFLAGS) $(SOURCES_WITH_MAIN) $(TFLAGS) -g -o s21_dec
+	./s21_dec
 
 check:
 #    cppcheck --enable=all --suppress=missingIncludeSystem .
@@ -72,7 +69,7 @@ check:
 
 clean: 
 	rm -rf *.o *.out *.gc
-	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno
+	rm -rf s21_decimal s21_decimal.a s21_dec o_files coverage.* test *dSYM *.css *.html *.gcda *.gcno gcov_report *.info
 
 rebuild:
 	make clean

@@ -3763,8 +3763,17 @@ START_TEST(div_test_8) {
   orig.bits[0] = 0b1110011100111001110100011010011;
 
   s21_div(dec1, dec2, &result);
+
+  printf("bits[3] = %d\n", orig.bits[3]);
+  printf("bits[2] = %d\n", orig.bits[2]);
+  printf("bits[1] = %d\n", orig.bits[1]);
+  printf("bits[0] = %d\n\n", orig.bits[0]);
+
+  printf("2bits[3] = %d\n", result.bits[3]);
+  printf("2bits[2] = %d\n", result.bits[2]);
+  printf("2bits[1] = %d\n", result.bits[1]);
+  printf("2bits[0] = %d\n", result.bits[0]);
   diff = s21_is_equal(result, orig);
-  smart_print_binary_decimal(result);
   ck_assert_int_eq(diff, S21_TRUE);
 }
 END_TEST

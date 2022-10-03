@@ -1,3 +1,0 @@
-s21_test.c:9336:F:Core:s21_from_int_to_decimal_1:0: Assertion 'val.bits[3] == 2147483648' failed: val.bits[3] == -2147483648, 2147483648 == 2147483648
-s21_test.c:9861:F:Core:s21_from_decimal_to_float_4:0: Assertion 'number == -2345.0987' failed: number == -2345.1, -2345.0987 == -2345.1
-s21_test.c:9921:F:Core:s21_from_decimal_to_float_9:0: Assertion 'number == -2345.0987' failed: number == -2345.1, -2345.0987 == -2345.1
