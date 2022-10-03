@@ -1,4 +1,4 @@
-# CFLAGS = -Wall -Werror -Wextra -std=c11
+CFLAGS = -Wall -Werror -Wextra -std=c11
 CC = gcc
 CCOV = -fprofile-arcs -ftest-coverage
 GFLAGS = -coverage -g
@@ -31,13 +31,10 @@ test: s21_decimal.a
 	$(CC) $(ASAN) $(LDFLAGS) s21_test.c s21_decimal.a -o test $(TFLAGS)
 	./test
 
-gcov_report: s21_decimal.a
-	$(CC) $(CCOV) --coverage s21_test.c $(SOURCES) -lcheck -o s21_test.out 
-	./s21_test.out 
-	lcov -t "s21_test.out" -o s21_test.info -c -d .
-	genhtml -o report s21_test.info
-	open ./report/index-sort-f.html
-	rm -rf coverage.* *dSYM *.css *.html *.gcda *.gcno
+gcov_report: s21_decimal.a test	
+	gcovr .
+	gcovr --html-details -o report.html
+	open ./report.html
 
 check:
 #    cppcheck --enable=all --suppress=missingIncludeSystem .
