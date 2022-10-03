@@ -121,19 +121,8 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
       bug_stop++;
     }
   }
-
-  printf("first_print\n");
-  smart_print_exdec(subtraction_times);
-  printf("scale = %d\n", getExtScale(subtraction_times));
-
   if (error == 0) {
     error = equate_extdec_to_dec(subtraction_times, result);
-    
-    printf("sec_print\n");
-    smart_print_binary_decimal(*result);
-    // smart_print_exdec(subtraction_times);
-    // printf("scale = %d\n", getExtScale(subtraction_times));
-
     equate_dec_to_extdec(*result, &subtraction_times);
     while (plus_scale - 1 > 0) {
       division_by_ten(&subtraction_times);

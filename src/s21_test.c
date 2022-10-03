@@ -3758,13 +3758,12 @@ START_TEST(div_test_8) {
   setScale(2, &dec2);
   // 15965619328737735868862490835.4838709677419355
   orig.bits[3] = 0;
-  orig.bits[2] = 0b1110011100111001110100011010011;
-  orig.bits[1] = 0b10000100100000011100111001110;
-  orig.bits[0] = 0b1110011100111001110100011010011;
+  orig.bits[2] = 0b00110011100101100111001101100110;
+  orig.bits[1] = 0b00010000100100000011100111001110;
+  orig.bits[0] = 0b01110011100111001110100011010100;
 
   s21_div(dec1, dec2, &result);
 
-  printf("2bits[0] = %d\n", result.bits[0]);
   diff = s21_is_equal(result, orig);
   ck_assert_int_eq(diff, S21_TRUE);
 }

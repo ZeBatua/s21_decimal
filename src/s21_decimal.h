@@ -42,8 +42,6 @@ void shift_right(s21_extended_decimal *decimal, int time);
 void alt_sub(s21_extended_decimal value_1, s21_extended_decimal value_2,
              s21_extended_decimal *result);
 int division_by_ten(s21_extended_decimal *decimal);
-void print_binary_decimal(int mass[]);
-void smart_print_binary_decimal(s21_decimal dec);
 int s21_round(s21_decimal value, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int is_less_no_sign(s21_extended_decimal value_1, s21_extended_decimal value_2);
@@ -105,8 +103,5 @@ int equate_ext_scale(s21_extended_decimal *first_value,
 void equate_extdec(s21_extended_decimal basic, s21_extended_decimal *E_decimal);
 void multiply_extdec_by_ten(s21_extended_decimal *E_decimal);
 int ext_is_less(s21_extended_decimal value_1, s21_extended_decimal value_2);
-void smart_print_exdec(s21_extended_decimal dec);
-void extdec_to_binary_mass(s21_extended_decimal decimal, int *mass);
-void print_binary_extdec(int mass[]);
 
 #endif  // SRC_S21_DECIMAL_H_
