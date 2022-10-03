@@ -7,7 +7,7 @@
 #include <string.h>
 
 typedef struct {
-  unsigned int bits[4];
+  int bits[4];
 } s21_decimal;
 
 typedef struct {
