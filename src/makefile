@@ -30,6 +30,7 @@ SOURCES_WITH_MAIN = \
 	./secondary_functions/GetSet_SignScale/*.c \
 	./secondary_functions/NoSE/*.c \
 	./secondary_functions/shifts/*.c \
+	./secondary_functions/Print/*.c \
 	./main_functions/Another_functions/*.c \
 	./main_functions/Arithmetic_Operators/*.c \
 	./main_functions/Comparison_Operators/*.c \
