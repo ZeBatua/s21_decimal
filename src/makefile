@@ -22,7 +22,7 @@ SOURCES = \
 all: clean s21_decimal.a 
 
 s21_decimal.a: clean
-	$(CC) $(SOURCES) $(ASAN) -c
+	$(CC) $(CFLAGS) $(SOURCES) $(ASAN) -c
 	ar rcs s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
 
