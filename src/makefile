@@ -4,7 +4,7 @@ GFLAGS = -coverage
 LDFLAGS = -lgcov
 TFLAGS = -lcheck
 OBJECTS = *.o
-ASAN = -fsanitize=address
+# ASAN = -fsanitize=address
 
 SOURCES = \
 	./secondary_functions/Bit_operations/*.c \
