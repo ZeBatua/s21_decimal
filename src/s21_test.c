@@ -6919,9 +6919,6 @@ START_TEST(mod_test_15) {
   dec2.bits[0] = 0;
   setScale(0, &dec2);
 
-  printf("\n\n\n");
-  printf("%f", fmod(-4141.2, 0));
-  printf("\n1\n1\n1");
   diff = s21_mod(dec1, dec2, &result);
   ck_assert_int_eq(diff, 3);
 }
