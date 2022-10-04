@@ -1,7 +1,6 @@
 #include "../../s21_decimal.h"
 
-void set_decimal_bit(s21_decimal *decimal, int bait, int position,
-                     int value) {
+void set_decimal_bit(s21_decimal *decimal, int bait, int position, int value) {
   if (value == 1) {
     if (get_decimal_bit(*decimal, position) == 0) {
       int mask = 1;

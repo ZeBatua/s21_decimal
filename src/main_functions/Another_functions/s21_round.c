@@ -1,8 +1,6 @@
 #include "../../s21_decimal.h"
 
-int s21_round(s21_decimal value,
-              s21_decimal *result) {  // эту функцию не было смысла переводить в
-                                      // extec так как нет equate_scale
+int s21_round(s21_decimal value, s21_decimal *result) {
   int error = 0;
 
   s21_extended_decimal ext_buf, ext_one, ext_value, ext_result;
@@ -38,7 +36,7 @@ int s21_round(s21_decimal value,
     setScale(save_scale_2, &five);
     setSign(&five, 0);
 
-    if (s21_is_greater_or_equal(remainder, five)) {  // требует версии для extdec
+    if (s21_is_greater_or_equal(remainder, five)) {
       division_by_ten(&ext_buf);
 
       int save_scale = getExtScale(ext_buf);

@@ -1,4 +1,4 @@
-#include "../../s21_decimal.h"
+#include "../s21_decimal.h"
 
 int get_first_non_zero_extBit(s21_extended_decimal dec) {
   int bit = 0, counter = 0;
@@ -8,6 +8,5 @@ int get_first_non_zero_extBit(s21_extended_decimal dec) {
       bit = 1;
     }
   }
-  counter = 288 - counter;
   return counter;
 }

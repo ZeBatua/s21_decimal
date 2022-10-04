@@ -1,7 +1,6 @@
 #include "../../s21_decimal.h"
 
-int s21_add(s21_decimal value_1, s21_decimal value_2,
-            s21_decimal *result) {
+int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
   int error = 0;
   s21_extended_decimal ext_value_1, ext_value_2, ext_result;
   init_extended_decimal(&ext_value_1);
@@ -44,9 +43,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2,
     if (error == 1 && dec1_sign == 1) error = 2;
     setExtSign(&ext_result, (dec1_sign > 0));
     setExtScale(getExtScale(ext_value_1), &ext_result);
-  } else if (is_equal_no_sign(
-                 ext_value_1,
-                 ext_value_2)) {
+  } else if (is_equal_no_sign(ext_value_1, ext_value_2)) {
     init_decimal(result);
   } else {
     if (is_less_no_sign(ext_value_1, ext_value_2) &&
@@ -72,8 +69,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2,
     }
     equate_dec_to_extdec(*result, &ext_result);
   }
-  
-  error = equate_extdec_to_dec(
-      ext_result, result);
+
+  error = equate_extdec_to_dec(ext_result, result);
   return error;
 }

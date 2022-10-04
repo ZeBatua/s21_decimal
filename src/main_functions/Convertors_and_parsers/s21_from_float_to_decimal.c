@@ -12,7 +12,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
       error = 1;
     } else {
       for (; !(int)(D_src / 1E7); D_src *= 10) scale += 1;
-      D_src =(float)D_src;
+      D_src = (float)D_src;
       while (fmod(D_src, 10.0) == 0 && scale > 0) {
         D_src /= 10;
         scale--;
@@ -28,7 +28,8 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
           binary_exp -= 1;
           while (binary_exp > -2) {
             mask = 1;
-            set_decimal_bit(dst, binary_exp / 32, binary_exp % 32, !!(fbits & Fmask));
+            set_decimal_bit(dst, binary_exp / 32, binary_exp % 32,
+                            !!(fbits & Fmask));
             mask >>= 1;
             Fmask >>= 1;
             binary_exp -= 1;

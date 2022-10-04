@@ -11,7 +11,7 @@ int s21_is_less(s21_decimal value_1, s21_decimal value_2) {
   int second_sign = getExtSign(ext_value_2);
   int bit_v1 = 0;
   int bit_v2 = 0;
-  
+
   if (first_sign > second_sign) {
     result = 1;
   } else if (first_sign < second_sign) {
