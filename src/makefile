@@ -41,8 +41,8 @@ gcov_report: clean
 	open ./report.html
 
 check:
-#    cppcheck --enable=all --suppress=missingIncludeSystem .
-	leaks -atExit -exclude -- ./test
+	# cppcheck --enable=all --suppress=missingIncludeSystem .
+	CK_FORK=no leaks --atExit -- ./test
 
 clean: 
 	rm -rf *.o *.out *.gc
