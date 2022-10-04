@@ -1,11 +1,10 @@
 CFLAGS = -Wall -Werror -Wextra -std=c11
 CC = gcc
-CCOV = -fprofile-arcs -ftest-coverage
-GFLAGS = -coverage -g
+GFLAGS = -coverage
 LDFLAGS = -lgcov
 TFLAGS = -lcheck
 OBJECTS = *.o
-#ASAN = -g -fsanitize=adress
+ASAN = -fsanitize=address
 
 SOURCES = \
 	./secondary_functions/Bit_operations/*.c \
@@ -23,15 +22,20 @@ SOURCES = \
 all: clean s21_decimal.a 
 
 s21_decimal.a: clean
-	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(LDFLAGS) $(GFLAGS) -c
+	$(CC) $(SOURCES) $(ASAN) -c
 	ar rcs s21_decimal.a $(OBJECTS)
 	ranlib s21_decimal.a
 
 test: s21_decimal.a
-	$(CC) $(ASAN) $(LDFLAGS) s21_test.c s21_decimal.a -o test $(TFLAGS)
+	$(CC) $(ASAN) s21_test.c s21_decimal.a -o test $(TFLAGS)
 	./test
 
-gcov_report: s21_decimal.a test	
+gcov_report: clean
+	$(CC) $(SOURCES) $(ASAN) $(CFLAGS) $(LDFLAGS) $(GFLAGS) -c
+	ar rcs s21_decimal.a $(OBJECTS)
+	ranlib s21_decimal.a
+	$(CC) $(ASAN) $(LDFLAGS) s21_test.c s21_decimal.a -o test $(TFLAGS)
+	./test
 	gcovr .
 	gcovr --html-details -o report.html
 	open ./report.html
